@@ -17,5 +17,7 @@ public class ContainDuplicate {
     public static void main(String[] args) {
         ContainDuplicate containDuplicate=new ContainDuplicate();
         System.out.println(containDuplicate.containsDuplicate(new int[]{1,1,1,3,3,4,3,2,4,2}));
+        System.out.println(containDuplicate.containsDuplicate(new int[]{1,1,1,2,2,3,3,5,4,3,2,4,2}));
+        System.out.println(containDuplicate.containsDuplicate(new int[]{1,2,4,3,5}));
     }
 }
