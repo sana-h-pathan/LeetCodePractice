@@ -27,5 +27,6 @@ public class UniqueCharacter {
         UniqueCharacter uniqueCharacter =new UniqueCharacter();
 
             System.out.println(uniqueCharacter.uniqueOccurrences(new int[]{1,2,2,1,1,3}));
+            System.out.println(uniqueCharacter.uniqueOccurrences(new int[]{1,2}));
     }
 }
