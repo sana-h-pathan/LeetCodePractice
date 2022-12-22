@@ -22,5 +22,6 @@ public class PlusOne {
         PlusOne plusOne=new PlusOne();
         System.out.println(Arrays.toString(plusOne.plusOne(new int[]{1,2,3,9})));
         System.out.println(Arrays.toString(plusOne.plusOne(new int[]{9,9})));
+        System.out.println(Arrays.toString(plusOne.plusOne(new int[]{4,9,9})));
     }
 }
