@@ -10,6 +10,7 @@ public class SquareRoot {
 
     public static void main(String[] args) {
         SquareRoot squareRoot=new SquareRoot();
-        System.out.println(squareRoot.mySqrt(99));
+        System.out.println(squareRoot.mySqrt(115));
+        System.out.println(squareRoot.mySqrt(81));
     }
 }
