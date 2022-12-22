@@ -12,6 +12,8 @@ public class ValidAnagram {
     public static void main(String[] args) {
         ValidAnagram validAnagram=new ValidAnagram();
         System.out.println(validAnagram.isAnagram("anagram","nagaram"));
+        System.out.println(validAnagram.isAnagram("testanagram","anagramtest"));
+        System.out.println(validAnagram.isAnagram("tease","state"));
 
     }
 }
