@@ -16,5 +16,6 @@ public class RunningSum {
     public static void main(String[] args) {
         RunningSum runningSum=new RunningSum();
         System.out.println(Arrays.toString(runningSum.runningSum(new int[]{1,2,3})));
+        System.out.println(Arrays.toString(runningSum.runningSum(new int[]{1,5,9})));
     }
 }
