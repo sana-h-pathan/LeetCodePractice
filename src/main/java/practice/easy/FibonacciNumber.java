@@ -14,5 +14,6 @@ public class FibonacciNumber {
     public static void main(String[] args) {
         FibonacciNumber fibonacciNumber=new FibonacciNumber();
         System.out.println(fibonacciNumber.fib(9));
+        System.out.println(fibonacciNumber.fib(11));
     }
 }
