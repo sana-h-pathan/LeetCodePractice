@@ -1,22 +1,20 @@
 package practice.medium;
 
 public class ReverseInteger {
-    public int reverse(int x) {
-        int rem = 0 ;
-        int result = 0;
-        int next = 0;
-        while (x !=0){
-            rem = x%10;
-            next = result*10 + rem;
-            if((next-rem)/10 != result)
-                return 0;
-            result = next;
-            x = x/10;
+    public int reverse(int input) {
+        long reversed=0;
+        while(input!=0){
+            reversed=reversed*10+input%10;
+            input /=10;
         }
-        return result;
+        if(reversed<Integer.MIN_VALUE || reversed>Integer.MAX_VALUE) {
+            System.out.println(reversed);
+            return 0;
+        }
+        return (int)reversed;
     }
     public static void main(String[] args) {
         ReverseInteger reverseInteger=new ReverseInteger();
-        reverseInteger.reverse(432);
+        reverseInteger.reverse(1534236469);
     }
 }
