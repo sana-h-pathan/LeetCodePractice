@@ -27,6 +27,6 @@ public class MedianOfSortedArray {
     public static void main(String[] args) {
         MedianOfSortedArray medianOfSortedArray=new MedianOfSortedArray();
         System.out.println(medianOfSortedArray.findMedianSortedArrays(new int[]{1,3},new int[]{2,4}));
-        System.out.println(medianOfSortedArray.findMedianSortedArrays(new int[]{1,3,5},new int[]{2,4}));
+        System.out.println(medianOfSortedArray.findMedianSortedArrays(new int[]{1,3,5,6},new int[]{2,4}));
     }
 }
