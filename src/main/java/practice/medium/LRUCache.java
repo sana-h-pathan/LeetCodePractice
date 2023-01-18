@@ -1,106 +1,28 @@
 package practice.medium;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 class LRUCache {
 
-    Map<Integer, Node>map;
-    Node start;
-    Node end;
-    int capacity;
+    final int  CAPACITY;
+    private LinkedHashMap<Integer, Integer> lruCache;
+
     public LRUCache(int capacity) {
-        map = new HashMap<>();
-        start = new Node(-1,-1);
-        end = new Node(-1,-1);
-        start.next = end;
-        end.prev = start;
-        this.capacity = capacity;
+        CAPACITY = capacity;
+        lruCache=new LinkedHashMap<Integer,Integer>(capacity,0.75F,true){
+            protected boolean removeEldestEntry(Map.Entry eldest) {
+                return size() > capacity;
+            }
+        };
     }
-
     public int get(int key) {
-
-        //find if key is present in map,
-        //find node and add it in the beginning
-
-        if(map.containsKey(key)){
-
-            Node node = map.get(key);
-            moveToHead(node);
-            return node.val;
-        }
-
-        return -1;
-
+        return lruCache.getOrDefault(key, -1);
     }
 
     public void put(int key, int value) {
-
-        if(!map.containsKey(key)){
-            if(map.size() == capacity){
-
-                Node last = end.prev;
-                removeNode(last);
-                map.remove(last.key);
-            }
-            Node newNode = new Node(key,value);
-            map.put(key, newNode);
-            //add to head
-            addToHead(newNode);
-
-        } else{
-
-            Node node  = map.get(key);
-            node.val = value;
-            moveToHead(node);
-
-        }
-    }
-
-
-    void moveToHead(Node node){
-        removeNode(node);
-        addToHead(node);
-    }
-
-
-    void removeNode(Node node){
-        //grab reference to the prev and next of the node
-        Node prev = node.prev;
-        Node next = node.next;
-
-        //cut the outgoing forwards and backwards
-        prev.next = next;
-        next.prev = prev;
-
-    }
-
-    //Insertions to the doubly linked list will always be right after the dummy head
-    private void addToHead(Node node) {
-
-        //connect the inserted node
-        node.prev = start;
-        node.next = start.next;
-
-        //Re-wire the exiting nodes
-        start.next.prev = node;
-        start.next = node;
-    }
-
-
-
-    class Node{
-        int key;
-        int val;
-        Node prev;
-        Node next;
-
-        Node(int key,int val){
-            this.key=key;
-            this.val = val;
-            this.prev = null;
-            this.next = null;
-        }
+        lruCache.put(key, value);
 
     }
 
