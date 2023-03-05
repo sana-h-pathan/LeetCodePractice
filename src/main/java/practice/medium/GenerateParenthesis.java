@@ -17,6 +17,7 @@ public class GenerateParenthesis {
             backtrack(list, str+"(", open+1, close, max);
         if(close < open)
             backtrack(list, str+")", open, close+1, max);
+
     }
 
     public static void main(String[] args) {
