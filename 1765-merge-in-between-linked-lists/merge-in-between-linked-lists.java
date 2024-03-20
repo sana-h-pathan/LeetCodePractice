@@ -9,26 +9,23 @@
  * }
  */
 class Solution {
-    public ListNode mergeInBetween(ListNode list1, int a, int b, ListNode list2) {
-        ListNode curr=list1;
-        a--;
-        int diff=b-a;
-        while(a!=0){
-            curr=curr.next;
-            a--;
+    public ListNode mergeInBetween(ListNode list1, int start, int end, ListNode list2) {
+        ListNode head = list1; // Pointer to traverse list1
+        // Move 'current' pointer to the node before the sublist to be replaced
+        for (int i = 1; i < start; i++) {
+            head = head.next;
         }
-        ListNode tail=curr;
-        while(diff!=0){
-            tail=tail.next;
-            diff--;
+        ListNode tail = head; // Pointer to mark the end of the sublist to be replaced
+        // Move 'sublistEnd' pointer to the node after the sublist to be replaced
+        for (int i = 0; i <=end - start + 1; i++) {
+            tail = tail.next;
         }
-        tail=tail.next;
-        curr.next=list2;
-        while(curr.next!=null){
-            curr=curr.next;
+        head.next = list2; // Connect the last node before the sublist to list2
+        // Move 'current' pointer to the end of list2
+        while (head.next != null) {
+            head = head.next;
         }
-        curr.next=tail;
-
-        return list1;
+        head.next = tail; // Connect the end of list2 to the node after the sublist
+        return list1; // Return the modified list1
     }
 }
