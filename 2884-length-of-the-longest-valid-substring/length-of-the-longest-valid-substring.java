@@ -1,48 +1,22 @@
 class Solution {
     public int longestValidSubstring(String word, List<String> forbidden) {
-        int n = word.length(), l = 0, res = 0;
-        Trie tries = new Trie();
-        for (String s : forbidden) 
-            tries.insert(s);
-        for (int i = 0; i < n; i++) {
-            while (tries.isValid(word, l, i)) 
-                l++;
-            res = Math.max(res, i - l + 1);
-        }
-        return res;
-    }
-
-    class Trie {
-        Trie[] next;
-        int cnt;
-        boolean end;
-
-        Trie() {
-            this.next = new Trie[26];
-            this.cnt = 0;
-            this.end = false;
+        Set<String> invalid = new HashSet<>();
+        for(String currWord: forbidden){
+            invalid.add(currWord);
         }
 
-        void insert(String s) {
-            Trie cur = this;
-            for (int i = s.length() - 1; i >= 0; i--) {
-                int idx = s.charAt(i) - 'a';
-                if (cur.next[idx] == null) cur.next[idx] = new Trie();
-                cur = cur.next[idx];
-                cur.cnt++;
+        int ans = 0;
+        int currRight = word.length()-1;
+
+        for(int left = word.length()-1;left>=0;left--){
+            for(int right = left; right<=Math.min(left+10, currRight);right++){
+                String curr = word.substring(left, right+1);
+                if(invalid.contains(curr)){
+                    currRight = right-1;
+                }
             }
-            cur.end = true;
+            ans = Math.max(ans, currRight-left+1);
         }
-
-        boolean isValid(String s, int l, int r) {
-            Trie cur = this;
-            for (int i = r; i >= l; i--) {
-                int idx = s.charAt(i) - 'a';
-                if (cur.next[idx] == null) return false;
-                cur = cur.next[idx];
-                if (cur.end) return true;
-            }
-            return false;
-        }
+        return ans;
     }
 }
