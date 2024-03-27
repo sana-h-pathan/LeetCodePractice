@@ -2,12 +2,17 @@ class Solution {
     public String reorganizeString(String s) {
         PriorityQueue<int[]> pq=new PriorityQueue<int[]>((a, b) -> Integer.compare(b[1], a[1]));
         HashMap<Integer,Integer> map=new HashMap<>();
+        int maxFreq=0;
+        int n=s.length();
         for(char ch: s.toCharArray()){
             map.put(ch-'a', map.getOrDefault(ch-'a', 0)+1);
+            maxFreq=Integer.max(maxFreq, map.get(ch-'a'));
         }
         for(int key: map.keySet()){
             pq.offer(new int[]{key,map.get(key)});
         }
+        if (maxFreq > (n+1)/2)
+            return "";
         StringBuilder sb=new StringBuilder();
         while(pq.size()>=2){
             int[] first=pq.poll();
