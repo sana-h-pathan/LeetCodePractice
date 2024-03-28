@@ -1,23 +1,34 @@
 class Solution {
     public int minimumSwaps(int[] nums) {
-        int minNum=Integer.MAX_VALUE;
-        int maxNumber=Integer.MIN_VALUE;
-        int minIdx=0;
-        int maxIdx=0;
-        int n=nums.length;
-        for(int i=0;i<n;i++){
-            if(nums[i]<minNum){
-                minNum=nums[i];
-                minIdx=i;
+        // Variables to store minimum and maximum values, their indices, and length of the array
+        int minNum = Integer.MAX_VALUE;
+        int maxNumber = Integer.MIN_VALUE;
+        int minIdx = 0;
+        int maxIdx = 0;
+        int n = nums.length;
+        
+        // Iterate through the array to find the minimum and maximum values and their indices
+        for(int i = 0; i < n; i++) {
+            // Update minimum value and its index if a smaller value is found
+            if(nums[i] < minNum) {
+                minNum = nums[i];
+                minIdx = i;
             }
-            if(nums[i]>=maxNumber){
-                maxNumber=nums[i];
-                maxIdx=i;
+            // Update maximum value and its index if a larger value is found
+            if(nums[i] >= maxNumber) {
+                maxNumber = nums[i];
+                maxIdx = i;
             }
         }
-        if(minIdx>maxIdx)
-            return (n-maxIdx-1)+minIdx-1;
-
-        return (n-maxIdx-1)+minIdx;
+        
+        // Check if the minimum index is greater than the maximum index
+        if(minIdx > maxIdx)
+            // Return the number of swaps required to bring the maximum element to its correct position 
+            // and the minimum element to its correct position
+            return (n - maxIdx - 1) + minIdx - 1;
+        
+        // Return the number of swaps required to bring the maximum element to its correct position 
+        // and the minimum element to its correct position
+        return (n - maxIdx - 1) + minIdx;
     }
 }
