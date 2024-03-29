@@ -1,64 +1,38 @@
 class Solution {
-//TC=O(n)
-//SC=O(1)
-    public int trap1(int[] height) {
-        int n=height.length;
-        int max=0;
-        int maxHeightIdx=-1;
-        int maxArea=0;
-        
-        for(int i=0;i<n;i++){
-            if(height[i]>max){
-                max=height[i];
-                maxHeightIdx=i;
-            }
-        }
-        int leftWall=0;
-        for(int j=0;j<maxHeightIdx;j++){
-            if(height[j]<leftWall){
-                maxArea+=leftWall-height[j];
-            }
-            else{
-                leftWall=height[j];
-            }
-        }
-        int rightWall=0;
-        for(int j=n-1;j>maxHeightIdx;j--){
-            if(height[j]<rightWall){
-                maxArea+=rightWall-height[j];
-            }
-            else{
-                rightWall=height[j];
-            }    
-        }
-       return maxArea; 
-    }
     public int trap(int[] height) {
-        int right=height.length-1;
-        int leftWall=0;
-        int rightWall=0;
-        int left=0;
-        int maxArea=0;
-        while(left<=right){
-            if(leftWall<=rightWall){
-                if(height[left]<leftWall){
-                    maxArea+=(leftWall-height[left])*1;
-                }
-                else{
-                    leftWall=height[left];
-                } 
-                left++;
-            }
-            else{
-                if(height[right]<rightWall){
-                    maxArea+=(rightWall-height[right])*1;
-                }
-                else{
-                    rightWall=height[right];
-                } 
-                right--;
+        // Initialize two pointers for left and right ends of the array
+        int left = 0;
+        int right = height.length - 1;
+        
+        // Initialize variables to track the height of the left and right walls
+        int leftWall = 0;
+        int rightWall = 0;
+        
+        // Initialize a variable to store the total trapped water area
+        int area = 0;
+        
+        // Loop until the left and right pointers meet or cross each other
+        while (left <= right) {
+            // If the left wall is shorter or equal to the right wall
+            if (leftWall <= rightWall) {
+                // If the current height is less than the left wall height, trap water
+                if (leftWall > height[left])
+                    area += (leftWall - height[left]) * 1;
+                else
+                    leftWall = height[left]; // Update the left wall height
+                
+                left++; // Move the left pointer to the next position
+            } else { // If the right wall is shorter than the left wall
+                // If the current height is less than the right wall height, trap water
+                if (rightWall > height[right])
+                    area += (rightWall - height[right]) * 1;
+                else
+                    rightWall = height[right]; // Update the right wall height
+                
+                right--; // Move the right pointer to the previous position
             }
         }
-        return maxArea;
+        
+        return area; // Return the total trapped water area
     }
 }
