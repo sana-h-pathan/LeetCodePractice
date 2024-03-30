@@ -1,9 +1,9 @@
 class Solution {
     public int minimumKeypresses(String s) {
-        
-        
         Integer count[]=new Integer[26];
         Arrays.fill(count,0);
+        if(s.length()<=9)
+            return s.length();
         int ans=0;
         for(int i=0;i<s.length();i++)
             count[s.charAt(i)-'a']++; //freq of character in the given string
