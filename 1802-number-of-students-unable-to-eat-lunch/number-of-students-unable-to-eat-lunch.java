@@ -9,7 +9,7 @@ class Solution {
                 square++;
         }
         for(int sandwich : sandwiches){
-            if(sandwich == 0){  // if sandwich is of type0
+            if(sandwich == 0){ 
                 if(circle == 0)
                     return square;
                 circle--;
