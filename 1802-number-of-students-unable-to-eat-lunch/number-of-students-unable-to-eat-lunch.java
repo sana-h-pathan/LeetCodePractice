@@ -9,15 +9,14 @@ class Solution {
                 square++;
         }
         for(int sandwich : sandwiches){
-            if(sandwich==0 && circle==0){
-                return square;
-            }
-            if (sandwich == 1 && square == 0) {
-                return circle;
-            }
-            if (sandwich == 0) {
+            if(sandwich == 0){  // if sandwich is of type0
+                if(circle == 0)
+                    return square;
                 circle--;
-            } else {
+            }
+            else{  
+                if(square == 0)
+                    return circle;
                 square--;
             }
         }
