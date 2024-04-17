@@ -15,26 +15,31 @@
  */
 class Solution {
     public String smallestFromLeaf(TreeNode root) {
-        StringBuilder smallest = new StringBuilder();
-        dfs(root, new StringBuilder(), smallest);
-        return smallest.toString();
-    }
-    
-    private void dfs(TreeNode node, StringBuilder path, StringBuilder smallest) {
-        if (node == null) 
-            return;
-        path.append((char)('a' + node.val));
-        if (node.left == null && node.right == null) {
-            String currentString = path.reverse().toString();
-            if (smallest.length() == 0 || currentString.compareTo(smallest.toString()) < 0) {
-                smallest.setLength(0);
-                smallest.append(currentString);
+        String smallestString = "";
+        Queue<Pair<TreeNode, String>> bfsQue = new LinkedList<>();
+        String val=String.valueOf((char)(root.val + 'a'));
+        bfsQue.add(new Pair<>(root, val));
+
+        while (!bfsQue.isEmpty()) {
+            Pair<TreeNode, String> pair = bfsQue.poll();
+            TreeNode curr = pair.getKey();
+            String currentString = pair.getValue();
+            if (curr.left == null && curr.right == null) {
+                if (smallestString.isEmpty()) {
+                    smallestString = currentString;
+                } else if(currentString.compareTo(smallestString) < 0)
+                        smallestString =  currentString;
             }
-            path.reverse(); 
-        }        
-        dfs(node.left, path, smallest);
-        dfs(node.right, path, smallest);
-        
-        path.setLength(path.length() - 1);
+            if (curr.left != null) {
+                String currStr=(char)(curr.left.val + 'a') + currentString;
+                bfsQue.add(new Pair<>(curr.left, currStr));
+            }
+
+            if (curr.right != null) {
+                String currStr=(char)(curr.right.val + 'a') + currentString;
+                bfsQue.add(new Pair<>(curr.right, currStr));
+            }
+        }
+        return smallestString;
     }
 }
