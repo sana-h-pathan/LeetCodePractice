@@ -1,11 +1,10 @@
 class Solution {
     public int tribonacci(int n) {
+        if (n < 3) {
+            return n > 0 ? 1 : 0;
+        }
         int[] result=new int[n+1];
         result[0]=0;
-        if(n<1)
-            return 0;
-        if(n<=2)
-            return 1;
         result[1]=1;
         result[2]=1;
         
