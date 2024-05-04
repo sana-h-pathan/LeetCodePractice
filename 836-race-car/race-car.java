@@ -1,28 +1,25 @@
 class Solution {
+    int[] dp = new int[10001];
     public int racecar(int target) {
-        Queue<Integer[]> q = new LinkedList<>();
-        HashSet<Integer[]> seen = new HashSet<>();
-        q.offer(new Integer[]{0,1,0});//pos,speed,moves
+        Arrays.fill(dp,-1);
+        return solve(target);
+    }
 
-        while(!q.isEmpty()){
-            Integer[] curr = q.poll();
-            int pos = curr[0];
-            int speed = curr[1];
-            int moves = curr[2];
-            if(pos==target){
-                return moves;
-            }
-            if(seen.contains(curr)){
-                continue;
-            }
-            seen.add(curr);
-            q.offer(new Integer[]{pos+speed,speed*2,moves+1});
-            if((pos+speed > target && speed>0) || (pos+speed < target && speed<0)){
-                int newSpeed = speed>0 ? -1 : 1;
-                q.offer(new Integer[]{pos,newSpeed,moves+1});
-            }
+    public int solve(int target) {
+        if(target == 0) return 0;
+        if(dp[target] != -1) return dp[target];
+        int n = (int)(Math.log(target)/Math.log(2)) + 1;
+        if(target + 1 == (1<<n)) { 
+            dp[target] = n;
+            return n;
         }
-
-        return -1;
+        else {
+            int minSteps = n + 1 + solve((1<<n)-1-target);
+            for(int m = 0;m<n-1;m++) {
+                minSteps = Math.min(minSteps, n+m+1+solve(target-(1<<(n-1))+ (1<<m)));
+            }
+            dp[target] = minSteps;
+        }
+        return dp[target]; 
     }
 }
