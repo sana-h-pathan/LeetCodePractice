@@ -7,17 +7,21 @@ class Solution {
             }
             map.get(p[0]).add(p[1]);
         }
-        int min = Integer.MAX_VALUE;
-        for (int[] p1 : points) {
-            for (int[] p2 : points) {
-                if (p1[0] == p2[0] || p1[1] == p2[1]) { // if have the same x or y
-                    continue;
-                }
-                if (map.get(p1[0]).contains(p2[1]) && map.get(p2[0]).contains(p1[1])) { // find other two points
-                    min = Math.min(min, Math.abs(p1[0] - p2[0]) * Math.abs(p1[1] - p2[1]));
+        int area = Integer.MAX_VALUE;
+        for(int i=0;i<points.length;i++){
+            for(int j=i+1;j<points.length;j++){
+                int x1=points[i][0];
+                int y1=points[i][1];
+                int x2=points[j][0];
+                int y2=points[j][1];
+                
+                if(x1!=x2 && y1!=y2){
+                    if(map.get(x1).contains(y2) && map.get(x2).contains(y1)){
+                        area=Math.min(area,Math.abs(x1-x2)*Math.abs(y1-y2));
+                    }
                 }
             }
         }
-        return min == Integer.MAX_VALUE ? 0 : min;
+        return area == Integer.MAX_VALUE ? 0 : area;
     }
 }
