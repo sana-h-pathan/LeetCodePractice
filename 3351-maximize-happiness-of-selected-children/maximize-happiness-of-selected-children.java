@@ -8,6 +8,8 @@ class Solution {
             if(happiness[n]-count>0){
                 sum+=happiness[n]-count;
             }
+            else
+                break;
             n--;
             count++;
         }
