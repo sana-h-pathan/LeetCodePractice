@@ -10,7 +10,9 @@ public class Solution extends Relation {
         }
         for(int i=0;i<n;i++){
             if(probableCeleb!=i){
-                if(knows(probableCeleb,i) || !knows(i,probableCeleb))
+                if(i<probableCeleb && knows(probableCeleb,i))
+                    return -1;
+                if(!knows(i,probableCeleb))
                     return -1;
             }
         }
