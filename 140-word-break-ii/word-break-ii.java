@@ -1,15 +1,15 @@
 class Solution {
     List<String> wordDict;
-    List<String> res = new LinkedList<>();
+    List<String> result = new ArrayList<>();
     public List<String> wordBreak(String s, List<String> wordDict) {
         this.wordDict = wordDict;
-        dp(s, 0, new LinkedList<>());
-        return res;
+        backtracking(s, 0, new ArrayList<>());
+        return result;
     }
     
-    void dp(String s, int startIndex, LinkedList<String> path) {
+    void backtracking(String s, int startIndex, ArrayList<String> path) {
         if(startIndex == s.length()) {
-            res.add(String.join(" ", path));
+            result.add(String.join(" ", path));
             return;
         }
         
@@ -17,7 +17,7 @@ class Solution {
             int endIndex = startIndex+word.length();
             if(endIndex<=s.length() && s.substring(startIndex,endIndex).equals(word)) {
                 path.add(word);
-                dp(s, endIndex, path);
+                backtracking(s, endIndex, path);
                 path.removeLast();
             }
         }
