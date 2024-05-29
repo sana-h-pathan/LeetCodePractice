@@ -19,22 +19,21 @@ class Solution {
         List<List<Integer>> result=new ArrayList<>();
         if(root==null)
             return result;
-        int count=1;
+        int count=0;
         bfsQue.add(root);
         while(!bfsQue.isEmpty()){
             int size=bfsQue.size();
-            List<Integer> subList=new ArrayList<>();
+            List<Integer> subList = new ArrayList<>(Collections.nCopies(size, 0));
             for(int i=0;i<size;i++){
                 TreeNode curr=bfsQue.poll();
-                subList.add(curr.val);
+                int index = count % 2 == 0 ? i : (size - 1 - i);
+                subList.set(index, curr.val);              
                 if(curr.left!=null)
                     bfsQue.add(curr.left);
                 if(curr.right!=null)
                     bfsQue.add(curr.right);
             }
             count++;
-            if(count%2!=0)
-                Collections.reverse(subList);
             result.add(subList);
         }
         return result;
