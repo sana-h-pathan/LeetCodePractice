@@ -43,13 +43,10 @@ class Solution {
 
             map.putIfAbsent(col, new ArrayList<>());
             map.get(col).add(nodePos);
-
-            if (curr.left != null) {
+            if (curr.left != null) 
                 bfsQueue.add(new NodePosition(curr.left, col - 1, row + 1));
-            }
-            if (curr.right != null) {
+            if (curr.right != null) 
                 bfsQueue.add(new NodePosition(curr.right, col + 1, row + 1));
-            }
         }
 
         for (int i = min; i <= max; i++) {
