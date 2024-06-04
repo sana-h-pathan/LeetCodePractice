@@ -8,10 +8,10 @@
  * }
  */
 public class Codec {
-    StringBuilder sb=new StringBuilder();
-
+    
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
+        StringBuilder sb=new StringBuilder();
         if (root == null) {
             return "";
         }
