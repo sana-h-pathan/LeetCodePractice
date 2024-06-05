@@ -10,7 +10,7 @@ class Solution {
             map.put(c, map.getOrDefault(c, 0)+1);
             maxFreq=Integer.max(maxFreq, map.get(c));
            // int currLen=r-l+1;
-            while(r-l+1-maxFreq>k){
+            if(r-l+1-maxFreq>k){
                 char ch=s.charAt(l);
                 map.put(ch, map.getOrDefault(ch, 0)-1);
                 maxFreq=0;
