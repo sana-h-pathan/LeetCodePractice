@@ -19,6 +19,11 @@ class Solution {
                 }
                 l++;
             }
+            /*if (r - l + 1 - maxFreq > k) {
+                char ch = s.charAt(l);
+                map.put(ch, map.get(ch) - 1);
+                l++;
+            }*/
             if(r-l+1-maxFreq<=k){
                 maxLength=Integer.max(maxLength, r-l+1);
             }
