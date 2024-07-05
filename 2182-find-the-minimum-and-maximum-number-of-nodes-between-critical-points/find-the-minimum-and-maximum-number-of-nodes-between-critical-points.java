@@ -16,26 +16,30 @@ class Solution {
         if(head.next.next==null)
             return result;
         ListNode fast=head.next.next;
-        ArrayList<Integer> list=new ArrayList<>();
+        int firstIdx=0;
+        int prevIdx=0;
         int idx=2;
+        int minDistance=Integer.MAX_VALUE;
         while(fast!=null){
             if((curr.val>prev.val && curr.val>fast.val)||(curr.val<prev.val && curr.val<fast.val)){
-                list.add(idx);
+                if(prevIdx==0){
+                    prevIdx=idx;
+                    firstIdx=idx;
+                }else{
+                    minDistance = Math.min(minDistance, idx - prevIdx);
+                    prevIdx=idx;
+                }
+                
             }
             prev=curr;
             curr=fast;
             fast=fast.next;
             idx++;
         }
-        if(list.size()>1){
-            int high=list.size()-1;
-            result[1]=list.get(high)-list.get(0);
-            result[0]=list.get(1)-list.get(0);
-            for(int i=1;i<=high;i++){
-                result[0]=Math.min(result[0], list.get(i)-list.get(i-1));
-            }
-        }
-
+        if(minDistance!=Integer.MAX_VALUE){
+            result[1]=prevIdx-firstIdx;
+            result[0]=minDistance;
+        } 
         return result;
     }
 }
