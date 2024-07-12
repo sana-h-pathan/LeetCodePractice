@@ -23,8 +23,8 @@ class Solution {
         int r=0;
         while (r<s.length()) {
             s.setCharAt(l++, s.charAt(r));
-            if(l>1&&s.substring(l-2,l).equals(t)){
-            //if (l>1 && s.charAt(l - 2) == t.charAt(0) && s.charAt(l - 1) == t.charAt(1)) {
+            //if(l>1&&s.substring(l-2,l).equals(t)){
+            if (l>1 && s.charAt(l - 2) == t.charAt(0) && s.charAt(l - 1) == t.charAt(1)) {
                 l -= 2; 
                 totalPoints += pts;
             }
