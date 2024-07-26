@@ -2,7 +2,7 @@ class Solution {
    public int findTheCity(int n, int[][] edges, int distanceThreshold) {
         int[][] distance = new int[n][n];
         for (int i = 0; i < n; i++) {
-            Arrays.fill(distance[i], 1000000000); // Use a large value as infinity
+            Arrays.fill(distance[i], 100000); // Use a large value as infinity
             distance[i][i] = 0;
         }
 
