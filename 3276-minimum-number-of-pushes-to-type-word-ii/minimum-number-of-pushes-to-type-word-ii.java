@@ -9,8 +9,9 @@ class Solution {
         frequencyQueue.addAll(map.values());
         int idx = 0;
         while (!frequencyQueue.isEmpty()) {
-            result += (idx / 8 + 1) * frequencyQueue.poll();
+            int keyPress = (idx / 8) + 1;
             idx++;
+            result += keyPress * frequencyQueue.poll();
         }
         return result;
         
