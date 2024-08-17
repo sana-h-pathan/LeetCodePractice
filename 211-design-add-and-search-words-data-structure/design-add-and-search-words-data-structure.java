@@ -25,10 +25,7 @@ public class WordDictionary {
     }
     private boolean helper(String word, int start, TrieNode curr) {
         if (start == word.length()) {
-            if (curr.flag)
-                return true;
-            else
-                return false;
+            return curr.flag;
         }
         char c = word.charAt(start);
         if (c == '.') {
@@ -40,11 +37,9 @@ public class WordDictionary {
                 }
             }
         } else {
-            if (curr.children[c-'a'] == null) {
+            if (curr.children[c-'a'] == null) 
                 return false;
-            } else {
-                return helper(word,start+1,curr.children[c-'a']);
-            }
+            return helper(word,start+1,curr.children[c-'a']);
         }
         return false;
     }
