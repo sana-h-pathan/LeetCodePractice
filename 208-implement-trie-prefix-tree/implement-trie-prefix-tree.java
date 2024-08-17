@@ -3,8 +3,7 @@ class Trie {
         TrieNode[] children;
         boolean isEnd;
         public TrieNode(){
-            children=new TrieNode[26];
-            isEnd=false;
+            this.children=new TrieNode[26];
         }
     }
     TrieNode root;
@@ -31,7 +30,7 @@ class Trie {
                 return false;
             curr=curr.children[ch-'a'];
         }
-        return curr.isEnd;  
+        return curr.isEnd;
     }
     
     public boolean startsWith(String prefix) {
@@ -42,7 +41,7 @@ class Trie {
                 return false;
             curr=curr.children[ch-'a'];
         }
-        return true;  
+        return true;
     }
 }
 
