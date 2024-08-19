@@ -4,7 +4,7 @@ class Solution {
         for(int num: nums)
             set.add(num);
         int count=0;
-        int maxSequnce=0;
+        int max=0;
         for(int num: nums){
             if(!set.contains(num-1)){
                 count=1;
@@ -13,9 +13,11 @@ class Solution {
                     count++;
                     curr++;
                 }
-                maxSequnce=Integer.max(maxSequnce, count);
+                max=Math.max(count, max);
             }
         }
-        return maxSequnce;
+        return max;
     }
+
+    
 }
