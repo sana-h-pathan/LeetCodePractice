@@ -18,13 +18,13 @@ class Solution {
         }
         return low;
     }
-    private int calculateDuration(int[] piles, int mid){
+    private int calculateDuration(int[] piles, int hrly){
         int hours=0;
         for(int i:piles){
-            int time=i/mid;
+            int time=i/hrly;
             hours+=time;
-            if(i%mid!=0) 
-            hours++;
+            if(i%hrly!=0) 
+                hours++;
         }
         return hours;
     }
