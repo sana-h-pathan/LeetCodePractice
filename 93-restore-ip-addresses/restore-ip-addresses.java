@@ -16,7 +16,8 @@ class Solution {
             return;
         for(int i=idx;i<idx+3 && i<s.length();i++){
             String str=s.substring(idx,i+1);
-            if((Integer.parseInt(str)<256)&&(i==idx || s.charAt(idx)!='0')){
+            int number=Integer.parseInt(str);
+            if(number<256 && (i==idx|| s.charAt(idx)!='0')){
                 currStr.append(str).append(".");
                 backtrack(s, i+1, dots+1, result, currStr);
                 currStr.setLength(currStr.length()-str.length()-1);
