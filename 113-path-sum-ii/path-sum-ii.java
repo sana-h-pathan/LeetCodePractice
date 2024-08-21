@@ -16,9 +16,10 @@
 class Solution {
     public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
         List<List<Integer>> result=new ArrayList<>();
-        backtrack(root,targetSum,result, new ArrayList<>());
+        backtrack(root,targetSum, result, new ArrayList<>());
         return result;
     }
+
     private void backtrack(TreeNode root, int target, List<List<Integer>> result, ArrayList<Integer> temp){
         if(root==null)
             return;
