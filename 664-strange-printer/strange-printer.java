@@ -12,21 +12,12 @@ class Solution {
         for (int i = 2; i <= n; i++) {
             for (int j = 0; j + i - 1 < n; j++) {
                 int sub = j + i - 1;
-
-                // Initialize with worst case: print each character separately
                 minTurns[j][sub] = i;
-
-                // Try all possible splits and find the minimum
-                for (int split = 0; split < i - 1; split++) {
-                    int totalTurns =
-                        minTurns[j][j + split] +
-                        minTurns[j + split + 1][sub];
-
-                    // If the characters at the split and sub match, we can save one turn
-                    if (s.charAt(j + split) == s.charAt(sub)) {
+                for (int k = 0; k < i - 1; k++) {
+                    int totalTurns = minTurns[j][j + k] + minTurns[j + k + 1][sub];
+                    if (s.charAt(j + k) == s.charAt(sub)) 
                         totalTurns--;
-                    }
-
+                    
                     minTurns[j][sub] = Math.min(
                         minTurns[j][sub],
                         totalTurns
@@ -34,8 +25,6 @@ class Solution {
                 }
             }
         }
-
-        // Return the minimum turns needed to print the entire string
         return minTurns[0][n - 1];
     }
 
@@ -45,7 +34,6 @@ class Solution {
         while (i < s.length()) {
             char currentChar = s.charAt(i);
             uniqueChars.append(currentChar);
-            // Skip all consecutive occurrences of the current character
             while (i < s.length() && s.charAt(i) == currentChar) {
                 i++;
             }
