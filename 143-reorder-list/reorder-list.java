@@ -18,13 +18,15 @@ class Solution {
             slow=slow.next;
             fast=fast.next.next;
         }
-        ListNode reverseHead=reverse(slow.next);
+        ListNode reverseSecondPart=reverse(slow.next);
         slow.next=null;
         slow=head;
-        while(reverseHead!=null){
+        while(reverseSecondPart!=null){
+            //1->2->3
+            //5->4
             ListNode temp=slow.next;
-            slow.next=reverseHead;
-            reverseHead=reverseHead.next;
+            slow.next=reverseSecondPart;
+            reverseSecondPart=reverseSecondPart.next;
             slow.next.next=temp;
             slow=temp;
         }
