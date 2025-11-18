@@ -17,30 +17,32 @@ class Solution {
     public TreeNode invertTree(TreeNode root) {
         if(root==null)
             return null;
-
         TreeNode left=invertTree(root.left);
         TreeNode right=invertTree(root.right);
-        
+
         root.left=right;
         root.right=left;
+
         return root;
+
     }
     public TreeNode invertTree1(TreeNode root) {
         if(root==null)
             return null;
-        Queue<TreeNode> bfsQue = new LinkedList<>();
+        Queue<TreeNode> bfsQue=new LinkedList<>();
         bfsQue.add(root);
         while(!bfsQue.isEmpty()){
-            TreeNode node = bfsQue.poll();
-            TreeNode temp = node.left;
-            node.left=node.right;
-            node.right = temp;
-            if(node.left!=null)
-                bfsQue.add(node.left);
-            if(node.right!=null)
-                bfsQue.add(node.right);
-            
+            TreeNode curr=bfsQue.poll();
+            TreeNode temp=curr.left;
+            curr.left=curr.right;
+            curr.right=temp;
+            if(curr.left!=null){
+                bfsQue.add(curr.left);
+            }
+            if(curr.right!=null){
+                bfsQue.add(curr.right);
+            }
         }
-        return root;   
+        return root;
     }
 }
