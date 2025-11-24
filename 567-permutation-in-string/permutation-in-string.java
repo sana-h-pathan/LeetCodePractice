@@ -2,9 +2,9 @@ class Solution {
     public boolean checkInclusion(String s1, String s2) {
         if(s1.length()>s2.length())
             return false;
-        int matches=0;
         int[] s1Freq=new int[26];
         int[] s2Freq=new int[26];
+        int matches=0;
         for(int i=0;i<s1.length();i++){
             char s1Char=s1.charAt(i);
             char s2Char=s2.charAt(i);
@@ -20,18 +20,20 @@ class Solution {
         while(r<s2.length()){
             if(matches==26)
                 return true;
-            int rChar=s2.charAt(r)-'a';
-            s2Freq[rChar]++;
-            if(s2Freq[rChar]==s1Freq[rChar])
+            int rInt=s2.charAt(r)-'a';
+            s2Freq[rInt]++;
+            if(s1Freq[rInt]==s2Freq[rInt]){
                 matches++;
-            else if(s2Freq[rChar]-1==s1Freq[rChar])
+            } else if(s1Freq[rInt]==s2Freq[rInt]-1){
                 matches--;
-            int lChar=s2.charAt(l)-'a';
-            s2Freq[lChar]--;
-            if(s2Freq[lChar]==s1Freq[lChar])
+            }
+            int lInt=s2.charAt(l)-'a';
+            s2Freq[lInt]--;
+            if(s1Freq[lInt]==s2Freq[lInt]){
                 matches++;
-            else if(s2Freq[lChar]+1==s1Freq[lChar])
+            } else if(s1Freq[lInt]==s2Freq[lInt]+1){
                 matches--;
+            }
             l++;
             r++;
         }
