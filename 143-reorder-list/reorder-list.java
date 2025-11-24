@@ -18,22 +18,20 @@ class Solution {
             slow=slow.next;
             fast=fast.next.next;
         }
-        ListNode reverseSecondPart=reverse(slow.next);
+        ListNode reverseNode=reverse(slow.next);
         slow.next=null;
         slow=head;
-        while(reverseSecondPart!=null){
-            //1->2->3
-            //5->4
+        while(reverseNode!=null){
             ListNode temp=slow.next;
-            slow.next=reverseSecondPart;
-            reverseSecondPart=reverseSecondPart.next;
+            slow.next=reverseNode;
+            reverseNode=reverseNode.next;
             slow.next.next=temp;
             slow=temp;
         }
     }
     private ListNode reverse(ListNode head){
-        ListNode curr=head;
         ListNode prev=null;
+        ListNode curr=head;
         ListNode fast=head.next;
         while(fast!=null){
             curr.next=prev;
