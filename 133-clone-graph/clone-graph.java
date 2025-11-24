@@ -19,35 +19,31 @@ class Node {
 */
 
 class Solution {
-    HashMap<Node,Node> map;
     public Node cloneGraph(Node node) {
         if(node==null)
             return null;
-        this.map=new HashMap<>();
+        HashMap<Node, Node> map=new HashMap<>();
         Queue<Node> bfsQue=new LinkedList<>();
         bfsQue.add(node);
-        cloneNode(node);
         while(!bfsQue.isEmpty()){
             Node curr=bfsQue.poll();
-            Node duplicaNode=cloneNode(curr);
+            Node copyCurr=clone(map,curr);
             for(Node ne: curr.neighbors){
-                if(!map.containsKey(ne)){
+                if(!map.containsKey(ne))
                     bfsQue.add(ne);
-                }
-                Node cloneNe=cloneNode(ne);
-                duplicaNode.neighbors.add(cloneNe);
+                clone(map,ne);
+                copyCurr.neighbors.add(map.get(ne));
             }
         }
-
         return map.get(node);
-        
     }
-
-    private Node cloneNode(Node node){
-        if(!map.containsKey(node)){
-            Node newNode=new Node(node.val);
-            map.put(node, newNode);
+    private Node clone(HashMap<Node, Node> map, Node curr){
+        if(curr==null)
+            return null;
+        if(!map.containsKey(curr)){
+            Node copyCurr=new Node(curr.val);
+            map.put(curr,copyCurr);
         }
-        return map.get(node);
+        return map.get(curr);
     }
 }
