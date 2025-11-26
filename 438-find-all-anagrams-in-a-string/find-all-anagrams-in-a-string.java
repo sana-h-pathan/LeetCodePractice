@@ -1,35 +1,31 @@
 class Solution {
     public List<Integer> findAnagrams(String s, String p) {
         List<Integer> result=new ArrayList<>();
-        int r=0;
+        HashMap<Character, Integer> map=new HashMap<>();
         int l=0;
-        int sLength=s.length();
-        int pLength=p.length();
-        HashMap<Character, Integer> pMap=new HashMap<>();
-        for(int i=0;i<pLength;i++){
-            char c=p.charAt(i);
-            pMap.put(c,pMap.getOrDefault(c,0)+1);
+        int r=0;
+        int matches=0;
+        for(int i=0;i<p.length();i++){
+            char pChar=p.charAt(i);
+            map.put(pChar, map.getOrDefault(pChar,0)+1);
         }
-        int match=0;
-        while(r<sLength){
-            //process the incoming character
-            char in=s.charAt(r);
-            if(pMap.containsKey(in)){
-                pMap.put(in,pMap.getOrDefault(in,0)-1);
-                if(pMap.get(in)==0)
-                    match++;
+        while(r<s.length()){
+            char rChar=s.charAt(r);
+            if(map.containsKey(rChar)){
+                map.put(rChar, map.getOrDefault(rChar,0)-1);
+                if(map.get(rChar)==0)
+                    matches++;
             }
-            //process the outgoing character when i becomes greater than plength
-            if(r>=pLength){
-                char out=s.charAt(l);
-                if(pMap.containsKey(out)){
-                    pMap.put(out,pMap.getOrDefault(out,0)+1);
-                    if(pMap.get(out)==1)
-                        match--;
+            if(r>=p.length()){
+                char lChar=s.charAt(l);
+                if(map.containsKey(lChar)){
+                    map.put(lChar, map.getOrDefault(lChar,0)+1);
+                    if(map.get(lChar)==1)
+                        matches--;
                 }
                 l++;
             }
-            if(match==pMap.size())
+            if(map.size()==matches)
                 result.add(l);
             r++;
         }
