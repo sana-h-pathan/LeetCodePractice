@@ -21,28 +21,28 @@ class Node {
 class Solution {
     public Node cloneGraph(Node node) {
         if(node==null)
-            return null;
-        HashMap<Node, Node> map=new HashMap<>();
+            return node;
+        HashMap<Node, Node> map =new HashMap<>();
         Queue<Node> bfsQue=new LinkedList<>();
         bfsQue.add(node);
         while(!bfsQue.isEmpty()){
             Node curr=bfsQue.poll();
-            Node copyCurr=clone(map,curr);
+            Node copyCurr=clone(curr, map);
             for(Node ne: curr.neighbors){
                 if(!map.containsKey(ne))
                     bfsQue.add(ne);
-                clone(map,ne);
-                copyCurr.neighbors.add(map.get(ne));
+                Node copyNe=clone(ne, map);
+                copyCurr.neighbors.add(copyNe);
             }
         }
         return map.get(node);
     }
-    private Node clone(HashMap<Node, Node> map, Node curr){
+    private Node clone(Node curr, HashMap<Node, Node> map){
         if(curr==null)
             return null;
         if(!map.containsKey(curr)){
             Node copyCurr=new Node(curr.val);
-            map.put(curr,copyCurr);
+            map.put(curr, copyCurr);
         }
         return map.get(curr);
     }
