@@ -1,48 +1,44 @@
 class Solution {
     public int[] findOrder(int numCourses, int[][] prerequisites) {
-        HashMap<Integer, List<Integer>> dependencyMap=new HashMap<>();
-        int[] indegreeCount=new int[numCourses];
+        int[] indegree=new int[numCourses];
+        HashMap<Integer, List<Integer>> adjMap=new HashMap<>();
         int[] result=new int[numCourses];
-        Queue<Integer> bfsQueue=new LinkedList<>();
+        int completedCourse=0;
+        for(int[] requisite : prerequisites){
+            int ind=requisite[1];
+            int dep=requisite[0];
+            if(!adjMap.containsKey(ind)){
+                adjMap.put(ind, new ArrayList<>());
+            }
+            adjMap.get(ind).add(dep);
+            indegree[dep]++;
+        }
         int idx=0;
-        
-        // Populate indegree count and dependency map
-        for(int[] prereq: prerequisites){
-            int prerequisiteCourse=prereq[1];
-            int course=prereq[0];
-            indegreeCount[course]++;
-            if (!dependencyMap.containsKey(prerequisiteCourse)) {
-                dependencyMap.put(prerequisiteCourse, new ArrayList<>());
-            }
-            dependencyMap.get(prerequisiteCourse).add(course);
-        }
-
-        // Add courses with no prerequisites to the queue
-        for (int i = 0; i < numCourses; i++) {
-            if (indegreeCount[i] == 0) {
-                bfsQueue.add(i);
+        Queue<Integer> bfsQue=new LinkedList<>();
+        for(int i=0;i<numCourses;i++){
+            if(indegree[i]==0){
+                bfsQue.add(i);
+                result[idx++]=i;
+                completedCourse++;
             }
         }
-
-        // Perform BFS traversal
-        while (!bfsQueue.isEmpty()) {
-            int currentCourse = bfsQueue.poll();
-            // Add the current course to the result array
-            result[idx++] = currentCourse;
-            // Decrement the count of prerequisites for each dependent course
-            List<Integer> dependentCourses = dependencyMap.getOrDefault(currentCourse, Collections.emptyList());
-            for (int dependentCourse : dependentCourses) {
-                indegreeCount[dependentCourse]--;
-                // If the prerequisites for the dependent course become zero, add it to the queue
-                if (indegreeCount[dependentCourse] == 0) {
-                    bfsQueue.add(dependentCourse);
+        while(!bfsQue.isEmpty()){
+            int curr=bfsQue.poll();
+            if(adjMap.containsKey(curr)){
+                for(int course: adjMap.get(curr)){
+                    indegree[course]--;
+                    if(indegree[course]==0){
+                        bfsQue.add(course);
+                        result[idx++]=course;
+                        completedCourse++;
+                        if(completedCourse==numCourses)
+                            return result;
+                    }
                 }
             }
         }
-        // Check if all courses are included in the result array
-        if (idx == numCourses)
+        if(completedCourse==numCourses)
             return result;
-        // If not all courses are included, return an empty array
         return new int[0];
     }
 }
