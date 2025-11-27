@@ -1,29 +1,28 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        int[] indegree=new int[numCourses];
-        HashMap<Integer, List<Integer>> map=new HashMap<>();
-        int completedCourse=0;
-        for(int[] pre: prerequisites){
-            int ind=pre[1];
-            int dep=pre[0];
-            if(!map.containsKey(ind)){
-                map.put(ind, new ArrayList<>());
+       int[] indegree=new int[numCourses];
+       HashMap<Integer, List<Integer>> adjMap=new HashMap<>();
+       for(int[] requisite: prerequisites){
+            int dep=requisite[0];
+            int ind=requisite[1];
+            if(!adjMap.containsKey(ind)){
+                adjMap.put(ind, new ArrayList<>());
             }
+            adjMap.get(ind).add(dep);
             indegree[dep]++;
-            map.get(ind).add(dep);
         }
+        int completedCourse=0;
         Queue<Integer> bfsQue=new LinkedList<>();
-        for(int i=0;i<indegree.length;i++){
+        for(int i=0;i<numCourses;i++){
             if(indegree[i]==0){
-                bfsQue.add(i);
                 completedCourse++;
+                bfsQue.add(i);
             }
         }
         while(!bfsQue.isEmpty()){
             int curr=bfsQue.poll();
-            if(map.containsKey(curr)){
-                List<Integer> depCourse=map.get(curr);
-                for(int course: depCourse){
+            if(adjMap.containsKey(curr)){
+                for(int course: adjMap.get(curr)){
                     indegree[course]--;
                     if(indegree[course]==0){
                         bfsQue.add(course);
