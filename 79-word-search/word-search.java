@@ -15,10 +15,7 @@ class Solution {
     private boolean backtrack(char[][] board, String word, int i, int j, int idx){
         int[][] dirs=new int[][]{{1,0},{0,1},{-1,0},{0,-1}};
         //base case
-        if(word.length()==idx)
-            return true;
-        
-
+       
         //logic
         if(board[i][j]==word.charAt(idx)){
             if (idx == word.length() - 1) {
