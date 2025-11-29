@@ -14,48 +14,38 @@
  * }
  */
 class Solution {
+    boolean flag;
     TreeNode prev=null;
-    boolean flag=true;
-    boolean limit=true;
     public boolean isValidBST(TreeNode root) {
-        //return inOrder1(root);
-        //return flag;
-        helper(root, null, null);
-        return limit;
+        this.flag=true;
+        inOrder(root);
+        return flag;
     }
     private void inOrder(TreeNode root){
         if(root==null)
             return;
-        inOrder(root.left);
-        if(prev!=null && root.val<=prev.val){
+        if(flag)
+            inOrder(root.left);
+        if(prev!=null && prev.val>=root.val)
             flag=false;
-            return;
-        }
         prev=root;
-        inOrder(root.right);
+        if(flag)
+            inOrder(root.right);
     }
 
-    private boolean inOrder1(TreeNode root){
-        if(root==null)
-            return true;
-        boolean left=inOrder1(root.left);
-        if(prev!=null && root.val<=prev.val){
-            return false;
-        }
-        prev=root;
-        boolean right=inOrder1(root.right);
-        return left && right;
+    public boolean isValidBST1(TreeNode root) {
+        helper(root, null,null);
+        return flag;
     }
-
     private void helper(TreeNode root, Integer low, Integer high){
         if(root==null)
             return;
-        if(low!=null && root.val<=low){
-            limit=false;
+        if(low!=null && low>=root.val){
+            flag=false;
             return;
         }
-        if(high!=null && root.val>=high){
-            limit=false;
+        if(high!=null && high<=root.val){
+            flag=false;
             return;
         }
         helper(root.left, low, root.val);
