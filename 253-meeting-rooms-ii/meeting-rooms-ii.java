@@ -5,7 +5,7 @@ class Solution {
         for(int[] interval: intervals){
             if(!pq.isEmpty() && interval[0]>=pq.peek())
                 pq.poll();
-            pq.offer(interval[1]);
+            pq.add(interval[1]);
         }
         return pq.size();
     }
