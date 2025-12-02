@@ -1,43 +1,43 @@
 class Solution {
     public int[] findOrder(int numCourses, int[][] prerequisites) {
-        int[] indegree=new int[numCourses];
-        HashMap<Integer, List<Integer>> adjMap=new HashMap<>();
-        int[] result=new int[numCourses];
-        int completedCourse=0;
-        for(int[] requisite : prerequisites){
-            int ind=requisite[1];
-            int dep=requisite[0];
-            if(!adjMap.containsKey(ind)){
-                adjMap.put(ind, new ArrayList<>());
+        int[] indegree = new int[numCourses];
+        int[] result = new int[numCourses];
+        int idx=0;
+        HashMap<Integer, List<Integer>> map = new HashMap<>();
+        int completedCourses=0;
+        Queue<Integer> bfsQue=new LinkedList<>();
+        for(int[] pre: prerequisites){
+            int ind = pre[1];
+            int dep = pre[0];
+            if(!map.containsKey(ind)){
+                map.put(ind, new ArrayList<>());
             }
-            adjMap.get(ind).add(dep);
+            map.get(ind).add(dep);
             indegree[dep]++;
         }
-        int idx=0;
-        Queue<Integer> bfsQue=new LinkedList<>();
         for(int i=0;i<numCourses;i++){
             if(indegree[i]==0){
                 bfsQue.add(i);
+                completedCourses++;
                 result[idx++]=i;
-                completedCourse++;
             }
         }
         while(!bfsQue.isEmpty()){
-            int curr=bfsQue.poll();
-            if(adjMap.containsKey(curr)){
-                for(int course: adjMap.get(curr)){
-                    indegree[course]--;
-                    if(indegree[course]==0){
-                        bfsQue.add(course);
-                        result[idx++]=course;
-                        completedCourse++;
-                        if(completedCourse==numCourses)
+            int curr = bfsQue.poll();
+            if(map.containsKey(curr)){
+                for(int depCourse: map.get(curr)){
+                    indegree[depCourse]--;
+                    if(indegree[depCourse]==0){
+                        completedCourses++;
+                        result[idx++]=depCourse;
+                        if(completedCourses==numCourses)
                             return result;
+                        bfsQue.add(depCourse);
                     }
                 }
             }
         }
-        if(completedCourse==numCourses)
+        if(completedCourses==numCourses)
             return result;
         return new int[0];
     }
