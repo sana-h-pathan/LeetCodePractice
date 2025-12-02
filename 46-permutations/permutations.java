@@ -5,13 +5,10 @@ class Solution {
         return result;
     }
     private void backtrack(int[] nums, List<List<Integer>> result, List<Integer> temp, HashSet<Integer> set){
-        //base case
         if(set.size()==nums.length){
             result.add(new ArrayList<>(temp));
             return;
         }
-
-        //for loop
         for(int i=0;i<nums.length;i++){
             if(set.contains(nums[i]))
                 continue;
