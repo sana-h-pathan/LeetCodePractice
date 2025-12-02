@@ -1,22 +1,20 @@
 class Solution {
     public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> result=new ArrayList<>();
-        backtrack(nums, 0, new ArrayList<>(), result);
+        backtrack(nums, result, 0, new ArrayList<>());
         return result;
     }
-    private void backtrack(int[] nums, int idx, List<Integer> currPath, List<List<Integer>> result ){
-        //base condition
+    private void backtrack(int[] nums,  List<List<Integer>> result, int idx, List<Integer> currPath){
+        //base case
         if(idx==nums.length){
             result.add(new ArrayList<>(currPath));
             return;
         }
         //not choose
-        backtrack(nums, idx+1, currPath, result);
+        backtrack(nums, result, idx+1, currPath);
         //choose
         currPath.add(nums[idx]);
-        //recurse
-        backtrack(nums, idx+1, currPath, result);
-        //backtrack
+        backtrack(nums, result, idx+1, currPath);
         currPath.remove(currPath.size()-1);
     }
 }
