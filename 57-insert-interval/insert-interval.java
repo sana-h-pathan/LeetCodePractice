@@ -2,12 +2,12 @@ class Solution {
     public int[][] insert(int[][] intervals, int[] newInterval) {
         ArrayList<int[]> result = new ArrayList<>();
         for(int[] interval: intervals){
-            // If the end of the new interval is before the start of the current interval
+            // If the end of the new is before the start of the current interval
             if(newInterval[1]<interval[0]){
                 result.add(newInterval);
                 newInterval=interval;
             } 
-            // If the end of the current interval is before the start of the new interval
+            // If the start of the new in after end of current interval
             else if(newInterval[0]>interval[1]){
                 result.add(interval);
             } else {
