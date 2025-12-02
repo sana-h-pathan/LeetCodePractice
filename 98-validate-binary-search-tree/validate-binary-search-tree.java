@@ -21,6 +21,7 @@ class Solution {
         inOrder(root);
         return flag;
     }
+
     private void inOrder(TreeNode root){
         if(root==null)
             return;
