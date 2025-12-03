@@ -1,37 +1,34 @@
 class Bank {
-    long[] balance;
+    long[] accountBalance;
 
     public Bank(long[] balance) {
-        this.balance=balance;
+        this.accountBalance=balance;
     }
     
     public boolean transfer(int account1, int account2, long money) {
-        if(balance.length<account1-1 || balance.length<account2-1)
+        if(accountBalance.length<account1 || accountBalance.length<account2)
             return false;
-        if(balance[account1-1]<money)
+        if(accountBalance[account1-1]<money)
             return false;
-        else{
-            balance[account1-1]-=money;
-            balance[account2-1]+=money;
-            return true;
-        }
-        
+        accountBalance[account1-1]-=money;
+        accountBalance[account2-1]+=money;
+        return true;
     }
     
     public boolean deposit(int account, long money) {
-        if(balance.length<account-1)
+        if(accountBalance.length<account)
             return false;
-        balance[account-1]+=money;
+        accountBalance[account-1]+=money;
         return true;
-        
     }
     
     public boolean withdraw(int account, long money) {
-        if(balance.length<account-1 || balance[account-1]<money)
+        if(accountBalance.length<account-1)
             return false;
-        balance[account-1]-=money;
+        if(accountBalance[account-1]<money)
+            return false;
+        accountBalance[account-1]-=money;
         return true;
-        
     }
 }
 
