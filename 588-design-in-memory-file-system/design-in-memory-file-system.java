@@ -11,12 +11,7 @@ class FileSystem {
     }
     
     public List<String> ls(String path) {
-        if (path == null || path.isEmpty()) {
-            throw new IllegalArgumentException("Path cannot be null or empty");
-        }
-
         if (path.equals("/")) {
-            // list root children
             return listDir(root);
         }
 
@@ -41,10 +36,7 @@ class FileSystem {
     }
     
     public void mkdir(String path) {
-        if (path == null || path.isEmpty() || path.equals("/")) {
-            return;
-        }
-
+        
         String[] parts = splitPath(path);
         Node curr = root;
 
@@ -55,10 +47,6 @@ class FileSystem {
     }
     
     public void addContentToFile(String filePath, String content) {
-        if (filePath == null || filePath.isEmpty()) {
-            throw new IllegalArgumentException("File path cannot be null or empty");
-        }
-
         String[] parts = splitPath(filePath);
         Node curr = root;
 
@@ -75,24 +63,12 @@ class FileSystem {
     }
     
     public String readContentFromFile(String filePath) {
-        if (filePath == null || filePath.isEmpty()) {
-            throw new IllegalArgumentException("File path cannot be null or empty");
-        }
-
         String[] parts = splitPath(filePath);
         Node curr = root;
 
         for (String name : parts) {
             curr = curr.children.get(name);
-            if (curr == null) {
-                throw new IllegalArgumentException("File does not exist: " + filePath);
-            }
         }
-
-        if (!curr.isFile) {
-            throw new IllegalArgumentException("Path is a directory, not a file: " + filePath);
-        }
-
         return curr.content.toString();
     }
     private String[] splitPath(String path) {
@@ -106,7 +82,7 @@ class FileSystem {
 
     private List<String> listDir(Node dir) {
         List<String> result = new ArrayList<>(dir.children.keySet());
-        Collections.sort(result); // interviewers usually like sorted output
+        Collections.sort(result); 
         return result;
     }
 }
