@@ -1,75 +1,61 @@
 class FileSystem {
-    private static class Node {
+    class Node{
         boolean isFile;
-        Map<String, Node> children = new HashMap<>();
-        StringBuilder content = new StringBuilder();
+        StringBuilder data=new StringBuilder();
+        HashMap<String, Node> dirPath=new HashMap<>();
     }
-    private final Node root;
-
+    Node root;
     public FileSystem() {
-        this.root = new Node();
+        this.root=new Node();
     }
     
     public List<String> ls(String path) {
-        if (path.equals("/")) {
+        if(path.equals("/"))
             return listDir(root);
-        }
-
-        String[] parts = splitPath(path);
-        Node curr = root;
-
-        for (int i = 0; i < parts.length; i++) {
-            String name = parts[i];
-            curr = curr.children.get(name);
+        String[] folders = splitPath(path);
+        Node curr=root;
+        for(String folder: folders){
+            curr=curr.dirPath.get(folder);
             if (curr == null) {
-                // In many interview versions, you can assume path is valid.
-                return Collections.emptyList();
+                return new ArrayList<>();
             }
         }
-
-        if (curr.isFile) {
-            // For a file, return just its name (last part of path)
-            return Collections.singletonList(parts[parts.length - 1]);
-        } else {
-            return listDir(curr);
+        if(curr.isFile){
+            return Arrays.asList(folders[folders.length-1]);
         }
+        return listDir(curr);
     }
     
     public void mkdir(String path) {
-        
-        String[] parts = splitPath(path);
-        Node curr = root;
-
-        for (String name : parts) {
-            curr.children.putIfAbsent(name, new Node());
-            curr = curr.children.get(name);
+        String[] folders = splitPath(path);
+        Node curr=root;
+        for(String folder: folders){
+            if(!curr.dirPath.containsKey(folder))
+                curr.dirPath.put(folder, new Node());
+            curr=curr.dirPath.get(folder);
         }
     }
     
     public void addContentToFile(String filePath, String content) {
-        String[] parts = splitPath(filePath);
-        Node curr = root;
-
-        // walk / create intermediate dirs
-        for (int i = 0; i < parts.length; i++) {
-            String name = parts[i];
-            curr.children.putIfAbsent(name, new Node());
-            curr = curr.children.get(name);
+        String[] folders = splitPath(filePath);
+        Node curr=root;
+        for(String folder: folders){
+            if(!curr.dirPath.containsKey(folder))
+                curr.dirPath.put(folder, new Node());
+            curr=curr.dirPath.get(folder);
         }
-
-        // last node is file
-        curr.isFile = true;
-        curr.content.append(content);
+        curr.isFile=true;
+        curr.data.append(content);
+        
     }
     
     public String readContentFromFile(String filePath) {
-        String[] parts = splitPath(filePath);
-        Node curr = root;
-
-        for (String name : parts) {
-            curr = curr.children.get(name);
+        String[] folders = splitPath(filePath);
+        Node curr=root;
+        for(String folder: folders){
+            curr=curr.dirPath.get(folder);
         }
-        return curr.content.toString();
+        return curr.data.toString();
     }
     private String[] splitPath(String path) {
         // Remove leading "/" and split, ignore empty pieces
@@ -81,8 +67,10 @@ class FileSystem {
     }
 
     private List<String> listDir(Node dir) {
-        List<String> result = new ArrayList<>(dir.children.keySet());
-        Collections.sort(result); 
+        List<String> result = new ArrayList<>();
+        for(String key: dir.dirPath.keySet())
+            result.add(key);
+         Collections.sort(result); 
         return result;
     }
 }
