@@ -1,63 +1,63 @@
 class Solution {
-
     class TrieNode{
         TrieNode[] children;
-        ArrayList<String> startsWith;
+        List<String> wordList;
         public TrieNode(){
-            this.children=new TrieNode[26];
-            this.startsWith=new ArrayList<>();
+            this.children = new TrieNode[26];
+            this.wordList = new ArrayList<>();
         }
     }
 
-    private void insert(String word){
-        TrieNode curr=root;
+    private void insert(TrieNode root, String word){
+        TrieNode curr = root;
         for(int i=0;i<word.length();i++){
-            char ch=word.charAt(i);
+            char ch = word.charAt(i);
             if(curr.children[ch-'a']==null)
-                curr.children[ch-'a']=new TrieNode();
-            curr= curr.children[ch-'a'];
-            curr.startsWith.add(word);
+                curr.children[ch-'a'] = new TrieNode();
+            curr = curr.children[ch-'a'];
+            curr.wordList.add(word);
         }
     }
-    private List<String> search(String word){
-        TrieNode curr=root;
+
+    private List<String> search(TrieNode root, String word){
+        TrieNode curr = root;
         for(int i=0;i<word.length();i++){
-            char ch=word.charAt(i);
+            char ch = word.charAt(i);
             if(curr.children[ch-'a']==null)
                 return new ArrayList<>();
-            curr=curr.children[ch-'a'];
+            curr = curr.children[ch-'a'];
         }
-        return curr.startsWith;
+        return curr.wordList;
     }
 
-    TrieNode root;
     public List<List<String>> wordSquares(String[] words) {
-        this.root=new TrieNode();
+        TrieNode root= new TrieNode();
         for(String word: words)
-            insert(word);
+            insert(root,word);
         List<List<String>> result=new ArrayList<>();
         List<String> temp=new ArrayList<>();
         for(String word: words){
             temp.add(word);
-            backtrack(temp,result);
+            backTrack(root, result, temp);
             temp.remove(temp.size()-1);
         }
         return result;
     }
-    private void backtrack(List<String> temp, List<List<String>> result){
+
+    private void backTrack(TrieNode root, List<List<String>> result, List<String> temp){
         if(temp.get(0).length()==temp.size()){
             result.add(new ArrayList<>(temp));
             return;
         }
-        StringBuilder prefix=new StringBuilder();
-        int idx=temp.size();
+        StringBuilder prefix = new StringBuilder();
+        int idx = temp.size();
         for(String word: temp){
             prefix.append(word.charAt(idx));
         }
-        List<String> startsWith=search(prefix.toString());
-        for(String word: startsWith){
+        List<String> wordList = search(root, prefix.toString());
+        for(String word: wordList){
             temp.add(word);
-            backtrack(temp, result);
+            backTrack(root, result, temp);
             temp.remove(temp.size()-1);
         }
     }
