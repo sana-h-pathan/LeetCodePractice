@@ -37,13 +37,16 @@ class Solution {
     }
     //Use DFS algo to turn internal however boundary-connected 'O' to '*';
     private void dfs(char[][] board, int i, int j) {
+        if (i < 0 || i > m - 1 || j <0 || j > n - 1)
+            return;
+        if (board[i][j] != 'O') 
+            return;
         if (board[i][j] == 'O')
             board[i][j] = '*';
         for(int[] dir: dirs){
             int nr = i+dir[0];
-            int nc = j+dir[1];
-            if (nr>=1 && nc>=1 && nr<m-1 && nc<n-1 && board[nr][nc] == 'O')
-                dfs(board, nr, nc);
+            int nc = j+dir[1];    
+            dfs(board, nr, nc);
         }
     }
 }
