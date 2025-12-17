@@ -1,34 +1,34 @@
 public class Codec {
 
+    // Encodes a list of strings to a single string.
     public String encode(List<String> strs) {
-        StringBuilder str=new StringBuilder();
-        StringBuilder strLen=new StringBuilder();
-        int wl=0;
-        for(String s: strs){
-            System.out.println(s);
-            wl=s.length();
-            strLen.append(wl).append("#");
-            str.append(s);
+        StringBuilder wordLength = new StringBuilder();
+        StringBuilder str = new StringBuilder();
+        for(String word: strs){
+            str.append(word);
+            wordLength.append(word.length()).append("#");
         }
-        strLen.append("/").append(str);
-        return strLen.toString();
+        wordLength.append("/").append(str);
+
+        return wordLength.toString();
     }
 
-    public List<String> decode(String str) {
-        List<String> result=new ArrayList<>();
-        int idx = str.indexOf('/');
-        String lenStr=str.substring(0,idx);
-        String textStr=str.substring(idx+1,str.length());
-        String[] strArr=lenStr.split("#");
-        int old=0;
-        for(String sl:strArr){
-            int size=old+Integer.parseInt(sl);
-             if(size==0)
+    // Decodes a single string to a list of strings.
+    public List<String> decode(String s) {
+        List<String> result = new ArrayList<>();
+        int idx = s.indexOf("/");
+        String wordLength = s.substring(0, idx);
+        String str = s.substring(idx+1);
+        String[] splitLength = wordLength.split("#");
+        int old =0;
+        for(String wl: splitLength){
+            int len = old+Integer.parseInt(wl);
+            if(len==0){
                 result.add("");
-            else{
-                result.add(textStr.substring(old,size));
-                old=size;
+            } else {
+                 result.add(str.substring(old, len));
             }
+            old = len;
         }
         return result;
     }
