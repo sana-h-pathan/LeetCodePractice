@@ -19,14 +19,14 @@ class Solution {
             fast=fast.next.next;
         }
         ListNode reverseList = reverse(slow.next);
-        slow.next=null;
-        slow=head;
+        slow.next = null;
+        slow = head;
         while(reverseList!=null){
             ListNode temp = slow.next;
-            slow.next=reverseList;
-            reverseList=reverseList.next;
+            slow.next = reverseList;
+            reverseList = reverseList.next;
             slow.next.next=temp;
-            slow = temp;
+            slow=temp;
         }
     }
     private ListNode reverse(ListNode head){
@@ -36,12 +36,12 @@ class Solution {
         ListNode curr = head;
         ListNode fast = head.next;
         while(fast!=null){
-            curr.next=prev;
-            prev=curr;
-            curr=fast;
-            fast=fast.next;
+            curr.next = prev;
+            prev = curr;
+            curr = fast;
+            fast = fast.next;
         }
-        curr.next=prev;
+        curr.next = prev;
         return curr;
     }
 }
