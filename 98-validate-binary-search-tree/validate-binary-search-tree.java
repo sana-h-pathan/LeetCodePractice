@@ -18,6 +18,8 @@ class Solution {
     boolean flag;
     public boolean isValidBST(TreeNode root) {
         this.flag=true;
+        if(root==null)
+            return true;
         helper(root);
         return flag;
     }
@@ -26,10 +28,10 @@ class Solution {
             return;
         helper(root.left);
         if(prev!=null && prev.val>=root.val){
-            flag=false;
+            flag = false;
             return;
         }
-        prev=root;
+        prev = root;
         helper(root.right);
     }
 }
