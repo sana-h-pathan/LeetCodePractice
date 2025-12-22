@@ -12,25 +12,26 @@ class Solution {
         }
         boolean[] visited = new boolean[n];
         Queue<int[]> bfsQue = new LinkedList<>();
-        bfsQue.add(new int[]{0, -1});
+        bfsQue.add(new int[]{0,-1});
         visited[0]=true;
         while(!bfsQue.isEmpty()){
             int[] curr = bfsQue.poll();
-            int v = curr[0];
+            int node = curr[0];
             int parent = curr[1];
-            for(int ne: adjList.get(v)){
+            for(int ne: adjList.get(node)){
                 if(ne==parent)
                     continue;
                 if(visited[ne]){
                     return false;
                 }
-                bfsQue.add(new int[]{ne, v});
+                bfsQue.add(new int[]{ne,node});
                 visited[ne]=true;
             }
         }
         for(int i=0;i<n;i++){
-            if(!visited[i])
+            if(!visited[i]){
                 return false;
+            }
         }
         return true;
     }
