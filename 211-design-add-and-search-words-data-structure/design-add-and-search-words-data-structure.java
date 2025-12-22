@@ -1,47 +1,61 @@
-public class WordDictionary {
-    class TrieNode {
+class WordDictionary {
+    class TrieNode{
         TrieNode[] children;
-        boolean flag;
-        public TrieNode() {
-            children = new TrieNode[26];
-            flag = false;
+        boolean isEnd;
+        public TrieNode(){
+            this.children = new TrieNode[26];
+            this.isEnd = false;
         }
     }
-    TrieNode root = new TrieNode();
+
+    TrieNode root;
+
+    public WordDictionary() {
+        this.root = new TrieNode();
+    }
+    
     public void addWord(String word) {
         TrieNode curr = root;
-        for(int i = 0; i < word.length(); i++) {
-            char c = word.charAt(i);
-            if (curr.children[c-'a'] == null) {
-                curr.children[c-'a'] = new TrieNode();
+        for(int i=0;i<word.length();i++){
+            char ch = word.charAt(i);
+            if(curr.children[ch - 'a']==null){
+                curr.children[ch -'a'] = new TrieNode();
             }
-            curr = curr.children[c-'a'];
+            curr = curr.children[ch-'a'];
         }
-        curr.flag = true;
+        curr.isEnd = true;
     }
+    
     public boolean search(String word) {
         TrieNode curr = root;
-        return helper(word,0,curr);
+        return helper(word, curr, 0);
     }
-    private boolean helper(String word, int start, TrieNode curr) {
-        if (start == word.length()) {
-            return curr.flag;
+    private boolean helper(String word, TrieNode curr, int idx){
+        if(word.length()==idx){
+            return curr.isEnd;
         }
-        char c = word.charAt(start);
-        if (c == '.') {
-            for (int i = 0; i < 26; i++) {
-                if (curr.children[i] != null) {
-                    if (helper(word,start+1,curr.children[i])) {
+        char ch = word.charAt(idx);
+        if(ch=='.'){
+            for(int i=0;i<26;i++){
+                if(curr.children[i]!=null){
+                    if(helper(word, curr.children[i], idx+1))
                         return true;
-                    }
                 }
             }
+
         } else {
-            if (curr.children[c-'a'] == null) 
+            if(curr.children[ch - 'a']==null){
                 return false;
-            return helper(word,start+1,curr.children[c-'a']);
+            }
+            return helper(word, curr.children[ch-'a'], idx+1);
         }
         return false;
     }
-    
 }
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary obj = new WordDictionary();
+ * obj.addWord(word);
+ * boolean param_2 = obj.search(word);
+ */
