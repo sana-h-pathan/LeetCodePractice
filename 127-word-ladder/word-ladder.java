@@ -9,7 +9,7 @@ class Solution {
         }
         Queue<String> bfsQue = new LinkedList<>();
         bfsQue.add(beginWord);
-        int count=0;
+        int count =0;
         while(!bfsQue.isEmpty()){
             int size = bfsQue.size();
             count++;
@@ -21,7 +21,7 @@ class Solution {
                         currChar[j]=ch;
                         String newCurr = new String(currChar);
                         if(set.contains(newCurr)){
-                            if(endWord.equals(newCurr)){
+                            if(newCurr.equals(endWord)){
                                 return count+1;
                             }
                             bfsQue.add(newCurr);
