@@ -5,10 +5,10 @@ class Solution {
         if(s==null || s.length()==0){
             return "";
         }
-        int n=s.length();
-        for(int i=0;i<s.length();i++){
+        int n = s.length();
+        for(int i=0;i<n;i++){
             expandFromMiddle(s, i, i);
-            if(i<n-1 && s.charAt(i)==s.charAt(i+1)){
+            if(i!=n-1 && s.charAt(i)==s.charAt(i+1)){
                 expandFromMiddle(s, i, i+1);
             }
         }
