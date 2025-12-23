@@ -15,22 +15,23 @@
  */
 class Solution {
     public List<TreeNode> delNodes(TreeNode root, int[] to_delete) {
-        HashSet<Integer> toDelete = new HashSet<>();
-        List<TreeNode> result = new ArrayList<>();
-        for(int num: to_delete)
-            toDelete.add(num);
-        removeNode(root, toDelete, result);
-        if(!toDelete.contains(root.val)){
+        HashSet<Integer> set = new HashSet<>();
+        for(int num: to_delete){
+            set.add(num);
+        }
+        List<TreeNode> result= new ArrayList<>();
+        helper(root, set, result);
+        if(!set.contains(root.val)){
             result.add(root);
         }
         return result;
     }
-    private TreeNode removeNode(TreeNode root, HashSet<Integer> toDelete, List<TreeNode> result){
+    private TreeNode helper(TreeNode root, HashSet<Integer> set, List<TreeNode> result){
         if(root==null)
             return null;
-        root.left = removeNode(root.left, toDelete, result);
-        root.right = removeNode(root.right, toDelete, result);
-        if(toDelete.contains(root.val)){
+        root.left = helper(root.left, set, result);
+        root.right = helper(root.right, set, result);
+        if(set.contains(root.val)){
             if(root.left!=null){
                 result.add(root.left);
             }
