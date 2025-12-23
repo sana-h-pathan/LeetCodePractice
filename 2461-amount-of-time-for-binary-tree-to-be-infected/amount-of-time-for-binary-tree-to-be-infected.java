@@ -15,20 +15,20 @@
  */
 
 class Solution {
-    TreeNode res; // Declare the 'res' variable here
-
+    TreeNode target = null;
     public int amountOfTime(TreeNode root, int start) {
-        HashMap<TreeNode, TreeNode> mpp = new HashMap<>();
-        TreeNode target = findParent(root, start, mpp);
-        return findMaxDistance(mpp, target);
+        HashMap<TreeNode, TreeNode> map = new HashMap<>();
+        findParent(root, start, map);
+        return findMaxDistance(map, target);
     }
 
-    public TreeNode findParent(TreeNode root, int start, Map<TreeNode, TreeNode> parent) {
+    public void findParent(TreeNode root, int start, Map<TreeNode, TreeNode> parent) {
         Queue<TreeNode> q = new LinkedList<>();
         q.add(root);
         while (!q.isEmpty()) {
             TreeNode node = q.poll();
-            if (node.val == start) res = node;
+            if (node.val == start) 
+                target = node;
             if (node.left != null) {
                 parent.put(node.left, node);
                 q.add(node.left);
@@ -38,11 +38,9 @@ class Solution {
                 q.add(node.right);
             }
         }
-        return res;
     }
 
-    // Change the parameter name from mpp to parent
-    public int findMaxDistance(Map<TreeNode, TreeNode> parent, TreeNode target) {
+    public int findMaxDistance(Map<TreeNode, TreeNode> map, TreeNode target) {
         Set<TreeNode> set = new HashSet<>();
         Queue<TreeNode> q = new LinkedList<>();
         int maxi = -1;
@@ -66,9 +64,9 @@ class Solution {
                     q.add(node.right);
                 }
 
-                if (parent.get(node) != null && !set.contains(parent.get(node))) {
-                    set.add(parent.get(node));
-                    q.add(parent.get(node));
+                if (map.get(node) != null && !set.contains(map.get(node))) {
+                    set.add(map.get(node));
+                    q.add(map.get(node));
                 }
             }
         }
