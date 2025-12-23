@@ -13,60 +13,54 @@
  *     }
  * }
  */
-
 class Solution {
     TreeNode target = null;
     public int amountOfTime(TreeNode root, int start) {
         HashMap<TreeNode, TreeNode> map = new HashMap<>();
         findParent(root, start, map);
-        return findMaxDistance(map, target);
+        return countTime(map);
     }
 
-    public void findParent(TreeNode root, int start, Map<TreeNode, TreeNode> map) {
+    private void findParent(TreeNode root, int start, HashMap<TreeNode, TreeNode> map){
         Queue<TreeNode> bfsQue = new LinkedList<>();
         bfsQue.add(root);
-        while (!bfsQue.isEmpty()) {
-            TreeNode node = bfsQue.poll();
-            if (node.val == start) 
-                target = node;
-            if (node.left != null) {
-                map.put(node.left, node);
-                bfsQue.add(node.left);
+        while(!bfsQue.isEmpty()){
+            TreeNode curr = bfsQue.poll();
+            if(curr.left!=null){
+                map.put(curr.left, curr);
+                bfsQue.add(curr.left);
             }
-            if (node.right != null) {
-                map.put(node.right, node);
-                bfsQue.add(node.right);
+            if(curr.right!=null){
+                map.put(curr.right, curr);
+                bfsQue.add(curr.right);
+            }
+            if(curr.val==start){
+                target=curr;
             }
         }
     }
-
-    public int findMaxDistance(Map<TreeNode, TreeNode> map, TreeNode target) {
-        Set<TreeNode> set = new HashSet<>();
+    private int countTime(HashMap<TreeNode, TreeNode> map){
+        int count=-1;
         Queue<TreeNode> bfsQue = new LinkedList<>();
-        int count = -1;
+        Set<TreeNode> set = new HashSet<>();
         bfsQue.add(target);
         set.add(target);
-
-        while (!bfsQue.isEmpty()) {
-            int qSize = bfsQue.size();
+        while(!bfsQue.isEmpty()){
+            int size = bfsQue.size();
             count++;
-
-            for (int i = 0; i < qSize; i++) {
-                TreeNode node = bfsQue.poll();
-
-                if (node.left != null && !set.contains(node.left)) {
-                    set.add(node.left);
-                    bfsQue.add(node.left);
+            for(int i=0;i<size;i++){
+                TreeNode curr = bfsQue.poll();
+                if(curr.left!=null && !set.contains(curr.left)){
+                    bfsQue.add(curr.left);
+                    set.add(curr.left);
                 }
-
-                if (node.right != null && !set.contains(node.right)) {
-                    set.add(node.right);
-                    bfsQue.add(node.right);
+                if(curr.right!=null && !set.contains(curr.right)){
+                    bfsQue.add(curr.right);
+                    set.add(curr.right);
                 }
-
-                if (map.get(node) != null && !set.contains(map.get(node))) {
-                    set.add(map.get(node));
-                    bfsQue.add(map.get(node));
+                if(map.containsKey(curr) && !set.contains(map.get(curr))){
+                    bfsQue.add(map.get(curr));
+                    set.add(map.get(curr));
                 }
             }
         }
