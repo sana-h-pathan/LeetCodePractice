@@ -1,0 +1,34 @@
+class Solution {
+    public int[][] updateMatrix(int[][] mat) {
+        int m = mat.length;
+        int n = mat[0].length;
+        int[][] dirs = new int[][]{{1,0},{0,1},{-1,0},{0,-1}};
+        Queue<int[]> bfsQue = new LinkedList<>();
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(mat[i][j]==0){
+                    bfsQue.add(new int[]{i,j});
+                } else{
+                    mat[i][j]=-1;
+                }
+            }
+        }
+        int level=0;
+        while(!bfsQue.isEmpty()){
+            int size = bfsQue.size();
+            level++;
+            for(int i=0;i<size;i++){
+                int[] curr = bfsQue.poll();
+                for(int[] dir: dirs){
+                    int nr = dir[0]+curr[0];
+                    int nc = dir[1]+curr[1];
+                    if(nr>=0 && nc>=0 && nr<m && nc<n && mat[nr][nc]==-1){
+                        bfsQue.add(new int[]{nr, nc});
+                        mat[nr][nc]=level;
+                    }
+                }
+            }
+        }
+        return mat;
+    }
+}
