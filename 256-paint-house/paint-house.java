@@ -1,5 +1,4 @@
-
-import java.lang.reflect.Array;class Solution {
+class Solution {
     public int minCost(int[][] costs) {
         int n = costs.length;
         int[][] dp = new int[n][4];
