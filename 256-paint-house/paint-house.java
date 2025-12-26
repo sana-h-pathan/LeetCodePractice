@@ -1,17 +1,31 @@
 class Solution {
     public int minCost(int[][] costs) {
-        if(costs==null || costs.length==0)
+        int n = costs.length;
+        if (n == 0) 
             return 0;
-        int n=costs.length;
-        int[][] dp=new int[n][3];
-        dp[0][0]=costs[0][0];
-        dp[0][1]=costs[0][1];
-        dp[0][2]=costs[0][2];
-        for(int i=1;i<n;i++){
-            dp[i][0]=costs[i][0]+Math.min(dp[i-1][1],dp[i-1][2]);
-            dp[i][1]=costs[i][1]+Math.min(dp[i-1][0],dp[i-1][2]);
-            dp[i][2]=costs[i][2]+Math.min(dp[i-1][1],dp[i-1][0]);
+
+        int[][] dp = new int[n][4]; 
+        for (int task = 0; task < 4; task++) {
+            int minVal = Integer.MAX_VALUE;
+            for (int color = 0; color < 3; color++) {
+                if (color != task) {
+                    minVal = Math.min(minVal, costs[0][color]);
+                }
+            }
+            dp[0][task] = minVal;
         }
-        return Math.min(dp[n-1][0],Math.min(dp[n-1][1],dp[n-1][2]));
+        for (int idx = 1; idx < n; idx++) {
+            for (int task = 0; task < 4; task++) {
+                int minVal = Integer.MAX_VALUE;
+                for (int color = 0; color < 3; color++) {
+                    if (color != task) {
+                        int currVal = costs[idx][color] + dp[idx - 1][color];
+                        minVal = Math.min(minVal, currVal);
+                    }
+                }
+                dp[idx][task] = minVal;
+            }
+        }
+        return dp[n - 1][3];
     }
 }
