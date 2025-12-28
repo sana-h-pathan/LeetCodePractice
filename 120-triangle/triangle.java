@@ -1,21 +1,36 @@
 class Solution {
     public int minimumTotal(List<List<Integer>> triangle) {
-        int n=triangle.size();
-        int[][] dp=new int[n][n];
-        dp[0][0]=triangle.get(0).get(0);
-        for(int i=1;i<triangle.size();i++){
-            for(int j = 0; j < triangle.get(i).size(); j++){
-                if (j == 0) 
-                    dp[i][j]=triangle.get(i).get(j) + dp[i-1][j];
-                else if (j == triangle.get(i).size() - 1)
-                    dp[i][j]=triangle.get(i).get(j) + dp[i-1][j-1];
-                else
-                    dp[i][j]=triangle.get(i).get(j) + Math.min(dp[i-1][j-1], dp[i-1][j]);
-            }
+        int n = triangle.size();
+        int[][] dp = new int[n][n];
+        for(int i=0;i<n;i++){
+            Arrays.fill(dp[i], Integer.MIN_VALUE);
         }
-        int minTotal = dp[n-1][0];
-        for (int i=0;i<n;i++)
-            minTotal = Math.min(minTotal, dp[n-1][i]);
-        return minTotal;
+        return helper(triangle, 0, 0, dp);
+    }
+    private int helper(List<List<Integer>> triangle, int i, int j,  int[][] dp){
+        if(i==triangle.size()-1){
+            return triangle.get(i).get(j);
+        }
+        if(dp[i][j]!=Integer.MIN_VALUE){
+            return dp[i][j];
+        }
+        int down = triangle.get(i).get(j)+ helper(triangle, i+1, j,dp);
+        int diagonal = triangle.get(i).get(j)+ helper(triangle, i+1, j+1, dp);
+        dp[i][j] = Math.min(down, diagonal);
+        return dp[i][j];
+
+    }
+
+    public int minimumTotal1(List<List<Integer>> triangle) {
+        return helper(triangle, 0, 0);
+    }
+    private int helper(List<List<Integer>> triangle, int i, int j){
+        if(i==triangle.size()-1){
+            return triangle.get(i).get(j);
+        }
+        int down = triangle.get(i).get(j)+ helper(triangle, i+1, j);
+        int diagonal = triangle.get(i).get(j)+ helper(triangle, i+1, j+1);
+        return Math.min(down, diagonal);
+
     }
 }
