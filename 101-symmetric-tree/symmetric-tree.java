@@ -15,24 +15,16 @@
  */
 class Solution {
     public boolean isSymmetric(TreeNode root) {
-        Queue<TreeNode> bfsQue = new LinkedList<>();
-        bfsQue.add(root.left);
-        bfsQue.add(root.right);
-        while(!bfsQue.isEmpty()){
-            TreeNode right = bfsQue.poll();
-            TreeNode left = bfsQue.poll();
-            if(left==null && right == null)
-                continue;
-            if(left==null || right==null)
-                return false;
-            if(left.val!=right.val){
-                return false;
-            }
-            bfsQue.add(left.left);
-            bfsQue.add(right.right);
-            bfsQue.add(left.right);
-            bfsQue.add(right.left);
+        return helper(root.left, root.right);
+    }
+    private boolean helper(TreeNode p, TreeNode q){
+        if(p==null && q==null)
+            return true;
+        if(p==null || q==null)
+            return false;
+        if(p.val==q.val){
+            return helper(p.left, q.right) && helper(p.right, q.left);
         }
-        return true;
+        return false;
     }
 }
