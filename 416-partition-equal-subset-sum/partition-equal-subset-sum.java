@@ -13,8 +13,33 @@ class Solution {
         for(int i=0;i<=n;i++){
             Arrays.fill(dp[i], -1);
         }
-        return helper1(nums, nums.length-1, target, dp);
+        return subsetSumToK(nums, nums.length, target);
     }
+    private boolean subsetSumToK(int[] nums,int n, int target){
+        boolean[][] dp = new boolean[n][target+1];
+        // sum = 0 is always possible (pick nothing)
+        for (int i = 0; i < n; i++) 
+            dp[i][0] = true;
+
+        // base for first element
+        if (nums[0] <= target) {
+            dp[0][nums[0]] = true;
+        }
+        
+        for(int i=1;i<n;i++){
+            for(int j=1;j<=target;j++){
+                boolean notTake = dp[i-1][j];
+                boolean take = false;
+                if(nums[i]<=j){
+                    take = dp[i-1][j-nums[i]];
+                }
+                dp[i][j] = take || notTake;
+            }
+        }
+        return dp[n-1][target];
+    }
+
+
     private boolean helper1(int[] nums, int idx, int target, int[][] dp){
         if(target==0){
             return true;
