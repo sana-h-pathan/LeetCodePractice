@@ -1,24 +1,57 @@
 class Solution {
     public int coinChange(int[] coins, int amount) {
-        int m=coins.length;
-        int n=amount;
-        int[][] dp = new int[m+1][n+1];
-        dp[0][0]=0;
-        for(int j=1;j<=n;j++){
-            dp[0][j]=amount+1;
+        int m = coins.length;
+        int[][] dp = new int[m][amount+1];
+        for(int i=0;i<m;i++){
+            Arrays.fill(dp[i], -1);
         }
-        for(int i=1;i<=m;i++){
-            for(int j=1;j<=n;j++){
-                int coinDeno=coins[i-1];
-                if(j<coinDeno){
-                    dp[i][j]=dp[i-1][j];
-                } else {
-                    dp[i][j] = Math.min(1+dp[i][j-coinDeno],dp[i-1][j]);
-                }
+        int result = helper(coins, amount, coins.length-1, dp);
+        if(result>=(int)1e9){
+            return -1;
+        }
+        return result;
+    }
+    private int helper(int[] coins, int target, int idx, int[][] dp){
+        if(idx==0){
+            if(target%coins[idx]==0){
+                return target/coins[idx];
+            } else {
+                return (int)1e9;
             }
         }
-        if(dp[m][n]==amount+1)
+        if(dp[idx][target]!=-1){
+            return dp[idx][target];
+        }
+
+        int notTake = helper(coins, target, idx-1, dp);
+        int take = Integer.MAX_VALUE;
+        if(coins[idx]<=target){
+            take = 1 + helper(coins, target-coins[idx], idx, dp);
+        }
+        return dp[idx][target] = Math.min(take, notTake);
+    }
+
+    public int coinChange2(int[] coins, int amount) {
+        int result = helper(coins, amount, coins.length-1);
+        if(result>=(int)1e9){
             return -1;
-        return dp[m][n];
+        }
+        return result;
+    }
+    private int helper(int[] coins, int target, int idx){
+        if(idx==0){
+            if(target%coins[idx]==0){
+                return target/coins[idx];
+            } else {
+                return (int)1e9;
+            }
+        }
+
+        int notTake = helper(coins, target, idx-1);
+        int take = Integer.MAX_VALUE;
+        if(coins[idx]<=target){
+            take = 1 + helper(coins, target-coins[idx], idx);
+        }
+        return Math.min(take, notTake);
     }
 }
