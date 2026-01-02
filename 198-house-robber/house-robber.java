@@ -10,7 +10,7 @@ class Solution {
         for(int i=2;i<n;i++){
             dp[i] = Math.max(dp[i-1], dp[i-2]+nums[i]);
         }
-        return helper(nums, n-1, dp);
+        return dp[n-1];
     }
 
     public int rob1(int[] nums) {
