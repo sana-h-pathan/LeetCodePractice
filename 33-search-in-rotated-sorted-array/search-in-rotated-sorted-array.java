@@ -6,13 +6,13 @@ class Solution {
             int mid = low+(high-low)/2;
             if(nums[mid]==target){
                 return mid;
-            } else if(nums[low]<=nums[mid]){ //left side sorted
+            } else if(nums[mid]>=nums[low]){ //left side sorted
                 if(nums[low]<=target && nums[mid]>target){
                     high = mid-1;
                 } else {
                     low = mid+1;
                 }
-            } else { //right side sorted
+            } else {
                 if(nums[high]>=target && nums[mid]<target){
                     low = mid+1;
                 } else {
