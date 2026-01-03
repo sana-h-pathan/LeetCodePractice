@@ -15,22 +15,16 @@ public class Codec {
 
     // Decodes a single string to a list of strings.
     public List<String> decode(String s) {
-        //5#5#/HelloWorld
         List<String> result = new ArrayList<>();
         int idx = s.indexOf("/");
-        String wl = s.substring(0, idx);
+        String wordLenString = s.substring(0, idx-1);
         String words = s.substring(idx+1);
-        String[] wordLength = wl.split("#");
-        int oldLength = 0;
-        for(String wLen: wordLength){
-            int len = Integer.parseInt(wLen);
-            if(len==0){
-                result.add("");
-            }else {
-                result.add(words.substring(oldLength, oldLength+len));
-                oldLength = oldLength+len;
-            }
-            
+        String[] wordLength = wordLenString.split("#");
+        int old =0;
+        for(String wl: wordLength){
+            int wordLen = Integer.parseInt(wl);
+            result.add(words.substring(old, old+wordLen));
+            old= old+wordLen;
         }
         return result;
     }
