@@ -1,8 +1,7 @@
 class Solution {
-    public boolean canFinish(int numCourses, int[][] prerequisites) {
-        int[] indegree = new int[numCourses];
+    public boolean canFinish(int n, int[][] prerequisites) {
+        int[] indegree = new int[n];
         HashMap<Integer, List<Integer>> map = new HashMap<>();
-        Queue<Integer> bfsQue = new LinkedList<>();
         for(int[] pre: prerequisites){
             int ind = pre[1];
             int dep = pre[0];
@@ -12,27 +11,36 @@ class Solution {
             map.get(ind).add(dep);
             indegree[dep]++;
         }
-        int completedCourse = 0;
-        for(int i=0;i<numCourses;i++){
+        int completedCourses=0;
+        Queue<Integer> bfsQue = new LinkedList<>();
+        for(int i=0;i<n;i++){
             if(indegree[i]==0){
-                completedCourse++;
                 bfsQue.add(i);
+                completedCourses++;
             }
         }
-        if(numCourses==completedCourse)
+        if(completedCourses==n){
             return true;
-        while (!bfsQue.isEmpty()) {
+        }
+        while(!bfsQue.isEmpty()){
             int curr = bfsQue.poll();
             if(map.containsKey(curr)){
-                for(int dep: map.get(curr)){
-                    indegree[dep]--;
-                    if(indegree[dep]==0){
-                        completedCourse++;
-                        bfsQue.add(dep);
+                for(int ne: map.get(curr)){
+                    indegree[ne]--;
+                    if(indegree[ne]==0){
+                        completedCourses++;
+                        if(completedCourses==n){
+                            return true;
+                        }
+                        bfsQue.add(ne);
                     }
                 }
             }
         }
-        return completedCourse==numCourses;
+        if(completedCourses==n){
+            return true;
+        } 
+        return false;
+
     }
 }
