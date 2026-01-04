@@ -8,12 +8,12 @@ class Solution {
                 return mid;
             } else if(nums[low]<=nums[mid]){
                 if(nums[low]<=target && nums[mid]>target){
-                    high=mid-1;
-                } else{
-                    low=mid+1;
+                    high = mid-1;
+                } else {
+                    low = mid+1;
                 }
             } else {
-                if(nums[mid]<target && nums[high]>=target){
+                if(nums[high]>=target && nums[mid]<target){
                     low = mid+1;
                 } else {
                     high = mid-1;
