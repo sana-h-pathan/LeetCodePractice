@@ -2,10 +2,7 @@ class Solution {
     public List<String> validateCoupons(String[] codes, String[] businessLine, boolean[] isActive) {
         List<String> result = new ArrayList<>();
         String[] priority = {"electronics", "grocery", "pharmacy", "restaurant"};
-
-        // business -> list of valid codes
         Map<String, List<String>> map = new HashMap<>();
-
         for (int i = 0; i < codes.length; i++) {
             String code = codes[i];
             String business = businessLine[i];
@@ -20,10 +17,9 @@ class Solution {
             List<String> list = map.get(business);
             if (list == null) continue;
 
-            Collections.sort(list);          // remove this line if they want original order
+            Collections.sort(list);
             result.addAll(list);
         }
-
         return result;
     }
 }
