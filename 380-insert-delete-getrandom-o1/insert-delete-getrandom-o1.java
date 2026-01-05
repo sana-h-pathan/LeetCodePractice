@@ -20,8 +20,21 @@ class RandomizedSet {
     public boolean remove(int val) {
         if(map.containsKey(val)){
             int idx = map.get(val);
-            int lastVal = numList.get(numList.size()-1);
+            int lastVal = numList.getLast();
             numList.set(idx, lastVal);
+            map.put(lastVal, idx);
+            numList.remove(numList.size()-1);
+            map.remove(val);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean remove1(int val) {
+        if(map.containsKey(val)){
+            int idx = map.get(val);
+            int lastVal = numList.getLast();
+            numList.add(idx, lastVal);
             map.put(lastVal, idx);
             numList.remove(numList.size()-1);
             map.remove(val);
