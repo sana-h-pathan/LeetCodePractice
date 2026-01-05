@@ -1,7 +1,7 @@
 class RandomizedSet {
     HashMap<Integer, Integer> map;
-    Random random;
     List<Integer> numList;
+    Random random;
     public RandomizedSet() {
         this.map = new HashMap<>();
         this.numList = new ArrayList<>();
@@ -9,26 +9,25 @@ class RandomizedSet {
     }
     
     public boolean insert(int val) {
-        if(map.containsKey(val))
+        if(map.containsKey(val)){
             return false;
-        else{
-            map.put(val, numList.size());
-            numList.add(numList.size(),val);
-            return true;
         }
+        map.put(val, numList.size());
+        numList.add(map.get(val), val);
+        return true;
     }
     
     public boolean remove(int val) {
-        if(!map.containsKey(val)){
-            return false;
+        if(map.containsKey(val)){
+            int idx = map.get(val);
+            int lastVal = numList.get(numList.size()-1);
+            numList.set(idx, lastVal);
+            map.put(lastVal, idx);
+            numList.remove(numList.size()-1);
+            map.remove(val);
+            return true;
         }
-        int lastVal = numList.get(numList.size()-1);
-        int valIdx = map.get(val);
-        numList.set(valIdx, lastVal);
-        map.put(lastVal, valIdx);
-        numList.remove(numList.size()-1);
-        map.remove(val);
-        return true;
+        return false;
     }
     
     public int getRandom() {
