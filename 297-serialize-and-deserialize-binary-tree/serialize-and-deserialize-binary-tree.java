@@ -14,25 +14,17 @@ public class Codec {
         if(root==null){
             return "";
         }
-        StringBuilder sb = new StringBuilder();
         Queue<TreeNode> bfsQue = new LinkedList<>();
+        StringBuilder sb = new StringBuilder();
         bfsQue.add(root);
-        int hashCount=0;
-        while(!bfsQue.isEmpty() && hashCount<bfsQue.size()){
+        while(!bfsQue.isEmpty()){
             TreeNode curr = bfsQue.poll();
             if(curr!=null){
                 sb.append(curr.val);
                 bfsQue.add(curr.left);
                 bfsQue.add(curr.right);
-                if(curr.left==null){
-                    hashCount++;
-                }
-                if(curr.right==null){
-                    hashCount++;
-                }
             } else {
                 sb.append("#");
-                hashCount--;
             }
             sb.append(",");
         }
@@ -44,22 +36,23 @@ public class Codec {
         if(data.length()==0){
             return null;
         }
-        String[] values = data.split(",");
         int idx=0;
-        int rootVal = Integer.parseInt(values[idx]);
-        idx++;
-        TreeNode root = new TreeNode(rootVal);
+        String[] dataVal = data.split(",");
         Queue<TreeNode> bfsQue = new LinkedList<>();
+        int rootVal = Integer.parseInt(dataVal[idx++]);
+        TreeNode root = new TreeNode(rootVal);
         bfsQue.add(root);
         while(!bfsQue.isEmpty()){
             TreeNode curr = bfsQue.poll();
-            if(idx<values.length && !values[idx].equals("#")){
-                curr.left = new TreeNode(Integer.parseInt(values[idx]));
+            if(!dataVal[idx].equals("#")){
+                int left = Integer.parseInt(dataVal[idx]);
+                curr.left = new TreeNode(left);
                 bfsQue.add(curr.left);
             }
             idx++;
-            if(idx<values.length && !values[idx].equals("#")){
-                curr.right = new TreeNode(Integer.parseInt(values[idx]));
+            if(!dataVal[idx].equals("#")){
+                int right = Integer.parseInt(dataVal[idx]);
+                curr.right = new TreeNode(right);
                 bfsQue.add(curr.right);
             }
             idx++;
