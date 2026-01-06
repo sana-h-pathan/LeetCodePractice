@@ -15,27 +15,25 @@
  */
 class Solution {
     boolean flag;
-    TreeNode prev;
+    TreeNode prev =null;
     public boolean isValidBST(TreeNode root) {
+        if(root==null){
+            return true;
+        }
         this.flag = true;
-        if(root==null)
-            return flag;
         helper(root);
         return flag;
     }
     private void helper(TreeNode root){
-        if(root==null)
+        if(root==null){
             return;
-        if(flag){
-            helper(root.left);
         }
+        helper(root.left);
         if(prev!=null && prev.val>=root.val){
             flag=false;
             return;
         }
         prev=root;
-        if(flag){
-            helper(root.right);
-        }
+        helper(root.right);
     }
 }
