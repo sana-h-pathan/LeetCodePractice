@@ -22,20 +22,19 @@ public class Codec {
             TreeNode curr = bfsQue.poll();
             if(curr!=null){
                 sb.append(curr.val);
+                bfsQue.add(curr.left);
+                bfsQue.add(curr.right);
                 if(curr.left==null){
                     hashCount++;
                 }
                 if(curr.right==null){
                     hashCount++;
                 }
-                bfsQue.add(curr.left);
-                bfsQue.add(curr.right);
-            }else{
+            } else {
                 sb.append("#");
                 hashCount--;
             }
             sb.append(",");
-            
         }
         return sb.toString();
     }
@@ -47,11 +46,11 @@ public class Codec {
         }
         String[] values = data.split(",");
         int idx=0;
-        int rootValue = Integer.parseInt(values[idx]);
-        TreeNode root = new TreeNode(rootValue);
+        int rootVal = Integer.parseInt(values[idx]);
+        idx++;
+        TreeNode root = new TreeNode(rootVal);
         Queue<TreeNode> bfsQue = new LinkedList<>();
         bfsQue.add(root);
-        idx++;
         while(!bfsQue.isEmpty()){
             TreeNode curr = bfsQue.poll();
             if(idx<values.length && !values[idx].equals("#")){
