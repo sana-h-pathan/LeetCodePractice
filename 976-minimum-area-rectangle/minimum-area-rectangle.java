@@ -1,15 +1,15 @@
 class Solution {
     public int minAreaRect(int[][] points) {
-        HashMap<Integer, HashSet<Integer>> map = new HashMap<>();
-        for(int[] p : points){
-            int x = p[0];
-            int y = p[1];
+        HashMap<Integer, Set<Integer>> map = new HashMap<>();
+        int minArea = Integer.MAX_VALUE;
+        for(int[] point: points){
+            int x = point[0];
+            int y = point[1];
             if(!map.containsKey(x)){
                 map.put(x, new HashSet<>());
             }
             map.get(x).add(y);
         }
-        int minArea = Integer.MAX_VALUE;
         for(int i=0;i<points.length;i++){
             for(int j=i+1;j<points.length;j++){
                 int x1 = points[i][0];
@@ -19,13 +19,12 @@ class Solution {
 
                 if(x1!=x2 && y1!=y2){
                     if(map.get(x1).contains(y2) && map.get(x2).contains(y1)){
-                        int currArea = Math.abs(x2-x1) * Math.abs(y2-y1);
+                        int currArea = Math.abs(y2-y1)*Math.abs(x2-x1);
                         minArea = Math.min(minArea, currArea);
                     }
                 }
             }
         }
         return minArea == Integer.MAX_VALUE ? 0 : minArea;
-
     }
 }
