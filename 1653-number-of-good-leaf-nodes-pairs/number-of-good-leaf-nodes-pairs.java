@@ -23,7 +23,8 @@ class Solution {
     
     private List<Integer> traverseNode(TreeNode root, int distance){
         ArrayList<Integer> list = new ArrayList<>();
-        if(root == null) return list;
+        if(root == null) 
+            return list;
 
         List<Integer> left = traverseNode(root.left, distance);
         List<Integer> right = traverseNode(root.right, distance);
@@ -36,7 +37,8 @@ class Solution {
         if(!left.isEmpty() && !right.isEmpty()){
             for(Integer l : left){
                 for(Integer r : right){
-                    if(l + r <= distance) sum++;
+                    if(l + r <= distance) 
+                        sum++;
                 }
             }
         }
