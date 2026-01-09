@@ -27,8 +27,10 @@ class Solution {
     }
     
     private int checkHeight(TreeNode root){
-        if(root == null) return 0;
-        int res = Math.max(checkHeight(root.left), checkHeight(root.right))+1;
-        return res;
+        if(root == null) 
+            return 0;
+        int left = checkHeight(root.left);
+        int right = checkHeight(root.right);
+        return 1+ Math.max(left, right);
     }
 }
