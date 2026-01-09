@@ -9,7 +9,10 @@ class Solution {
             boolean status = isActive[i];
 
             if (status && code != null && code.matches("[a-zA-Z0-9_]+")) {
-                map.computeIfAbsent(business, k -> new ArrayList<>()).add(code);
+                if(!map.containsKey(business)){
+                    map.put(business, new ArrayList<>());
+                }
+                map.get(business).add(code);
             }
         }
 
