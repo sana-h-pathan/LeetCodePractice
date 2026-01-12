@@ -1,19 +1,19 @@
-//time = o(nlogn) + o(n^2)
-// space = o(n)
-
-// using greedy algorithm
-
 class Solution {
     public int[][] reconstructQueue(int[][] people) {
-        Arrays.sort(people, (a, b) -> {
-            return a[0] == b[0] ? a[1] - b[1] : b[0] - a[0];
+        Arrays.sort(people, (a,b)->{
+            if(a[0]==b[0]){
+                return a[1]-b[1];
+            }
+            return b[0]-a[0];
         });
-        
-        List<int[]> output = new ArrayList<>();
-        for(int[] p : people) {
-            output.add(p[1], p);
+        List<int[]> temp = new ArrayList<>();
+        for(int[] p: people){
+            temp.add(p[1], p);
         }
-        
-        return output.toArray(new int[people.length][2]);
+        int[][] result = new int[temp.size()][2];
+        for(int i=0;i<result.length;i++){
+            result[i] = temp.get(i);
+        }
+        return result;
     }
 }
