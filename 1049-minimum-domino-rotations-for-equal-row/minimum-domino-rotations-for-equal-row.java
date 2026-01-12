@@ -7,12 +7,12 @@ class Solution {
         return result;
     }
     private int helper(int[] tops, int[] bottoms, int target){
-        int aRot =0;
-        int bRot =0;
+        int aRot=0;
+        int bRot=0;
         for(int i=0;i<tops.length;i++){
-            if(tops[i]!=target && bottoms[i]!=target){
+            if(tops[i]!= target && bottoms[i]!=target){
                 return -1;
-            } 
+            }
             if(tops[i]!=target){
                 aRot++;
             }
