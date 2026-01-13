@@ -4,12 +4,16 @@ class Solution {
         for(String str: strs){
             char[] strChar = str.toCharArray();
             Arrays.sort(strChar);
-            String newStr = new String(strChar);
-            if(!map.containsKey(newStr)){
-                map.put(newStr, new ArrayList<>());
+            String newString = new String(strChar);
+            if(!map.containsKey(newString)){
+                map.put(newString, new ArrayList<>());
             }
-            map.get(newStr).add(str);
+            map.get(newString).add(str);
         }
-        return new ArrayList<>(map.values());
+        List<List<String>> result = new ArrayList<>();
+        for(String str: map.keySet()){
+            result.add(map.get(str));
+        }
+        return result;
     }
 }
