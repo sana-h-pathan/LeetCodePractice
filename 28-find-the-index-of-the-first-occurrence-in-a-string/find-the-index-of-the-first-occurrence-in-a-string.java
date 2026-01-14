@@ -1,28 +1,31 @@
 class Solution {
     public int strStr(String haystack, String needle) {
-        int m=haystack.length();
-        int n=needle.length();
-        long needleHash=0l;
-        long hayHash=0l;
-        long k=26l;
-        long kn = 1L;
-        
-        for (int i = 0; i < n; i++) {
-            kn *= k;
+        int m = haystack.length();
+        int n = needle.length();
+        if(n>m){
+            return -1;
         }
+        long k = 26L;
+        long nHash = 0L;
+        long hHash = 0L;
+        long pwr = 1L;
         for(int i=0;i<n;i++){
-            char c=needle.charAt(i);
-            needleHash=needleHash*k + (c-'a' + 1);
+            pwr*=k;
+        }
+        for(int i = 0;i<n;i++){
+            int ch = (needle.charAt(i)-'a')+1; //as a starts from 0 to avoid it add 1
+            nHash = nHash*k+ch;
         }
         for(int i=0;i<m;i++){
-            char in=haystack.charAt(i);
-            hayHash=hayHash*k + (in-'a' + 1);
+            int in = (haystack.charAt(i)-'a')+1;
+            hHash = hHash*k+in;
             if(i>=n){
-                char out=haystack.charAt(i-n);
-                hayHash=hayHash - ((out-'a' + 1) * kn);
+                int out = (haystack.charAt(i-n)-'a')+1;
+                hHash = hHash - (out*pwr);
             }
-            if(hayHash==needleHash)
+            if(hHash == nHash){
                 return i-n+1;
+            }
         }
         return -1;
     }
