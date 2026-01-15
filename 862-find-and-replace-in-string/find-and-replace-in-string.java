@@ -2,9 +2,9 @@ class Solution {
     public String findReplaceString(String s, int[] indices, String[] sources, String[] targets) {
         HashMap<Integer, Integer> map = new HashMap<>();
         for(int i=0;i<indices.length;i++){
-            int idx = indices[i];
-            String src = sources[i];
-            if(s.startsWith(src, idx)){
+            int idx=indices[i];
+            String source = sources[i];
+            if(s.startsWith(source, idx)){
                 map.put(idx, i);
             }
         }
