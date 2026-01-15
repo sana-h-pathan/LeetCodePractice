@@ -1,32 +1,32 @@
 class Solution {
     public int calculate(String s) {
-        int n = s.length();
+        int n=s.length();
+        char lastSign ='+';
+        int currNum=0;
+        int sum=0;
         Stack<Integer> stk = new Stack<>();
-        char lastSign = '+';
-        int curr = 0;
-        int result =0;
         for(int i=0;i<s.length();i++){
             char ch = s.charAt(i);
             if(Character.isDigit(ch)){
-                curr = curr*10+ch - '0';
+                currNum=currNum*10+ch-'0';
             }
-            if((!Character.isDigit(ch) && ch!= ' ') || i==n-1){
+            if((!Character.isDigit(ch) && ch!=' ')||i==n-1){
                 if(lastSign=='+'){
-                    stk.push(+curr);
+                    stk.push(+currNum);
                 } else if(lastSign=='-'){
-                    stk.push(-curr);
+                    stk.push(-currNum);
                 } else if(lastSign=='*'){
-                    stk.push(stk.pop() * curr);
+                    stk.push(stk.pop()*currNum);
                 } else if(lastSign=='/'){
-                    stk.push(stk.pop()/curr);
+                    stk.push(stk.pop()/currNum);
                 }
-                curr=0;
-                lastSign=ch;
+                currNum = 0;
+                lastSign = ch;
             }
         }
         while(!stk.isEmpty()){
-            result+=stk.pop();
+            sum+=stk.pop();
         }
-        return result;
+        return sum;
     }
 }
