@@ -15,15 +15,8 @@ class Solution {
                 int index = map.get(i);
                 String source = sources[index];
                 String target = targets[index];
-
-                // Check if the source string matches the substring in s
-                if (s.startsWith(source, i)) {
-                    sb.append(target); // Replace with target
-                    i += source.length(); // Skip over the source string
-                } else {
-                    sb.append(s.charAt(i)); // If it doesn't match, just append the current character
-                    i++;
-                }
+                sb.append(target); // Replace with target
+                i += source.length(); // Skip over the source string
             }
         }
         return sb.toString();
