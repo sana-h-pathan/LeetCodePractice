@@ -2,27 +2,27 @@ class LFUCache {
     class Node{
         int key;
         int value;
+        int freq;
         Node prev;
         Node next;
-        int freq;
         public Node(int key, int value){
             this.key = key;
             this.value = value;
             this.freq = 1;
         }
     }
-    
-    class NodeList{
+
+    class DLList{
         Node head;
         Node tail;
         int size;
-        public NodeList(){
+        public DLList(){
             this.head = new Node(-1, -1);
             this.tail = new Node(-1,-1);
             this.head.next = tail;
             this.tail.prev = head;
         }
-        public void addToHead(Node curr){
+        private void addToHead(Node curr){
             Node temp = head.next;
             head.next = curr;
             curr.prev = head;
@@ -31,20 +31,21 @@ class LFUCache {
             this.size++;
         }
         private void removeNode(Node curr){
-            curr.next.prev = curr.prev;
             curr.prev.next = curr.next;
+            curr.next.prev = curr.prev;
             this.size--;
         }
     }
+
     HashMap<Integer, Node> nodeMap;
-    HashMap<Integer, NodeList> freqMap;
-    int capacity;
+    HashMap<Integer, DLList> freqMap;
     int min;
+    int capacity;
 
     public LFUCache(int capacity) {
+        this.capacity=capacity;
         this.nodeMap = new HashMap<>();
         this.freqMap = new HashMap<>();
-        this.capacity = capacity;
     }
     
     public int get(int key) {
@@ -54,22 +55,8 @@ class LFUCache {
         Node curr = nodeMap.get(key);
         update(curr);
         return curr.value;
-        
     }
     
-    private void update(Node curr){
-        int oldFreq = curr.freq;
-        NodeList nl = freqMap.get(curr.freq);
-        nl.removeNode(curr);
-        if(oldFreq==min && nl.size==0){
-            min++;
-        }
-        curr.freq++;
-        int newCount = curr.freq;
-        NodeList newFreqList = freqMap.getOrDefault(newCount, new NodeList());
-        newFreqList.addToHead(curr);
-        freqMap.put(newCount, newFreqList);
-    }
     public void put(int key, int value) {
         if(nodeMap.containsKey(key)){
             Node curr = nodeMap.get(key);
@@ -77,19 +64,32 @@ class LFUCache {
             curr.value = value;
         } else {
             if(nodeMap.size()==capacity){
-                //remove least freq node
-                NodeList list = freqMap.get(min);
-                Node toRemove = list.tail.prev;
-                list.removeNode(toRemove);
+                DLList removeList = freqMap.get(min);
+                Node toRemove = removeList.tail.prev;
+                removeList.removeNode(toRemove);
                 nodeMap.remove(toRemove.key);
             }
             Node newNode = new Node(key, value);
             min=1;
-            NodeList nodeList = freqMap.getOrDefault(min, new NodeList());
-            nodeList.addToHead(newNode);
-            freqMap.put(min, nodeList);
+            DLList newList = freqMap.getOrDefault(min, new DLList());
+            newList.addToHead(newNode);
             nodeMap.put(key, newNode);
+            freqMap.put(min, newList);
         }
+        
+    }
+    private void update(Node curr){
+        int oldFreq = curr.freq;
+        DLList oldFreqList = freqMap.get(oldFreq);
+        oldFreqList.removeNode(curr);
+        if(oldFreq == min && oldFreqList.size==0){
+            min++;
+        }
+        curr.freq++;
+        int newFreq = curr.freq;
+        DLList newFreqList = freqMap.getOrDefault(newFreq, new DLList());
+        newFreqList.addToHead(curr);
+        freqMap.put(newFreq, newFreqList);
     }
 }
 
