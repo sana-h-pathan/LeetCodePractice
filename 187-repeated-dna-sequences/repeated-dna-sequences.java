@@ -13,24 +13,30 @@ class Solution {
         charMap.put('T',4);
         int hashValue=0;
         int nl = 1;
+        int k = 4;
         //here we are using 4 as we have 4 unique character and 9 because the length of string will be 9
         for(int i=0;i<9;i++){
-            nl*=4;
+            nl*=k;
         }
-        for(int i=0;i<s.length();i++){
+        int l=0;
+        int r=0;
+        while(r<s.length()){
             //process the out element first when our index reaches 10
-            if(i>=10){
-                char outChar=s.charAt(i-10);
+            if(r>=10){
+                char outChar=s.charAt(l);
                 hashValue=hashValue-charMap.get(outChar)*nl;
+                l++;
             }
             //process every in element
-            char inChar=s.charAt(i);
-            hashValue=hashValue*4+charMap.get(inChar);
+            char inChar=s.charAt(r);
+            hashValue=hashValue*k+charMap.get(inChar);
             if(allSubHash.contains(hashValue)){
-                result.add(s.substring(i-9,i+1));
+                result.add(s.substring(l,r+1));
             }
             else
                 allSubHash.add(hashValue);
+
+            r++;
             
         }
         return new ArrayList<>(result);
