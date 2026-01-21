@@ -5,15 +5,15 @@ class Solution {
             char ch = s.charAt(i);
             map.put(ch, i);
         }
+        int l = 0;
+        int r = 0;
         List<Integer> result = new ArrayList<>();
-        int startIdx = 0;
-        int endIdx = 0;
-        for(int i=0;i<s.length();i++){
+        for(int i = 0;i<s.length();i++){
             char ch = s.charAt(i);
-            endIdx = Math.max(map.get(ch), endIdx);
-            if(i==endIdx){
-                result.add(endIdx-startIdx+1);
-                startIdx = i+1;
+            r = Math.max(r, map.get(ch));
+            if(r==i){
+                result.add(r-l+1);
+                l = i+1;
             }
         }
         return result;
