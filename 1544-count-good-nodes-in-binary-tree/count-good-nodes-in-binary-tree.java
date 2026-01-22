@@ -21,7 +21,7 @@ class Solution {
         if(root.left==null && root.right==null){
             return 1;
         }
-        return helper(root,root.val);
+        return helper(root, root.val);
     }
     private int helper(TreeNode root, int max){
         int count=0;
