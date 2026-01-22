@@ -14,13 +14,13 @@
  * }
  */
 class Solution {
-    int count=0;
-    TreeNode result=null;
+    int count;
+    TreeNode result;
     public int kthSmallest(TreeNode root, int k) {
         if(root==null){
             return 0;
         }
-        count=k;
+        this.count=k;
         helper(root);
         return result.val;
     }
@@ -32,7 +32,6 @@ class Solution {
         count--;
         if(count==0){
             result=root;
-            return;
         }
         helper(root.right);
     }
