@@ -16,15 +16,17 @@
 class Solution {
     public List<List<Integer>> verticalOrder(TreeNode root) {
         List<List<Integer>> result = new ArrayList<>();
-        if(root==null)
+        if(root==null){
             return result;
+        }
+        
         HashMap<Integer, List<Integer>> map = new HashMap<>();
         Queue<TreeNode> bfsQue = new LinkedList<>();
         Queue<Integer> colQue = new LinkedList<>();
-        int min=Integer.MAX_VALUE;
-        int max=Integer.MIN_VALUE;
         bfsQue.add(root);
         colQue.add(0);
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
         while(!bfsQue.isEmpty()){
             TreeNode curr = bfsQue.poll();
             int currCol = colQue.poll();
@@ -44,7 +46,9 @@ class Solution {
             }
         }
         for(int i=min;i<=max;i++){
-            result.add(map.get(i));
+            if(map.containsKey(i)){
+                result.add(map.get(i));
+            }
         }
         return result;
     }
