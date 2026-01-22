@@ -15,11 +15,7 @@
  */
 class Solution {
     public boolean isSubtree(TreeNode root, TreeNode subRoot) {
-        if(root==null && subRoot==null)
-            return true;
-        if(root==null || subRoot==null)
-            return false;
-        Queue<TreeNode> bfsQue=new LinkedList<>();
+        Queue<TreeNode> bfsQue = new LinkedList();
         bfsQue.add(root);
         while(!bfsQue.isEmpty()){
             TreeNode curr = bfsQue.poll();
@@ -35,11 +31,16 @@ class Solution {
         }
         return false;
     }
-    public boolean isSameTree(TreeNode p, TreeNode q) {
-        if(p==null && q==null)
+    public boolean isSameTree(TreeNode p, TreeNode q){
+        if(p==null && q==null){
             return true;
-        if((p==null && q!=null) || (p!=null && q==null))
+        }
+        if(p!=null && q==null){
             return false;
+        }
+        if(p==null && q!=null){
+            return false;
+        }
         if(p.val!=q.val){
             return false;
         }
