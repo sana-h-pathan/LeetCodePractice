@@ -4,13 +4,12 @@ class Solution {
         backtrack(nums, 0, result, new ArrayList<>());
         return result;
     }
-
     private void backtrack(int[] nums, int idx, List<List<Integer>> result, List<Integer> temp){
         result.add(new ArrayList<>(temp));
         for(int i=idx;i<nums.length;i++){
             temp.add(nums[i]);
             backtrack(nums, i+1, result, temp);
             temp.remove(temp.size()-1);
-        }    
+        }
     }
 }
