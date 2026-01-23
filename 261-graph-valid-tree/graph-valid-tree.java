@@ -12,20 +12,21 @@ class Solution {
         }
         boolean[] visited = new boolean[n];
         Queue<int[]> bfsQue = new LinkedList<>();
-        bfsQue.add(new int[]{0, -1});
-        visited[0]=true;
+        bfsQue.add(new int[]{0,-1});
+        visited[0]= true;
         while(!bfsQue.isEmpty()){
             int[] curr = bfsQue.poll();
-            int node = curr[0];
+            int child = curr[0];
             int parent = curr[1];
-            for(int ne: adjList.get(node)){
+            for(int ne: adjList.get(child)){
                 if(ne==parent){
                     continue;
                 }
-                if(visited[ne])
+                if(visited[ne]){
                     return false;
-                visited[ne] = true;
-                bfsQue.add(new int[]{ne, node});
+                }
+                bfsQue.add(new int[]{ne, child});
+                visited[ne]=true;
             }
         }
         for(int i=0;i<n;i++){
