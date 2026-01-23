@@ -7,12 +7,12 @@ class Solution {
         for(int i=0;i<s.length();i++){
             char ch = s.charAt(i);
             if(Character.isDigit(ch)){
-                currNum=currNum*10+ch-'0';
+                currNum = currNum*10+ch-'0';
             } else if(ch=='['){
-                numStk.push(currNum);
-                strStk.push(currStr);
+                numStk.add(currNum);
+                strStk.add(currStr);
                 currNum = 0;
-                currStr=new StringBuilder();
+                currStr = new StringBuilder();
             } else if(ch==']'){
                 int currItr = numStk.pop();
                 StringBuilder ns = new StringBuilder();
