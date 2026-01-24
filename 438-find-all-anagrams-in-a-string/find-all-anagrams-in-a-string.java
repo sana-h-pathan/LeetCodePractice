@@ -1,6 +1,6 @@
 class Solution {
     public List<Integer> findAnagrams(String s, String p) {
-        List<Integer> result=new ArrayList<>();
+        List<Integer> result = new ArrayList<>();
         HashMap<Character, Integer> map = new HashMap<>();
         for(int i=0;i<p.length();i++){
             char ch = p.charAt(i);
@@ -8,7 +8,7 @@ class Solution {
         }
         int l=0;
         int r=0;
-        int matches=0;
+        int matches = 0;
         while(r<s.length()){
             char rChar = s.charAt(r);
             if(map.containsKey(rChar)){
