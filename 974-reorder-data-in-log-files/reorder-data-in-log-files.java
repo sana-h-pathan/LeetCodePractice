@@ -1,27 +1,33 @@
 class Solution {
     public String[] reorderLogFiles(String[] logs) {
-        Arrays.sort(logs, (String a, String b) -> {
-            String[] splitArr1 = a.split(" ", 2);
-            String[] splitArr2 = b.split(" ", 2);
-
-            boolean isDigit1 = Character.isDigit(splitArr1[1].charAt(0));
-            boolean isDigit2 = Character.isDigit(splitArr2[1].charAt(0));
-
-            if (!isDigit1 && !isDigit2) {
-                int cmp = splitArr1[1].compareTo(splitArr2[1]);
-                if (cmp == 0) {
-                    return splitArr1[0].compareTo(splitArr2[0]);
-                }
-                return cmp;
-
-            } else if (!isDigit1 && isDigit2) {
-                return -1;     // letter-log before digit-log
-            } else if (isDigit1 && !isDigit2) {
-                return 1;      // digit-log after letter-log
+        List<String> logList = new ArrayList<>();
+        List<String> digitList = new ArrayList<>();
+        for(String log: logs){
+            String[] splitLogs = log.split(" ");
+            if(Character.isDigit(splitLogs[1].charAt(0))){
+                digitList.add(log);
             } else {
-                return 0;      // both digit-logs → keep order (stable sort)
+                logList.add(log);
             }
+        }
+        Collections.sort(logList, (String a,String b)->{
+            String[] log1 = a.split(" ", 2);
+            String[] log2 = b.split(" ", 2);
+            int comp = log1[1].compareTo(log2[1]);
+            if(comp==0){
+                return log1[0].compareTo(log2[0]);
+            }
+            return comp;
         });
+        int i=0;
+        for(String log: logList){
+            logs[i]=log;
+            i++;
+        }
+        for(String log: digitList){
+            logs[i]=log;
+            i++;
+        }
         return logs;
     }
 }
