@@ -29,28 +29,26 @@ class WordDictionary {
     }
 
     private boolean helper(TrieNode curr, String word, int idx) {
-        if (idx == word.length()){
+        if(idx==word.length()){
             return curr.isEnd;
         }
-
         char ch = word.charAt(idx);
-        if (ch == '.') {
-            for (int i = 0; i < 26; i++) {
+        if(ch=='.'){
+            for(int i=0;i<26;i++){
                 TrieNode child = curr.children[i];
-                if (child != null && helper(child, word, idx + 1)) {
+                if(child!=null && helper(child, word, idx+1)){
                     return true;
                 }
             }
             return false;
         } else {
-            TrieNode child = curr.children[ch - 'a'];
-            if (child == null){
+            TrieNode child = curr.children[ch -'a'];
+            if(child==null){
                 return false;
-            } 
-            return helper(child, word, idx + 1);
+            }
+            return helper(child, word, idx+1);
         }
     }
-
 }
 
 /**
