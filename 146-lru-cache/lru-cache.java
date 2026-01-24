@@ -9,17 +9,16 @@ class LRUCache {
             this.value = value;
         }
     }
-
-    int capacity;
     HashMap<Integer, Node> map;
+    int capacity;
     Node head;
     Node tail;
 
     public LRUCache(int capacity) {
-        this.map=new HashMap<>();
-        this.capacity=capacity;
-        this.head = new Node(-1,-1);
-        this.tail = new Node(-1,-1);
+        this.map = new HashMap<>();
+        this.capacity = capacity;
+        this.head = new Node(-1, -1);
+        this.tail = new Node(-1, -1);
         this.head.next = tail;
         this.tail.prev = head;
     }
@@ -29,7 +28,7 @@ class LRUCache {
             return -1;
         }
         Node curr = map.get(key);
-        removeNode(curr);
+        removeHead(curr);
         addToHead(curr);
         return curr.value;
     }
@@ -37,32 +36,30 @@ class LRUCache {
     public void put(int key, int value) {
         if(map.containsKey(key)){
             Node curr = map.get(key);
-            removeNode(curr);
+            removeHead(curr);
             curr.value = value;
             addToHead(curr);
         } else {
             if(map.size()==capacity){
-                Node remNode = tail.prev;
-                removeNode(remNode);
-                map.remove(remNode.key);
+                Node toRemove = tail.prev;
+                removeHead(toRemove);
+                map.remove(toRemove.key);
             }
-            Node curr = new Node(key, value);
-            addToHead(curr);
-            map.put(key, curr);
+            Node newNode = new Node(key, value);
+            addToHead(newNode);
+            map.put(key, newNode);
         }
     }
-    private void removeNode(Node curr){
-        curr.prev.next = curr.next;
+    private void removeHead(Node curr){
         curr.next.prev = curr.prev;
-        
+        curr.prev.next = curr.next;
     }
     private void addToHead(Node curr){
         Node temp = head.next;
-        head.next=curr;
-        curr.prev=head;
-        curr.next=temp;
-        temp.prev=curr;
-
+        head.next = curr;
+        curr.prev = head;
+        curr.next = temp;
+        curr.next.prev = curr;
     }
 }
 
