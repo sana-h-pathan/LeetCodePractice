@@ -4,12 +4,9 @@ class WordDictionary {
         boolean isEnd;
         public TrieNode(){
             this.children = new TrieNode[26];
-            this.isEnd = false;
         }
     }
-
     TrieNode root;
-
     public WordDictionary() {
         this.root = new TrieNode();
     }
@@ -18,8 +15,8 @@ class WordDictionary {
         TrieNode curr = root;
         for(int i=0;i<word.length();i++){
             char ch = word.charAt(i);
-            if(curr.children[ch - 'a']==null){
-                curr.children[ch -'a'] = new TrieNode();
+            if(curr.children[ch-'a']==null){
+                curr.children[ch-'a']= new TrieNode();
             }
             curr = curr.children[ch-'a'];
         }
@@ -28,29 +25,32 @@ class WordDictionary {
     
     public boolean search(String word) {
         TrieNode curr = root;
-        return helper(word, curr, 0);
+        return helper(curr, word, 0);
     }
-    private boolean helper(String word, TrieNode curr, int idx){
-        if(word.length()==idx){
+
+    private boolean helper(TrieNode curr, String word, int idx) {
+        if (idx == word.length()){
             return curr.isEnd;
         }
+
         char ch = word.charAt(idx);
-        if(ch=='.'){
-            for(int i=0;i<26;i++){
-                if(curr.children[i]!=null){
-                    if(helper(word, curr.children[i], idx+1))
-                        return true;
+        if (ch == '.') {
+            for (int i = 0; i < 26; i++) {
+                TrieNode child = curr.children[i];
+                if (child != null && helper(child, word, idx + 1)) {
+                    return true;
                 }
             }
-
+            return false;
         } else {
-            if(curr.children[ch - 'a']==null){
+            TrieNode child = curr.children[ch - 'a'];
+            if (child == null){
                 return false;
-            }
-            return helper(word, curr.children[ch-'a'], idx+1);
+            } 
+            return helper(child, word, idx + 1);
         }
-        return false;
     }
+
 }
 
 /**
