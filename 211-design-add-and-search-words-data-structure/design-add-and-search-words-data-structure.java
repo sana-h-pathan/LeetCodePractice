@@ -56,7 +56,7 @@ class WordDictionary {
             // consume one char AND move forward in pattern
             for(int i=0;i<26;i++){
                 TrieNode child = curr.children[i];
-                if(child != null && helper(word, child, idx + 1)){
+                if(child != null && helper(word, child, idx)){
                     return true;
                 }
             }
