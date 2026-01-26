@@ -1,66 +1,65 @@
 class Solution {
     List<List<String>> result;
     public List<List<String>> solveNQueens(int n) {
-        this.result=new ArrayList<>();
-        char[][] board=new char[n][n];
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
-                board[i][j] = '.';
+        this.result = new ArrayList<>();
+        char[][] board = new char[n][n];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                board[i][j]='.';
             }
         }
-        backTrack(board,0,n);
+        backtrack(board, 0, n);
         return result;
     }
-
-    private void backTrack(char[][] board, int idx,int n){
-        //base case
+    private void backtrack(char[][] board, int idx, int n){
         if(idx==n){
             result.add(buildResult(board));
             return;
         }
-        //logic
-        for(int i=0;i<n;i++){
-            if(isSafe(board, idx, i)){
-                board[idx][i]='Q';
-                backTrack(board, idx+1, n);
-                board[idx][i]='.';
+
+        for(int j=0;j<n;j++){
+            if(isSafe(board, idx, j)){
+                board[idx][j]='Q';
+                backtrack(board, idx+1, n);
+                board[idx][j]='.';
             }
         }
     }
-
-    private List<String> buildResult(char[][] board){
-        List<String> internal = new ArrayList<>();
-        for (int i = 0; i < board.length; i++) {
-            String row = new String(board[i]);
-            internal.add(row);
-        }
-        return internal;
-    }
-
     private boolean isSafe(char[][] board, int r, int c){
-        //chk if column has Queen
+        //chk if it exist in above column
         for(int i=0;i<r;i++){
-            if(board[i][c]=='Q')
+            if(board[i][c]=='Q'){
                 return false;
+            }
         }
-        //chk upper left diagonal 
-        int nr=r;
-        int nc=c;
+        //check in upper left diagonal
+        int nr = r;
+        int nc = c;
         while(nr>=0 && nc>=0){
-            if(board[nr][nc]=='Q')
+            if(board[nr][nc]=='Q'){
                 return false;
+            }
             nr--;
             nc--;
         }
-        //chk upper right diagonal 
-        nr=r;
-        nc=c;
+        nr = r;
+        nc = c;
         while(nr>=0 && nc<board.length){
-            if(board[nr][nc]=='Q')
+            if(board[nr][nc]=='Q'){
                 return false;
+            }
             nr--;
             nc++;
         }
         return true;
+    }
+
+    private List<String> buildResult(char[][] board){
+        List<String> temp = new ArrayList<>();
+        for(int i=0;i<board.length;i++){
+            String row = new String(board[i]);
+            temp.add(row);
+        }
+        return temp;
     }
 }
