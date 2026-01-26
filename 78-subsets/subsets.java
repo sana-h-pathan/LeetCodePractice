@@ -4,7 +4,7 @@ class Solution {
         backtrack(nums, 0, result, new ArrayList<>());
         return result;
     }
-    private void backtrack(int[] nums, int idx, List<List<Integer>> result, List<Integer> temp){
+    private void backtrack(int[] nums, int idx,  List<List<Integer>> result, ArrayList<Integer> temp){
         result.add(new ArrayList<>(temp));
         for(int i=idx;i<nums.length;i++){
             temp.add(nums[i]);
