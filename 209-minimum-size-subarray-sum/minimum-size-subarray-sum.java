@@ -7,8 +7,8 @@ class Solution {
         while(r<nums.length){
             sum+=nums[r];
             while(sum>=target){
-                sum-=nums[l];
                 minLength = Math.min(minLength, r-l+1);
+                sum-=nums[l];
                 l++;
             }
             r++;
