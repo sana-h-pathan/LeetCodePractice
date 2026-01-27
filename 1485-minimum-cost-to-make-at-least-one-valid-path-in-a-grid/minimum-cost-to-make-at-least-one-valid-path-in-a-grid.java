@@ -1,5 +1,4 @@
 class Solution {
-
     // Direction vectors: right, left, down, up (matching grid values 1,2,3,4)
     int[][] dirs = {{0,1},{0,-1},{1,0},{-1,0}};
 
@@ -20,34 +19,26 @@ class Solution {
 
         while (!deque.isEmpty()) {
             int[] curr = deque.pollFirst();
-            int r = curr[0];
-            int c = curr[1];
-
             // Try all four directions
-            for (int dir = 0; dir < 4; dir++) {
-                int nr = r + dirs[dir][0];
-                int nc = c + dirs[dir][1];
-                int cost = (grid[r][c] != (dir + 1)) ? 1 : 0;
+            for (int d=0;d<4;d++) {
+                int nr = curr[0] + dirs[d][0];
+                int nc = curr[1] + dirs[d][1];
+                int cost = (grid[curr[0]][curr[1]]!=(d+1))?1:0;
 
                 // If position is valid and we found a better path
-                if (isValid(nr,nc,m,n) && minCost[r][c]+cost<minCost[nr][nc]) {
-                    minCost[nr][nc] = minCost[r][c]+cost;
-
-                    // Add to back if cost=1, front if cost=0
-                    if (cost==1){
-                        deque.offerLast(new int[]{nr,nc});
-                    } else {
-                        deque.offerFirst(new int[]{nr,nc});
+                if (nr>=0 && nc>=0 && nr<m && nc<n){
+                    if(minCost[curr[0]][curr[1]]+cost<minCost[nr][nc]){
+                        minCost[nr][nc] = minCost[curr[0]][curr[1]]+cost;
+                        // Add to back if cost=1, front if cost=0
+                        if (cost==1){
+                            deque.offerLast(new int[]{nr,nc});
+                        } else {
+                            deque.offerFirst(new int[]{nr,nc});
+                        }
                     }
                 }
             }
         }
-
         return minCost[m-1][n-1];
-    }
-
-    // Check if coordinates are within grid bounds
-    private boolean isValid(int r,int c,int nr,int nc) {
-        return r>=0 && r<nr && c>=0 && c<nc;
     }
 }
