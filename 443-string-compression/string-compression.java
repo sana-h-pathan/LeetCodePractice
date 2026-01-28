@@ -1,6 +1,5 @@
 class Solution {
     public int compress(char[] chars) {
-        List<String> temp=new ArrayList<>();
         if(chars.length==1)
             return 1;
         int slow=0;
