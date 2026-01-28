@@ -16,15 +16,15 @@ class Solution {
     }
 
     private int dfs(int[][] grid, int r, int c){
-        if(r<0 || c<0 || r==m || c==n||grid[r][c]==0 )
-            return 0;
         int val=grid[r][c];
         int temp=grid[r][c];
         grid[r][c]=0;
         for(int[] dir: dirs){
             int nr=dir[0]+r;
             int nc=dir[1]+c;
-            val = Math.max(val, temp + dfs(grid, nr, nc));
+            if(nr>=0 && nc>=0 && nr<m && nc<n && grid[nr][nc]!=0){
+                val = Math.max(val, temp + dfs(grid, nr, nc));
+            } 
         }
         grid[r][c]=temp;
         return val;
