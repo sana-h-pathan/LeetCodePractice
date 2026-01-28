@@ -1,27 +1,27 @@
 class Solution {
     public int compress(char[] chars) {
-        if(chars.length==1)
+        if(chars.length==1){
             return 1;
-        int slow=0;
-        int fast=0;
+        }
+        int l=0;
+        int r=0;
         int i=0;
-        int n= chars.length;
-        while(fast<n){
-            char c=chars[fast];
-            while(fast<n && chars[fast]==chars[slow]){
-                fast++;
+        int n = chars.length;
+        while(r<n){
+            char ch = chars[r];
+            while(r<n && chars[l]==chars[r]){
+                r++;
             }
-            chars[i++]=c;
-            int count = fast - slow;
-            if (count > 1) {
+            chars[i++] = ch;
+            int count = r-l;
+            if(count>1){
                 String cntStr = String.valueOf(count);
-                for (char digit : cntStr.toCharArray()) {
-                    chars[i++] = digit;
+                for(char c: cntStr.toCharArray()){
+                    chars[i++]=c;
                 }
             }
-            slow=fast;
+            l=r;
         }
         return i;
-        
     }
 }
