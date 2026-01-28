@@ -1,35 +1,35 @@
 class Solution {
     public String minWindow(String s, String t) {
-        if(t.length()>s.length())
+        if(t.length()>s.length()){
             return "";
+        }
         HashMap<Character, Integer> map = new HashMap<>();
-        for(int i=0;i<t.length();i++){
-            char ch = t.charAt(i);
+        for(char ch: t.toCharArray()){
             map.put(ch, map.getOrDefault(ch, 0)+1);
         }
-        int currentMatches = t.length();
-        int reqdMatches = 0;
-        int sIdx=-1;
         int l=0;
         int r=0;
+        int reqdMatches=t.length();
+        int currMatches=0;
+        int sIdx=-1;
         int minLength = Integer.MAX_VALUE;
         while(r<s.length()){
             char rChar = s.charAt(r);
-            if(map.getOrDefault(rChar,0)>0){
-                reqdMatches++;
+            if(map.getOrDefault(rChar, 0)>0){
+                currMatches++;
             }
             map.put(rChar, map.getOrDefault(rChar, 0)-1);
-            while(reqdMatches==currentMatches){
+            while(currMatches==reqdMatches){
                 if(r-l+1<minLength){
-                    minLength = Math.min(r-l+1, minLength);
+                    minLength = r-l+1;
                     sIdx=l;
                 }
                 char lChar = s.charAt(l);
                 map.put(lChar, map.getOrDefault(lChar, 0)+1);
-                if(map.getOrDefault(lChar, 0)>0){
-                    reqdMatches--;
+                if(map.get(lChar)>0){
+                    currMatches--;
                 }
-                l++; 
+                l++;
             }
             r++;
         }
