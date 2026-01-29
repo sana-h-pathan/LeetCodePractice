@@ -6,10 +6,10 @@ class Solution {
         List<int[]> result = new ArrayList<>();
         for(int[] interval: intervals){
             if(interval[0]<=end){
-                end = Math.max(interval[1], end);
+                end = Math.max(end, interval[1]);
             } else {
                 result.add(new int[]{start, end});
-                start=interval[0];
+                start = interval[0];
                 end = interval[1];
             }
         }
