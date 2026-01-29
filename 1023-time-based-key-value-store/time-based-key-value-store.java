@@ -17,8 +17,8 @@ class TimeMap {
             return "";
         }
         List<Pair<Integer, String>> list = map.get(key);
-        int low =0;
         int high = list.size();
+        int low = 0;
         while(low<high){
             int mid = low+(high-low)/2;
             if(list.get(mid).getKey()<=timestamp){
@@ -30,8 +30,8 @@ class TimeMap {
         if(high==0){
             return "";
         }
-        
         return list.get(high-1).getValue();
+        
     }
 }
 
