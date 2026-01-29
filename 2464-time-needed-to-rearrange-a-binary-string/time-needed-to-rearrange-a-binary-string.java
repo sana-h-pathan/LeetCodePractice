@@ -1,14 +1,13 @@
 class Solution {
     public int secondsToRemoveOccurrences(String s) {
-        int zeros = 0;
+        int zeroCnt = 0;
         int time = 0;
-
-        for (char c : s.toCharArray()) {
-            if (c == '0') {
-                zeros++;
+        for(char ch: s.toCharArray()){
+            if(ch=='0'){
+                zeroCnt++;
             } else {
-                if (zeros > 0) {
-                    time = Math.max(time + 1, zeros);
+                if(zeroCnt>0){
+                    time = Math.max(time+1, zeroCnt);
                 }
             }
         }
