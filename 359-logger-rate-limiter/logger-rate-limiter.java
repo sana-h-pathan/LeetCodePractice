@@ -1,5 +1,6 @@
 class Logger {
     HashMap<String, Integer> map;
+
     public Logger() {
         this.map = new HashMap<>();
     }
@@ -9,8 +10,8 @@ class Logger {
             map.put(message, timestamp+10);
             return true;
         }
-        int currTS = map.get(message);
-        if(currTS>timestamp){
+        int currTime = map.get(message);
+        if(currTime>timestamp){
             return false;
         }
         map.put(message, timestamp+10);
