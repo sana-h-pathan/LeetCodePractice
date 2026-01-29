@@ -1,68 +1,54 @@
 class Solution {
-    int[][] dirs = {{1,0},{-1,0},{0,1},{0,-1}};
+    int n;
+    int[][] dirs;
     public int shortestBridge(int[][] grid) {
-        int n = grid.length;
-        boolean[][] visited = new boolean[n][n];
-        Queue<int[]> bfsQue = new LinkedList<>(); 
-        
-
-        // 1) DFS to find and mark the first island
+        this.n = grid.length;
+        this.dirs = new int[][]{{1,0},{0,1},{-1,0},{0,-1}};
         boolean found = false;
-        for (int r = 0; r < n && !found; r++) {
-            for (int c = 0; c < n && !found; c++) {
-                if (grid[r][c] == 1) {
-                    dfs(grid, r, c, visited, bfsQue);
-                    found = true;
+        Queue<int[]> bfsQue = new LinkedList<>();
+        boolean[][] visited = new boolean[n][n];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(!found && grid[i][j]==1){
+                    visited[i][j]=true;
+                    found=true;
+                    helper(grid, i, j, bfsQue, visited);
                 }
             }
         }
-
-        // 2) BFS to expand until reaching the second island
-        int steps = 0;
-        while (!bfsQue.isEmpty()) {
+        int gap=0;
+        while(!bfsQue.isEmpty()){
             int size = bfsQue.size();
-            for (int i = 0; i < size; i++) {
+            for(int i=0;i<size;i++){
                 int[] curr = bfsQue.poll();
-                for (int[] dir : dirs) {
-                    int nr = curr[0] + dir[0];
-                    int nc = curr[1] + dir[1];
-                    if (nr >= 0 && nc >= 0 && nr < n && nc < n) {
+                for(int[] dir: dirs){
+                    int nr = dir[0]+curr[0];
+                    int nc = dir[1]+curr[1];
+                    if(nr>=0 && nc>=0 && nr<n && nc<n && !visited[nr][nc]){
+                        if(!visited[nr][nc] && grid[nr][nc]==1){
+                            return gap;
+                        }
                         if(visited[nr][nc]){
                             continue;
-                        } 
-
-                        // reached second island
-                        if (grid[nr][nc] == 1) {
-                            return steps;
                         }
-                        // expand into water
-                        visited[nr][nc] = true;
-                        bfsQue.offer(new int[]{nr, nc});
+                        bfsQue.add(new int[]{nr, nc});
+                        visited[nr][nc]=true;
                     }
                 }
             }
-            steps++;
+            gap++;
         }
-        return -1; // guaranteed not to happen
+        return gap;
     }
-
-    private void dfs(int[][] grid, int r, int c, boolean[][] visited, Queue<int[]> bfsQue) {
-        int n = grid.length;
-        if (r >= 0 && c >= 0 && r < n && c < n) {
-            if (visited[r][c]) 
-                return;
-            if (grid[r][c] != 1) 
-                return;
-
-            visited[r][c] = true;
-            bfsQue.offer(new int[]{r, c}); // add island cell as BFS source
-
-            for (int[] dir : dirs) {
-                int nr = r+dir[0];
-                int nc = c+dir[1];
-                dfs(grid,nr, nc, visited, bfsQue);
+    private void helper(int[][] grid, int i, int j, Queue<int[]> bfsQue, boolean[][] visited){
+        bfsQue.add(new int[]{i,j});
+        for(int[] dir: dirs){
+            int nr = dir[0]+i;
+            int nc = dir[1]+j;
+            if(nr>=0 && nc>=0 && nr<n && nc<n && grid[nr][nc]==1 && !visited[nr][nc]){
+                visited[nr][nc]=true;
+                helper(grid, nr, nc, bfsQue, visited);
             }
         }
     }
-
 }
