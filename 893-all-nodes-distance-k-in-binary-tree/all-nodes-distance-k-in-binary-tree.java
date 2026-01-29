@@ -29,21 +29,21 @@ class Solution {
             }
         }
 
-        Map<Integer, Integer> visited = new HashMap<>();
+        Set<TreeNode> visited = new HashSet<>();
         bfsQue.add(target);
         while (k > 0 && !bfsQue.isEmpty()) {
             int size = bfsQue.size();
             for (int i = 0; i < size; i++) {
                 TreeNode curr = bfsQue.poll();
-                visited.put(curr.val, 1);
-                if (curr.left != null && !visited.containsKey(curr.left.val)) {
-                    bfsQue.offer(curr.left);
+                visited.add(curr);
+                if (curr.left != null && !visited.contains(curr.left)) {
+                    bfsQue.add(curr.left);
                 }
-                if (curr.right != null && !visited.containsKey(curr.right.val)) {
-                    bfsQue.offer(curr.right);
+                if (curr.right != null && !visited.contains(curr.right)) {
+                    bfsQue.add(curr.right);
                 }
-                if (map.containsKey(curr.val) && !visited.containsKey(map.get(curr.val).val)) {
-                    bfsQue.offer(map.get(curr.val));
+                if (map.containsKey(curr.val) && !visited.contains(map.get(curr.val))) {
+                    bfsQue.add(map.get(curr.val));
                 }
             }
             k--;
