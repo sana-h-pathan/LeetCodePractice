@@ -1,8 +1,7 @@
 class Solution {
     public boolean isValid(String s) {
         Stack<Character> stk = new Stack<>();
-        for(int i=0;i<s.length();i++){
-            char ch = s.charAt(i);
+        for(char ch:s.toCharArray()){
             if(ch=='('){
                 stk.push(')');
             } else if(ch=='['){
@@ -10,7 +9,7 @@ class Solution {
             } else if(ch=='{'){
                 stk.push('}');
             } else {
-                if(stk.isEmpty() || stk.pop()!=ch){
+                if(stk.isEmpty() || ch!=stk.pop()){
                     return false;
                 }
             }
