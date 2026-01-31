@@ -1,9 +1,9 @@
 class Solution {
     public int characterReplacement(String s, int k) {
         int maxFreq=0;
+        HashMap<Character, Integer> map = new HashMap<>();
         int l=0;
         int r=0;
-        HashMap<Character, Integer> map = new HashMap<>();
         int maxLength=0;
         while(r<s.length()){
             char rChar = s.charAt(r);
@@ -17,7 +17,7 @@ class Solution {
                 }
                 l++;
             }
-            maxLength=Math.max(maxLength, r-l+1);
+            maxLength = Math.max(r-l+1, maxLength);
             r++;
         }
         return maxLength;
