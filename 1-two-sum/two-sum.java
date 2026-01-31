@@ -6,10 +6,10 @@ class Solution {
             int compliment = target-nums[i];
             if(map.containsKey(compliment)){
                 result[0]=i;
-                result[1] = map.get(compliment);
+                result[1]=map.get(compliment);
                 return result;
             }
-            map.put(nums[i],i);
+            map.put(nums[i], i);
         }
         return result;
     }
