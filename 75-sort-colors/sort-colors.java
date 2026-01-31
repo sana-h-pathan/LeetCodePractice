@@ -4,13 +4,13 @@ class Solution {
         int r = nums.length-1;
         int mid = 0;
         while(mid<=r){
-            if(nums[mid]==2){
-                swap(nums, mid, r);
-                r--;
-            } else if(nums[mid]==0){
-                swap(nums, mid, l);
+            if(nums[mid]==0){
+                swap(nums, mid,l);
                 l++;
                 mid++;
+            } else if(nums[mid]==2){
+                swap(nums, mid, r);
+                r--;
             } else {
                 mid++;
             }
