@@ -16,7 +16,7 @@ class AuthenticationManager {
     public AuthenticationManager(int timeToLive) {
         this.ttl = timeToLive;
         this.expiryByToken = new HashMap<>();
-        this.minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> a.expiry));
+        this.minHeap = new PriorityQueue<>((a,b)->a.expiry-b.expiry);
     }
 
     public void generate(String tokenId, int currentTime) {
