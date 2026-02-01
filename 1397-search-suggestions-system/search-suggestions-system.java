@@ -1,13 +1,13 @@
 class Solution {
-    class TrieNode {
+    class TrieNode{
         TrieNode[] children;
-        List<String> suggestedString;
+        List<String> wordList;
         public TrieNode(){
             this.children = new TrieNode[26];
-            suggestedString = new ArrayList<>();
+            this.wordList = new ArrayList<>();
         }
     }
-    TrieNode root;
+    TrieNode root = new TrieNode();
     private void insert(String word){
         TrieNode curr = root;
         for(int i=0;i<word.length();i++){
@@ -16,27 +16,26 @@ class Solution {
                 curr.children[ch-'a'] = new TrieNode();
             }
             curr = curr.children[ch-'a'];
-            if(curr.suggestedString.size()<3){
-                curr.suggestedString.add(word);
+            if(curr.wordList.size()<3){
+                curr.wordList.add(word);
             }
         }
     }
-    public List<List<String>> suggestedProducts(String[] products, String word) {
-        this.root = new TrieNode();
+    public List<List<String>> suggestedProducts(String[] products, String searchWord) {
+        List<List<String>> result = new ArrayList<>();
         Arrays.sort(products);
         for(String p: products){
             insert(p);
         }
-        List<List<String>> result = new ArrayList<>();
         TrieNode curr = root;
-        boolean dead = false;
-        for(int i=0;i<word.length();i++){
-            char ch = word.charAt(i);
-            if(!dead && curr.children[ch-'a']!=null){
+        boolean found = false;
+        for(int i=0;i<searchWord.length();i++){
+            char ch = searchWord.charAt(i);
+            if(!found && curr.children[ch-'a']!=null){
                 curr = curr.children[ch-'a'];
-                result.add(curr.suggestedString);
+                result.add(curr.wordList); 
             } else {
-                dead = true;
+                found = true;
                 result.add(Collections.emptyList());
             }
         }
