@@ -16,12 +16,13 @@ class Solution {
             {"M","1000"}
         };
         StringBuilder sb = new StringBuilder();
-        for (int i = symbols.length - 1; i >= 0; i--) {
-            int currNum = Integer.parseInt(symbols[i][1]);
-            String currSym = symbols[i][0];
-            while (num >= currNum) {
-                sb.append(currSym);
-                num -= currNum;
+        for(int i=symbols.length-1;i>=0;i--){
+            String[] symbol = symbols[i];
+            int currNum = Integer.parseInt(symbol[1]);
+            String currStr = symbol[0];
+            while(currNum<=num){
+                sb.append(currStr);
+                num-=currNum;
             }
         }
         return sb.toString();
