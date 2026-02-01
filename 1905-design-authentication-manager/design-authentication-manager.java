@@ -1,30 +1,67 @@
 class AuthenticationManager {
 
-    HashMap<String, Integer> map;
-    int time;
+    private final int ttl;
+    private final Map<String, Integer> expiryByToken;
+    private final PriorityQueue<Node> minHeap; // (expiry, token)
+
+    private static class Node {
+        int expiry;
+        String token;
+        Node(int expiry, String token) {
+            this.expiry = expiry;
+            this.token = token;
+        }
+    }
+
     public AuthenticationManager(int timeToLive) {
-        map = new HashMap<>();
-        time = timeToLive;
+        this.ttl = timeToLive;
+        this.expiryByToken = new HashMap<>();
+        this.minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> a.expiry));
     }
 
     public void generate(String tokenId, int currentTime) {
-        map.put(tokenId, currentTime + time);
+        int expiry = currentTime + ttl;
+        expiryByToken.put(tokenId, expiry);
+        minHeap.offer(new Node(expiry, tokenId));
     }
 
     public void renew(String tokenId, int currentTime) {
-        int expires = map.getOrDefault(tokenId, 0);
-        if (expires > currentTime) 
-            map.put(tokenId, currentTime + time);
+        // Remove expired first so we don't renew something that should be dead
+        cleanup(currentTime);
+
+        Integer expiry = expiryByToken.get(tokenId);
+        if (expiry == null) return;              // token doesn't exist
+        if (expiry <= currentTime) return;       // expired (defensive; cleanup should have removed)
+
+        int newExpiry = currentTime + ttl;
+        expiryByToken.put(tokenId, newExpiry);
+        minHeap.offer(new Node(newExpiry, tokenId));
     }
 
     public int countUnexpiredTokens(int currentTime) {
-        int count = 0;
-        for (String key : map.keySet()){
-            if (map.get(key) > currentTime){
-                count++;
+        cleanup(currentTime);
+        return expiryByToken.size();
+    }
+
+    private void cleanup(int currentTime) {
+        // Pop heap entries that are expired OR stale (heap has older expiry than map)
+        while (!minHeap.isEmpty()) {
+            Node top = minHeap.peek();
+
+            if (top.expiry > currentTime) {
+                // earliest expiry is still valid => stop
+                break;
+            }
+
+            minHeap.poll();
+            Integer curExpiry = expiryByToken.get(top.token);
+
+            // Remove from map only if this heap entry matches the token's current expiry
+            // (otherwise it's a stale heap record from an old generate/renew)
+            if (curExpiry != null && curExpiry == top.expiry) {
+                expiryByToken.remove(top.token);
             }
         }
-        return count;
     }
 }
 
