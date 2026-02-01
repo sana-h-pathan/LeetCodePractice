@@ -1,74 +1,59 @@
 class AuthenticationManager {
 
     private final int ttl;
-    private final Map<String, Integer> expiryByToken;
-    private final PriorityQueue<Node> minHeap; // (expiry, token)
+    private final Map<String, Integer> expMap;  // token -> latest expiry
+    private final PriorityQueue<Entry> pq;      // entries sorted by expiry
 
-    private static class Node {
-        int expiry;
+    private static class Entry {
+        int exp;
         String token;
-        Node(int expiry, String token) {
-            this.expiry = expiry;
+        Entry(int exp, String token) {
+            this.exp = exp;
             this.token = token;
         }
     }
 
     public AuthenticationManager(int timeToLive) {
-        this.ttl = timeToLive;
-        this.expiryByToken = new HashMap<>();
-        this.minHeap = new PriorityQueue<>((a,b)->a.expiry-b.expiry);
+        ttl = timeToLive;
+        expMap = new HashMap<>();
+        pq = new PriorityQueue<>((a, b) -> a.exp - b.exp);
     }
 
     public void generate(String tokenId, int currentTime) {
-        int expiry = currentTime + ttl;
-        expiryByToken.put(tokenId, expiry);
-        minHeap.offer(new Node(expiry, tokenId));
+        int exp = currentTime + ttl;
+        expMap.put(tokenId, exp);
+        pq.offer(new Entry(exp, tokenId)); // keep record for cleanup later
     }
 
     public void renew(String tokenId, int currentTime) {
-        // Remove expired first so we don't renew something that should be dead
         cleanup(currentTime);
 
-        Integer expiry = expiryByToken.get(tokenId);
-        if (expiry == null) return;              // token doesn't exist
-        if (expiry <= currentTime) return;       // expired (defensive; cleanup should have removed)
+        Integer oldExp = expMap.get(tokenId);
+        if (oldExp == null) return;           // doesn't exist / already expired
+        if (oldExp <= currentTime) return;    // expired (defensive)
 
-        int newExpiry = currentTime + ttl;
-        expiryByToken.put(tokenId, newExpiry);
-        minHeap.offer(new Node(newExpiry, tokenId));
+        int newExp = currentTime + ttl;
+        expMap.put(tokenId, newExp);
+        pq.offer(new Entry(newExp, tokenId)); // old pq entry becomes stale
     }
 
     public int countUnexpiredTokens(int currentTime) {
         cleanup(currentTime);
-        return expiryByToken.size();
+        return expMap.size();
     }
 
     private void cleanup(int currentTime) {
-        // Pop heap entries that are expired OR stale (heap has older expiry than map)
-        while (!minHeap.isEmpty()) {
-            Node top = minHeap.peek();
+        // Remove expired tokens from map.
+        // pq can have stale records, so remove from map only if it matches latest expiry.
+        while (!pq.isEmpty() && pq.peek().exp <= currentTime) {
+            Entry e = pq.poll();
 
-            if (top.expiry > currentTime) {
-                // earliest expiry is still valid => stop
-                break;
+            Integer latestExp = expMap.get(e.token);
+            // If map still has same expiry as this pq record => token truly expired now
+            if (latestExp != null && latestExp == e.exp) {
+                expMap.remove(e.token);
             }
-
-            minHeap.poll();
-            Integer curExpiry = expiryByToken.get(top.token);
-
-            // Remove from map only if this heap entry matches the token's current expiry
-            // (otherwise it's a stale heap record from an old generate/renew)
-            if (curExpiry != null && curExpiry == top.expiry) {
-                expiryByToken.remove(top.token);
-            }
+            // else: stale record (token was renewed) OR token already removed -> ignore
         }
     }
 }
-
-/**
- * Your AuthenticationManager object will be instantiated and called as such:
- * AuthenticationManager obj = new AuthenticationManager(timeToLive);
- * obj.generate(tokenId,currentTime);
- * obj.renew(tokenId,currentTime);
- * int param_3 = obj.countUnexpiredTokens(currentTime);
- */
