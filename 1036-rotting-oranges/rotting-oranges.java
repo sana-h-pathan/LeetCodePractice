@@ -5,6 +5,7 @@ class Solution {
         int[][] dirs = new int[][]{{1,0},{0,1},{-1,0},{0,-1}};
         int freshOranges=0;
         Queue<int[]> bfsQue = new LinkedList<>();
+        int minutes=0;
         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
                 if(grid[i][j]==1){
@@ -14,7 +15,6 @@ class Solution {
                 }
             }
         }
-        int minutes=0;
         if(freshOranges==0){
             return minutes;
         }
@@ -24,9 +24,9 @@ class Solution {
             for(int i=0;i<size;i++){
                 int[] curr = bfsQue.poll();
                 for(int[] dir: dirs){
-                    int nr = curr[0]+dir[0];
-                    int nc = curr[1]+dir[1];
-                    if(nr>=0 && nc>=0 && nr<m && nc<n && grid[nr][nc]==1){
+                    int nr = dir[0]+curr[0];
+                    int nc = dir[1]+curr[1];
+                    while(nr>=0 && nc>=0 && nr<m && nc<n && grid[nr][nc]==1){
                         grid[nr][nc]=2;
                         bfsQue.add(new int[]{nr, nc});
                         freshOranges--;
