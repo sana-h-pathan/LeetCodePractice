@@ -1,35 +1,29 @@
-
 class Solution {
     public List<String> findAllRecipes(String[] recipes, List<List<String>> ingredients, String[] supplies) {
-        Map<String, List<String>> adjMap = new HashMap<>();
-        Map<String, Integer> indegree = new HashMap<>();
-
-        for (int i = 0; i < recipes.length; i++) {
-            String recipe = recipes[i];
-            indegree.put(recipe, ingredients.get(i).size());
-
-            for (String ing : ingredients.get(i)) {
+        HashMap<String, List<String>> adjMap = new HashMap<>();
+        HashMap<String, Integer> indegreeMap = new HashMap<>();
+        for(int i=0;i<recipes.length;i++){
+            indegreeMap.put(recipes[i], ingredients.get(i).size());
+            for(String ing: ingredients.get(i)){
                 if(!adjMap.containsKey(ing)){
                     adjMap.put(ing, new ArrayList<>());
                 }
-                adjMap.get(ing).add(recipe);
+                adjMap.get(ing).add(recipes[i]);
             }
         }
-
-        Queue<String> bfsQue = new ArrayDeque<>();
-        for (String s : supplies){
+        List<String> result = new ArrayList<>();
+        Queue<String> bfsQue = new LinkedList<>();
+        for(String s: supplies){
             bfsQue.add(s);
         }
-
-        List<String> result = new ArrayList<>();
-        while (!bfsQue.isEmpty()) {
-            String item = bfsQue.poll();
-            if (adjMap.containsKey(item)){
-                for (String recipe : adjMap.get(item)) {
-                    indegree.put(recipe, indegree.get(recipe) - 1);
-                    if (indegree.get(recipe) == 0) {
-                        result.add(recipe);
+        while(!bfsQue.isEmpty()){
+            String currIngredient = bfsQue.poll();
+            if(adjMap.containsKey(currIngredient)){
+                for(String recipe: adjMap.get(currIngredient)){
+                    indegreeMap.put(recipe, indegreeMap.getOrDefault(recipe, 0)-1);
+                    if(indegreeMap.get(recipe)==0){
                         bfsQue.add(recipe);
+                        result.add(recipe);
                     }
                 }
             }
