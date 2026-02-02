@@ -24,16 +24,16 @@ class Solution {
         return helper(root, root.val);
     }
     private int helper(TreeNode root, int max){
-        int count=0;
         if(root==null){
             return 0;
         }
+        int count = 0;
         if(root.val>=max){
             count++;
         }
         max = Math.max(max, root.val);
         int left = helper(root.left, max);
         int right = helper(root.right, max);
-        return left+right+count;
+        return count+left+right;
     }
 }
