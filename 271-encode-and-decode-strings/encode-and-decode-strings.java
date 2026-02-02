@@ -2,29 +2,32 @@ public class Codec {
 
     // Encodes a list of strings to a single string.
     public String encode(List<String> strs) {
-        StringBuilder wordLength = new StringBuilder();
+        StringBuilder wordLen = new StringBuilder();
         StringBuilder words = new StringBuilder();
         for(String str: strs){
-            int wl = str.length();
-            wordLength.append(wl).append("#");
+            int len = str.length();
+            wordLen.append(len).append("#");
             words.append(str);
         }
-        wordLength.append("/").append(words);
-        return wordLength.toString();
+        wordLen.append("/").append(words);
+        return wordLen.toString();
     }
 
     // Decodes a single string to a list of strings.
     public List<String> decode(String s) {
         List<String> result = new ArrayList<>();
+        if(s.length()==0){
+            return result;
+        }
         int idx = s.indexOf("/");
-        String wordLenString = s.substring(0, idx-1);
+        String wordsLen = s.substring(0, idx-1);
         String words = s.substring(idx+1);
-        String[] wordLength = wordLenString.split("#");
-        int old =0;
-        for(String wl: wordLength){
-            int wordLen = Integer.parseInt(wl);
-            result.add(words.substring(old, old+wordLen));
-            old= old+wordLen;
+        String[] wl = wordsLen.split("#");
+        int prev = 0;
+        for(int i=0;i<wl.length;i++){
+            int currLen = Integer.parseInt(wl[i]);
+            result.add(words.substring(prev, prev+currLen));
+            prev = prev+currLen;
         }
         return result;
     }
