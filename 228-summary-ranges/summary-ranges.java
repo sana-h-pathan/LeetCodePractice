@@ -1,21 +1,26 @@
 class Solution {
     public List<String> summaryRanges(int[] nums) {
-        List<String> ranges = new ArrayList<>();
+        List<String> result = new ArrayList<>();
+        if (nums == null || nums.length == 0) 
+            return result;
 
-        for (int i = 0; i < nums.length; i++) {
-            int start = nums[i];
-            // Keep iterating until the next element is one more than the current element.
-            while (i + 1 < nums.length && nums[i] + 1 == nums[i + 1]) {
-                i++;
+        int l = 0;
+
+        while (l < nums.length) {
+            int r = l;
+            while (r + 1 < nums.length && nums[r] + 1 == nums[r + 1]) {
+                r++;
             }
 
-            if (start != nums[i]) {
-                ranges.add(start + "->" + nums[i]);
+            if (l == r) {
+                result.add(String.valueOf(nums[l]));
             } else {
-                ranges.add(String.valueOf(start));
+                result.add(nums[l] + "->" + nums[r]);
             }
+
+            l = r + 1; // move left pointer to next new range
         }
 
-        return ranges;
+        return result;
     }
 }
