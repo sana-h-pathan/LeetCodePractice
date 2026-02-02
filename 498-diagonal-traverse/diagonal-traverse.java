@@ -3,15 +3,15 @@ class Solution {
         int m = mat.length;
         int n = mat[0].length;
         int[] result = new int[m*n];
-        int idx =0;
-        boolean dir = true;
+        int idx=0;
+        boolean dir=true;
         int i=0;
         int j=0;
-        while(idx<m*n){
+        while(idx<result.length){
             result[idx++]=mat[i][j];
             if(dir){
                 if(j==n-1){
-                    dir = false;
+                    dir=false;
                     i++;
                 } else if(i==0){
                     dir = false;
@@ -22,14 +22,14 @@ class Solution {
                 }
             } else {
                 if(i==m-1){
-                    dir = true;
                     j++;
-                } else if(j==0){
                     dir=true;
+                } else if(j==0){
                     i++;
+                    dir=true;
                 } else {
-                    j--;
                     i++;
+                    j--;
                 }
             }
         }
