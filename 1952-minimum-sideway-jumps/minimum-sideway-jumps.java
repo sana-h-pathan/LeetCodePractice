@@ -1,5 +1,30 @@
 class Solution {
     public int minSideJumps(int[] obstacles) {
+        int[] dp = new int[]{Integer.MAX_VALUE/10, 1, 0, 1}; // dp[1], dp[2], dp[3]
+
+        for (int i=1;i<obstacles.length;i++) {
+            // block the lane at current position
+            if (obstacles[i] != 0) {
+                dp[obstacles[i]] = Integer.MAX_VALUE/10;
+            }
+
+            // relax side jumps
+            int minVal = Math.min(dp[1], Math.min(dp[2], dp[3]));
+            if (obstacles[i] != 1) {
+                dp[1] = Math.min(dp[1], minVal + 1);
+            }
+            if (obstacles[i] != 2) {
+                dp[2] = Math.min(dp[2], minVal + 1);
+            }
+            if (obstacles[i] != 3) {
+                dp[3] = Math.min(dp[3], minVal + 1);
+            }
+        }
+
+        return Math.min(dp[1], Math.min(dp[2], dp[3]));
+    }
+
+    public int minSideJumps1(int[] obstacles) {
         int n = obstacles.length;
         int[][] memo = new int[n][4]; // lanes 1..3
         for (int[] row: memo) {
@@ -10,7 +35,6 @@ class Solution {
     }
 
     private int helper(int pos, int lane, int[] obs, int[][] memo) {
-        int n = obs.length;
         if (pos==obs.length-1) 
             return 0;
 
