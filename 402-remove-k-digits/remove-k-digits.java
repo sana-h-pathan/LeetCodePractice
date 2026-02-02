@@ -1,10 +1,11 @@
 class Solution {
     public String removeKdigits(String num, int k) {
         int n = num.length();
-        if(n==k){
+        if(k==n){
             return "0";
         }
         Stack<Character> stk = new Stack<>();
+        StringBuilder sb = new StringBuilder();
         for(int i=0;i<n;i++){
             char ch = num.charAt(i);
             while(!stk.isEmpty() && k>0 && stk.peek()>ch){
@@ -17,10 +18,6 @@ class Solution {
             stk.pop();
             k--;
         }
-        if(stk.isEmpty()){
-            return "0";
-        }
-        StringBuilder sb = new StringBuilder();
         for(char ch: stk){
             sb.append(ch);
         }
