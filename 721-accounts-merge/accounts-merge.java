@@ -1,56 +1,89 @@
+
 class Solution {
     public List<List<String>> accountsMerge(List<List<String>> accounts) {
-        HashMap<String,String> nameMap = new HashMap<>();
-        HashMap<String, List<String>> adjMap = new HashMap<>();
-        for(List<String> accList : accounts){
-            String name = accList.get(0);
-            String email = accList.get(1);
-            for(int i=1;i<accList.size();i++){
-                if(!adjMap.containsKey(email)){
-                    adjMap.put(email, new ArrayList<>());
+
+        // email -> index
+        HashMap<String, Integer> idMap = new HashMap<>();
+        // email -> name
+        HashMap<String, String> nameMap = new HashMap<>();
+
+        int id = 0;
+        for (List<String> acc : accounts) {
+            String name = acc.get(0);
+            for (int i = 1; i < acc.size(); i++) {
+                String email = acc.get(i);
+                if (!idMap.containsKey(email)) {
+                    idMap.put(email, id++);
                 }
-                String accMail = accList.get(i);
-                nameMap.put(accMail, name);
-                if(!adjMap.containsKey(accMail)){
-                    adjMap.put(accMail, new ArrayList<>());
-                }
-                if(!email.equals(accMail)){
-                    adjMap.get(email).add(accMail);
-                    adjMap.get(accMail).add(email);
-                }
-               
+                nameMap.put(email, name);
             }
-        }
-        List<List<String>> result = new ArrayList<>();
-        HashSet<String> visited = new HashSet<>();
-        Queue<String> bfsQue = new LinkedList<>();
-        
-        for(String acc: adjMap.keySet()){
-            if(visited.contains(acc)){
-                continue;
-            }
-            List<String> subList = new ArrayList<>();
-            bfsQue.add(acc);
-            visited.add(acc);
-            while(!bfsQue.isEmpty()){
-                String curr = bfsQue.poll();
-                subList.add(curr);
-                if(adjMap.containsKey(curr)){
-                    for(String mail : adjMap.get(curr)){
-                        if(visited.contains(mail)){
-                            continue;
-                        }
-                        bfsQue.add(mail);
-                        visited.add(mail);
-                    }
-                }
-            }
-            String name = nameMap.get(subList.get(0));
-            Collections.sort(subList);
-            subList.add(0, name);
-            result.add(subList);
         }
 
-        return result;
+        UnionFind uf = new UnionFind(id);
+
+        // union emails in same account
+        for (List<String> acc : accounts) {
+            if (acc.size() <= 2) 
+                continue; // only 1 email, no union needed
+            int firstId = idMap.get(acc.get(1));
+            for (int i = 2; i < acc.size(); i++) {
+                int nextId = idMap.get(acc.get(i));
+                uf.union(firstId, nextId);
+            }
+        }
+
+        // root -> list of emails
+        HashMap<Integer, List<String>> groups = new HashMap<>();
+        for (String email : idMap.keySet()) {
+            int root = uf.find(idMap.get(email));
+            groups.putIfAbsent(root, new ArrayList<>());
+            groups.get(root).add(email);
+        }
+
+        List<List<String>> res = new ArrayList<>();
+        for (List<String> emails : groups.values()) {
+            Collections.sort(emails);
+            String name = nameMap.get(emails.get(0));
+            List<String> merged = new ArrayList<>();
+            merged.add(name);
+            merged.addAll(emails);
+            res.add(merged);
+        }
+
+        return res;
+    }
+
+    class UnionFind {
+        int[] parent;
+        int[] size;
+
+        UnionFind(int n) {
+            parent = new int[n];
+            size = new int[n];
+            for (int i = 0; i < n; i++) {
+                parent[i] = i;
+                size[i] = 1;
+            }
+        }
+
+        int find(int x) {
+            if (x == parent[x]) return x;
+            return parent[x] = find(parent[x]);
+        }
+
+        boolean union(int a, int b) {
+            int pa = find(a);
+            int pb = find(b);
+            if (pa == pb) return false;
+
+            if (size[pa] < size[pb]) {
+                parent[pa] = pb;
+                size[pb] += size[pa];
+            } else {
+                parent[pb] = pa;
+                size[pa] += size[pb];
+            }
+            return true;
+        }
     }
 }
