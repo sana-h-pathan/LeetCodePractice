@@ -23,15 +23,14 @@ class Solution {
         }
         List<List<String>> result = new ArrayList<>();
         HashSet<String> visited = new HashSet<>();
+        Queue<String> bfsQue = new LinkedList<>();
         
         for(String acc: adjMap.keySet()){
             if(visited.contains(acc)){
                 continue;
             }
             List<String> subList = new ArrayList<>();
-            Queue<String> bfsQue = new LinkedList<>();
             bfsQue.add(acc);
-            
             visited.add(acc);
             while(!bfsQue.isEmpty()){
                 String curr = bfsQue.poll();
