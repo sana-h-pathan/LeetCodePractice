@@ -1,36 +1,47 @@
 class Solution {
-    public boolean validTree(int n, int[][] edges) {
-        List<List<Integer>> adjList = new ArrayList<>();
-        for(int i=0;i<n;i++){
-            adjList.add(new ArrayList<>());
-        }
-        for(int[] edge: edges){
-            int u = edge[0];
-            int v = edge[1];
-            adjList.get(u).add(v);
-            adjList.get(v).add(u);
-        }
-        boolean[] visited = new boolean[n];
-        Queue<int[]> bfsQue = new LinkedList<>();
-        bfsQue.add(new int[]{0,-1});
-        visited[0]= true;
-        while(!bfsQue.isEmpty()){
-            int[] curr = bfsQue.poll();
-            int child = curr[0];
-            int parent = curr[1];
-            for(int ne: adjList.get(child)){
-                if(ne==parent){
-                    continue;
-                }
-                if(visited[ne]){
-                    return false;
-                }
-                bfsQue.add(new int[]{ne, child});
-                visited[ne]=true;
+    class UnionFind{
+        int[] parents;
+        int[] rank;
+        public UnionFind(int n){
+            this.parents = new int[n];
+            this.rank = new int[n];
+            for(int i=0;i<n;i++){
+                parents[i]=i;
+                rank[i]=1;
             }
         }
-        for(int i=0;i<n;i++){
-            if(!visited[i]){
+
+        private int find(int x){
+            if(parents[x]==x){
+                return x;
+            }
+            parents[x] = find(parents[x]);
+            return parents[x];
+        }
+
+        private boolean union(int u, int v){
+            int pu = find(u);
+            int pv = find(v);
+            if(pu==pv){
+                return false;
+            }
+            if(rank[pu]<rank[pv]){
+                parents[pu]=pv;
+                rank[pv]+= rank[pu];
+            } else {
+                parents[pv]=pu;
+                rank[pu]+=rank[pv];
+            }
+            return true;
+        }
+    }
+    public boolean validTree(int n, int[][] edges) {
+        UnionFind uf = new UnionFind(n);
+        if(edges.length!=n-1){
+            return false;
+        }
+        for(int[] edge: edges){
+            if(!uf.union(edge[0], edge[1])){
                 return false;
             }
         }
