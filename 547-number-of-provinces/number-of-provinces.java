@@ -25,10 +25,10 @@ class Solution {
             }
             if(uParent<vParent){
                 parent[uParent]=vParent;
-                rank[uParent]+= rank[vParent];
+                rank[vParent]+= rank[uParent];
             } else {
                 parent[vParent]=uParent;
-                rank[vParent]+=rank[uParent];
+                rank[uParent]+=rank[vParent];
             }
             return true;
         }
