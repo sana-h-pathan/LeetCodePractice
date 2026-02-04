@@ -1,6 +1,11 @@
 class StockSpanner {
-    Stack<int[]> stk = new Stack<>();
-    
+    // stack holds: [price, span]
+    Stack<int[]> stk;
+
+    public StockSpanner() {
+        stk = new Stack<>();
+    }
+
     public int next(int price) {
         int currSpan = 1;
         while (!stk.isEmpty()&& stk.peek()[0]<=price) {
