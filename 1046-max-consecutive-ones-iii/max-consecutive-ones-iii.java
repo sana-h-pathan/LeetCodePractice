@@ -5,7 +5,7 @@ class Solution {
         }
         int l=0;
         int r=0;
-        int zeros = 0;
+        int zeros=0;
         int maxLength=0;
         while(r<nums.length){
             if(nums[r]==0){
