@@ -3,17 +3,20 @@ class Solution {
     int n;
     int[][] dirs;
     public int numIslands(char[][] grid) {
-        this.m = grid.length;
+        if(grid==null || grid.length==0){
+            return 0;
+        }
+        this.m=grid.length;
         this.n = grid[0].length;
-        int islandCount=0;
         this.dirs = new int[][]{{1,0},{0,1},{-1,0},{0,-1}};
+        int islandCount = 0;
         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
                 if(grid[i][j]=='1'){
-                    islandCount++;
                     grid[i][j]='2';
+                    islandCount++;
                     helper(grid, i, j);
-                }    
+                }
             }
         }
         return islandCount;
