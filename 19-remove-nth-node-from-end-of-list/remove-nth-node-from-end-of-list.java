@@ -10,8 +10,6 @@
  */
 class Solution {
     public ListNode removeNthFromEnd(ListNode head, int n) {
-
-        // Defensive check
         if (head == null || n <= 0) {
             return head;
         }
@@ -21,25 +19,18 @@ class Solution {
 
         ListNode slow = dummy;
         ListNode fast = dummy;
-
-        // Move fast n steps ahead safely
-        for (int i = 0; i < n; i++) {
-            if (fast == null) return head;   // n is larger than length
+        for (int i = 0; i <=n; i++) {
+            if (fast == null) 
+                return head;   // n is larger than length
             fast = fast.next;
         }
-
-        // If fast is null here, n == length -> remove head
         if (fast == null) {
             return head.next;
         }
-
-        // Move both pointers
-        while (fast.next != null) {
+        while (fast!= null) {
             slow = slow.next;
             fast = fast.next;
         }
-
-        // Delete target node
         if (slow.next != null) {
             slow.next = slow.next.next;
         }
