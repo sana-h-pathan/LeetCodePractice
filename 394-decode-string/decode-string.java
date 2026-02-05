@@ -3,15 +3,15 @@ class Solution {
         Stack<Integer> numStk = new Stack<>();
         Stack<StringBuilder> strStk = new Stack<>();
         int currNum=0;
-        StringBuilder currStr= new StringBuilder();
+        StringBuilder currStr=new StringBuilder();
         for(char ch: s.toCharArray()){
             if(Character.isDigit(ch)){
                 currNum=currNum*10+ch-'0';
             } else if(ch=='['){
                 numStk.push(currNum);
                 strStk.push(currStr);
-                currNum = 0;
-                currStr = new StringBuilder();
+                currNum=0;
+                currStr=new StringBuilder(); 
             } else if(ch==']'){
                 int currItr = numStk.pop();
                 StringBuilder ns = new StringBuilder();
@@ -20,6 +20,7 @@ class Solution {
                 }
                 currStr = strStk.pop();
                 currStr.append(ns);
+
             } else {
                 currStr.append(ch);
             }
