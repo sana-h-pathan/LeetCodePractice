@@ -1,24 +1,26 @@
 class Solution {
     public void rotate(int[][] matrix) {
-         int length = matrix.length;
-        for(int i = 0; i < length; i++) {
-            //transpose
-            for (int j = i; j < length; j++) {
-                //swap
+        int n = matrix.length;
+
+        // Step 1: Transpose
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
                 int temp = matrix[i][j];
                 matrix[i][j] = matrix[j][i];
                 matrix[j][i] = temp;
             }
-            //revrse row
-            int start = 0;
-            int end = length - 1;
-            while (start < end) {
-                //swap
-                int temp = matrix[i][start];
-                matrix[i][start] = matrix[i][end];
-                matrix[i][end] = temp;
-                start++;
-                end--;
+        }
+
+        // Step 2: Reverse each row
+        for (int i = 0; i < n; i++) {
+            int left = 0;
+            int right = n - 1;
+            while (left < right) {
+                int temp = matrix[i][left];
+                matrix[i][left] = matrix[i][right];
+                matrix[i][right] = temp;
+                left++;
+                right--;
             }
         }
     }
