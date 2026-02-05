@@ -4,11 +4,11 @@ class Solution {
         int s = intervals[0][0];
         int e = intervals[0][1];
         List<int[]> result = new ArrayList<>();
-        for(int[] interval: intervals){
-            if(interval[0]>e){
+        for(int[] interval : intervals){
+            if(e<interval[0]){
                 result.add(new int[]{s,e});
-                s = interval[0];
-                e = interval[1];
+                s=interval[0];
+                e=interval[1];
             } else {
                 e = Math.max(e, interval[1]);
             }
