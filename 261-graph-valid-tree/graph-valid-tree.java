@@ -11,26 +11,26 @@ class Solution {
             }
         }
 
-        private int find(int x){
-            if(parents[x]==x){
-                return x;
+        private int find(int u){
+            if(parents[u]==u){
+                return u;
             }
-            parents[x] = find(parents[x]);
-            return parents[x];
+            parents[u]=find(parents[u]);
+            return parents[u];
         }
 
         private boolean union(int u, int v){
-            int pu = find(u);
-            int pv = find(v);
-            if(pu==pv){
+            int uPar = find(u);
+            int vPar = find(v);
+            if(uPar==vPar){
                 return false;
             }
-            if(rank[pu]<rank[pv]){
-                parents[pu]=pv;
-                rank[pv]+= rank[pu];
+            if(rank[uPar]<rank[vPar]){
+                parents[uPar] = vPar;
+                rank[vPar]+=rank[uPar];
             } else {
-                parents[pv]=pu;
-                rank[pu]+=rank[pv];
+                parents[vPar] = uPar;
+                rank[uPar] = vPar;
             }
             return true;
         }
@@ -40,7 +40,7 @@ class Solution {
         if(edges.length!=n-1){
             return false;
         }
-        for(int[] edge: edges){
+        for(int[] edge : edges){
             if(!uf.union(edge[0], edge[1])){
                 return false;
             }
