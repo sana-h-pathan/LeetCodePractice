@@ -10,8 +10,10 @@ class Solution {
 
             int r = l;
             while (r < n) {
-                if ((nums[r] & 1) == 0) even.add(nums[r]);
-                else odd.add(nums[r]);
+                if (nums[r]%2==0) 
+                    even.add(nums[r]);
+                else
+                    odd.add(nums[r]);
 
                 if (even.size() == odd.size()) {
                     maxLength = Math.max(maxLength, r - l + 1);
