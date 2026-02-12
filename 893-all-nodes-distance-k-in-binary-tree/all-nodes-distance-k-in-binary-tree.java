@@ -10,22 +10,22 @@
 class Solution {
     public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
         List<Integer> result = new ArrayList<>();
-        HashMap<Integer, TreeNode> parentMap = new HashMap<>();
         Queue<TreeNode> bfsQue = new LinkedList<>();
+        HashSet<TreeNode> visited = new HashSet<>();
+        HashMap<TreeNode, TreeNode> parentMap = new HashMap<>();
         bfsQue.add(root);
         while(!bfsQue.isEmpty()){
             TreeNode curr = bfsQue.poll();
             if(curr.left!=null){
-                parentMap.put(curr.left.val, curr);
+                parentMap.put(curr.left, curr);
                 bfsQue.add(curr.left);
             }
             if(curr.right!=null){
-                parentMap.put(curr.right.val, curr);
+                parentMap.put(curr.right, curr);
                 bfsQue.add(curr.right);
             }
         }
         bfsQue.add(target);
-        HashSet<TreeNode> visited = new HashSet<>();
         while(k>0 && !bfsQue.isEmpty()){
             int size=bfsQue.size();
             for(int i=0;i<size;i++){
@@ -37,8 +37,8 @@ class Solution {
                 if(curr.right!=null && !visited.contains(curr.right)){
                     bfsQue.add(curr.right);
                 }
-                if(parentMap.containsKey(curr.val) && !visited.contains(parentMap.get(curr.val))){
-                    bfsQue.add(parentMap.get(curr.val));
+                if(parentMap.containsKey(curr) && !visited.contains(parentMap.get(curr))){
+                    bfsQue.add(parentMap.get(curr));
                 }
             }
             k--;
