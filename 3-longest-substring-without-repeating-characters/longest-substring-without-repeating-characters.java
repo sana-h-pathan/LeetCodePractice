@@ -10,7 +10,7 @@ class Solution {
                 l = Math.max(map.get(ch)+1, l);
             }
             map.put(ch, r);
-            maxLength=Math.max(r-l+1, maxLength);
+            maxLength = Math.max(r-l+1, maxLength);
             r++;
         }
         return maxLength;
