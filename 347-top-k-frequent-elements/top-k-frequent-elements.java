@@ -5,17 +5,16 @@ class Solution {
         for(int num: nums){
             map.put(num, map.getOrDefault(num, 0)+1);
         }
-        int[] result = new int[k];
-        List<Integer> temp = new ArrayList<>();
-        for(int num: map.keySet()){
-            pq.add(num);
+        for(int key: map.keySet()){
+            pq.add(key);
             if(pq.size()>k){
                 pq.poll();
             }
         }
+        int[] result = new int[k];
         int idx=0;
         while(!pq.isEmpty()){
-            result[idx++]=pq.poll();
+            result[idx++] = pq.poll();
         }
         return result;
     }
