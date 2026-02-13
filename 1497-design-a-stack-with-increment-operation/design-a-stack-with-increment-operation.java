@@ -1,34 +1,43 @@
 class CustomStack {
     int[] customStack;
     int count;
-    int max;
+    int capacity;
 
     public CustomStack(int maxSize) {
-        this.customStack = new int[maxSize];
-        this.count = 0;
-        this.max = maxSize;
+        this.capacity = maxSize;
+        this.customStack = new int[capacity];
+        this.count=0;
     }
-
+    
     public void push(int x) {
-        if (count < max) {
+        if(count<capacity){
             customStack[count] = x;
             count++;
         }
     }
-
+    
     public int pop() {
-        if (count == 0) {              
-            return -1;                 
+        if(count==0){
+            return -1;
         }
-        count--;                       
+        count--;
         return customStack[count];
     }
-
+    
     public void increment(int k, int val) {
-        if (k > count) 
-            k = count;       
-        for (int j = 0; j < k; j++) {
-            customStack[j] += val;
+        if(k>count){
+            k=count;
+        }
+        for(int i=0;i<k;i++){
+            customStack[i]+=val;
         }
     }
 }
+
+/**
+ * Your CustomStack object will be instantiated and called as such:
+ * CustomStack obj = new CustomStack(maxSize);
+ * obj.push(x);
+ * int param_2 = obj.pop();
+ * obj.increment(k,val);
+ */
