@@ -1,72 +1,53 @@
 class MyHashMap {
-    class Node{
-        int key;
-        int val;
-        Node next;
-        public Node(int key, int val){
-            this.key=key;
-            this.val=val;
-        }
-    }
-    private Node[] data;
+    int firstLevel;
+    int secondLevel;
+    int[][] dataMap;
 
     public MyHashMap() {
-        data=new Node[10000];
+        this.firstLevel = 1000;
+        this.secondLevel = 1000;
+        this.dataMap = new int[firstLevel][];
+    }
+
+    private int firstHashing(int key){
+        return key%firstLevel;
+    }
+
+    private int seconHashing(int key){
+        return key/secondLevel;
     }
     
     public void put(int key, int value) {
-        int hashVal=findHash(key);
-        if(data[hashVal]==null){
-            data[hashVal]=new Node(-1,-1);
+        int fKey = firstHashing(key);
+        int sKey = seconHashing(key);
+        if(dataMap[fKey]==null){
+            if(fKey==0){
+                dataMap[fKey] = new int[secondLevel+1];
+            } else {
+                dataMap[fKey] = new int[secondLevel];
+            }
+            Arrays.fill(dataMap[fKey], -1);
         }
-        Node node = find(data[hashVal],key);
-        if(node.next==null){
-            node.next=new Node(key,value);
-        }
-        else{
-            node.next.val=value;
-        }
+        dataMap[fKey][sKey]=value;
     }
     
     public int get(int key) {
-        int hashVal=findHash(key);
-        if(data[hashVal]==null){
+        int fKey = firstHashing(key);
+        int sKey = seconHashing(key);
+        if(dataMap[fKey]==null){
             return -1;
         }
-        Node node = find(data[hashVal],key);
-        if(node.next==null){
-            return -1;
-        }
-        else{
-           return node.next.val;
-        }
+        return dataMap[fKey][sKey];
     }
     
     public void remove(int key) {
-        int hashVal=findHash(key);
-        if(data[hashVal]==null){
+        int fKey = firstHashing(key);
+        int sKey = seconHashing(key);
+        if(dataMap[fKey]==null){
             return;
         }
-        Node node = find(data[hashVal],key);
-        if(node.next==null){
-            return;
-        }
-        else{
-            node.next=node.next.next;
-        }
-        
-    }
-    private int findHash(int number){
-        return number%10000;
-    }
-    private Node find(Node node, int key){
-        Node prev=null;
-        Node curr=node;
-        while(curr!=null && curr.key!=key){
-            prev=curr;
-            curr=curr.next;
-        }
-        return prev;
+        dataMap[fKey][sKey]=-1;
+        return;
     }
 }
 
