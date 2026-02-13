@@ -14,56 +14,44 @@
  * }
  */
 class Solution {
-    class NodePosition {
-        TreeNode node;
-        int col, row;
-
-        NodePosition(TreeNode node, int col, int row) {
-            this.node = node;
+    static class NodeInfo {
+        int col;
+        int row;
+        int val;
+        NodeInfo(int col, int row, int val) {
             this.col = col;
             this.row = row;
+            this.val = val;
         }
     }
 
     public List<List<Integer>> verticalTraversal(TreeNode root) {
-        int min = Integer.MAX_VALUE;
-        int max = Integer.MIN_VALUE;
+        List<NodeInfo> list = new ArrayList<>();
+        helper(root, 0, 0, list);
+
+        Collections.sort(list, (a, b) -> {
+            if (a.col != b.col) return a.col - b.col;
+            if (a.row != b.row) return a.row - b.row;
+            return a.val - b.val;
+        });
+
         List<List<Integer>> result = new ArrayList<>();
-        Map<Integer, List<NodePosition>> map = new HashMap<>();
-        Queue<NodePosition> bfsQueue = new LinkedList<>();
-        bfsQueue.add(new NodePosition(root, 0, 0));
+        int prevCol = Integer.MIN_VALUE;
 
-        while (!bfsQueue.isEmpty()) {
-            NodePosition nodePos = bfsQueue.poll();
-            TreeNode curr = nodePos.node;
-            int col = nodePos.col;
-            int row = nodePos.row;
-            min = Math.min(min, col);
-            max = Math.max(max, col);
-
-            map.putIfAbsent(col, new ArrayList<>());
-            map.get(col).add(nodePos);
-            if (curr.left != null) 
-                bfsQueue.add(new NodePosition(curr.left, col - 1, row + 1));
-            if (curr.right != null) 
-                bfsQueue.add(new NodePosition(curr.right, col + 1, row + 1));
-        }
-
-        for (int i = min; i <= max; i++) {
-            List<NodePosition> nodePositions = map.get(i);
-            nodePositions.sort((a, b) -> {
-                if (a.row != b.row) {
-                    return Integer.compare(a.row, b.row);
-                } else {
-                    return Integer.compare(a.node.val, b.node.val);
-                }
-            });
-            List<Integer> column = new ArrayList<>();
-            for (NodePosition nodePos : nodePositions) {
-                column.add(nodePos.node.val);
+        for (NodeInfo node : list) {
+            if (node.col != prevCol) {
+                result.add(new ArrayList<>());
+                prevCol = node.col;
             }
-            result.add(column);
+            result.get(result.size() - 1).add(node.val);
         }
         return result;
+    }
+
+    private void helper(TreeNode root, int col, int row, List<NodeInfo> list) {
+        if (root == null) return;
+        list.add(new NodeInfo(col, row, root.val));
+        helper(root.left, col - 1, row + 1, list);
+        helper(root.right, col + 1, row + 1, list);
     }
 }
