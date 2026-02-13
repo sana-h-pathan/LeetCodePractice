@@ -1,20 +1,18 @@
 class HitCounter {
-    Queue<Integer> q;
-    /** Initialize your data structure here. */
+    Queue<Integer> hitCounter;
     public HitCounter() {
-        q = new LinkedList<>();
+        this.hitCounter = new LinkedList<>();
     }
     
     public void hit(int timestamp) {
-        q.add(timestamp);
+        hitCounter.add(timestamp);
     }
     
     public int getHits(int timestamp) {
-        
-        while(!q.isEmpty() && timestamp - q.peek()>= 300)
-            q.poll();
-            
-        return q.size();
+        while(!hitCounter.isEmpty() && timestamp-hitCounter.peek()>=300){
+            hitCounter.poll();
+        }
+        return hitCounter.size();
     }
 }
 
