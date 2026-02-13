@@ -17,21 +17,21 @@ class RandomizedSet {
         return true;
         
     }
-    //1-0, 2-1, 3-2, 4-3, 5-4
-    //1,2,3,4,5
-    //remove 3
+    //Index: 0  1  2  3  4
+    //Value: 1  2  3  4  5
+    //Map:   1→0 2→1 3→2 4→3 5→4
+
     public boolean remove(int val) {
         if(!numMap.containsKey(val)){
             return false;
         }
         int idx = numMap.get(val);
-        int lastIdx = numList.size()-1;
-        int swapVal = numList.get(lastIdx);
+        int swapVal = numList.getLast();
         
         numList.set(idx, swapVal);
         numMap.put(swapVal, idx);
         
-        numList.remove(lastIdx);
+        numList.remove(numList.size()-1);
         numMap.remove(val);
         return true;
     }
