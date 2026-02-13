@@ -20,6 +20,7 @@ class RandomizedSet {
     //Index: 0  1  2  3  4
     //Value: 1  2  3  4  5
     //Map:   1→0 2→1 3→2 4→3 5→4
+    //remove 3
 
     public boolean remove(int val) {
         if(!numMap.containsKey(val)){
