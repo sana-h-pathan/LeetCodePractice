@@ -18,9 +18,7 @@ class Solution {
             if(map.size()>k){
                 char lChar = s.charAt(l);
                 map.put(lChar, map.getOrDefault(lChar, 0)-1);
-                if(map.get(lChar)==0){
-                    map.remove(lChar, 0);
-                }
+                map.remove(lChar, 0);
                 l++;
             }
             maxLength = Math.max(maxLength, r-l+1);
