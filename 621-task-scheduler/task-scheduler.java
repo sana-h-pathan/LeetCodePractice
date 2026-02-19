@@ -6,9 +6,9 @@ class Solution {
         HashMap<Character, Integer> map = new HashMap<>();
         for(char t: tasks){
             map.put(t, map.getOrDefault(t, 0)+1);
-            maxFreq = Math.max(map.get(t), maxFreq);
+            maxFreq = Math.max(maxFreq, map.get(t));
         }
-        int maxCount = 0;
+        int maxCount =0;
         for(char ch: map.keySet()){
             if(map.get(ch)==maxFreq){
                 maxCount++;
@@ -16,10 +16,10 @@ class Solution {
         }
         int totalTask = tasks.length;
         int partition = maxFreq-1;
-        int availableSlot = partition * (n - (maxCount-1));
-        int pendingTask = totalTask - (maxFreq*maxCount);
-        int idleSlot = Math.max(0, availableSlot-pendingTask);
-        
-        return totalTask+idleSlot;
+        int availableSlot = partition * (n-(maxCount-1));
+        int pendingSlot = totalTask - (maxFreq*maxCount);
+        int idleSlot = Math.max(0, availableSlot-pendingSlot);
+
+        return idleSlot+totalTask;
     }
 }
