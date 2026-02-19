@@ -1,9 +1,12 @@
 class Solution {
     public int lengthOfLongestSubstringKDistinct(String s, int k) {
-       if(s==null || s.length()==0){
+        if(s==null || s.length()==0){
             return 0;
         }
         int n = s.length();
+        if(n<=k){
+            return n;
+        }
         HashMap<Character, Integer> map = new HashMap<>();
         int l=0;
         int r=0;
@@ -14,12 +17,10 @@ class Solution {
             if(map.size()>k){
                 char lChar = s.charAt(l);
                 map.put(lChar, map.getOrDefault(lChar, 0)-1);
-                if(map.get(lChar)==0){
-                    map.remove(lChar, 0);
-                }
+                map.remove(lChar,0);
                 l++;
             }
-            maxLength = Math.max(maxLength, r-l+1);
+            maxLength = Math.max(r-l+1, maxLength);
             r++;
         }
         return maxLength;
