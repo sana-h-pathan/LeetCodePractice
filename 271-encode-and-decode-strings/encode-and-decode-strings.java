@@ -2,6 +2,9 @@ public class Codec {
 
     // Encodes a list of strings to a single string.
     public String encode(List<String> strs) {
+        if(strs==null || strs.size()==0){
+            return "";
+        }
         StringBuilder wordLength = new StringBuilder();
         StringBuilder words = new StringBuilder();
         for(String str: strs){
@@ -20,14 +23,14 @@ public class Codec {
             return result;
         }
         int idx = s.indexOf("/");
-        String wordLength = s.substring(0, idx-1);
+        String wordLenStr = s.substring(0, idx-1);
         String words = s.substring(idx+1);
-        String[] wordLen = wordLength.split("#");
-        int prev =0;
-        for(String wl: wordLen){
-            int length = Integer.parseInt(wl);
-            result.add(words.substring(prev, prev+length));
-            prev = prev+length;
+        int prev = 0;
+        String[] wordLen = wordLenStr.split("#");
+        for(String len: wordLen){
+            int wl = Integer.parseInt(len);
+            result.add(words.substring(prev, prev+wl));
+            prev = prev+wl;
         }
         return result;
     }
