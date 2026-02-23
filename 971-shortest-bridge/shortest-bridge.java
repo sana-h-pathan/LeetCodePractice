@@ -4,14 +4,14 @@ class Solution {
     public int shortestBridge(int[][] grid) {
         this.n = grid.length;
         this.dirs = new int[][]{{1,0},{0,1},{-1,0},{0,-1}};
-        Queue<int[]> bfsQue = new LinkedList<>();
         boolean found=false;
+        Queue<int[]> bfsQue = new LinkedList<>();
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++){
                 if(!found && grid[i][j]==1){
+                    helper(grid, i, j, bfsQue);
                     grid[i][j]=2;
                     found=true;
-                    helper(grid, i, j, bfsQue);
                 }
             }
         }
@@ -21,8 +21,8 @@ class Solution {
             for(int i=0;i<size;i++){
                 int[] curr = bfsQue.poll();
                 for(int[] dir: dirs){
-                    int nr = dir[0]+curr[0];
-                    int nc = dir[1]+curr[1];
+                    int nr = curr[0]+dir[0];
+                    int nc = curr[1]+dir[1];
                     if(nr>=0 && nc>=0 && nr<n && nc<n && grid[nr][nc]!=2){
                         if(grid[nr][nc]==1){
                             return gap;
@@ -37,10 +37,10 @@ class Solution {
         return gap;
     }
     private void helper(int[][] grid, int i, int j, Queue<int[]> bfsQue){
-        bfsQue.add(new int[]{i, j});
+        bfsQue.add(new int[]{i,j});
         for(int[] dir: dirs){
-            int nr = dir[0]+i;
-            int nc = dir[1]+j;
+            int nr = i+dir[0];
+            int nc = j+dir[1];
             if(nr>=0 && nc>=0 && nr<n && nc<n && grid[nr][nc]==1){
                 grid[nr][nc]=2;
                 helper(grid, nr, nc, bfsQue);
