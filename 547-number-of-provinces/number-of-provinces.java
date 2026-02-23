@@ -6,18 +6,18 @@ class Solution {
             this.parents = new int[n];
             this.rank = new int[n];
             for(int i=0;i<n;i++){
-                parents[i] = i;
+                parents[i]=i;
                 rank[i]=1;
             }
         }
-        public int find(int x){
+        private int find(int x){
             if(parents[x]==x){
                 return x;
             }
-            parents[x]=find(parents[x]);
+            parents[x] = find(parents[x]);
             return parents[x];
         }
-        public boolean union(int u, int v){
+        private boolean union(int u, int v){
             int uPar = find(u);
             int vPar = find(v);
             if(uPar==vPar){
@@ -25,27 +25,27 @@ class Solution {
             }
             if(rank[uPar]<rank[vPar]){
                 parents[uPar] = vPar;
-                rank[vPar] += uPar;
+                rank[vPar]+=uPar;
             } else {
                 parents[vPar] = uPar;
-                rank[uPar] += vPar;
+                rank[uPar]+=vPar;
             }
             return true;
         }
     }
     public int findCircleNum(int[][] isConnected) {
         int n = isConnected.length;
-        int province = n;
         UnionFind uf = new UnionFind(n);
+        int provinces=n;
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++){
                 if(i!=j && isConnected[i][j]==1){
                     if(uf.union(i, j)){
-                        province--;
+                        provinces--;
                     }
                 }
             }
         }
-        return province;
+        return provinces;
     }
 }
