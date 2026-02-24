@@ -12,10 +12,9 @@ class Solution {
         }
         int first = helper(nums, 0, n-1);
         int second = helper(nums, 1, n);
-
         return Math.max(first, second);
     }
-    private int helper(int [] nums, int start, int end){
+    private int helper(int[] nums, int start, int end){
         int n = end-start;
         int[] dp = new int[n];
         dp[0] = nums[start];
@@ -23,6 +22,7 @@ class Solution {
         for(int i=2;i<n;i++){
             dp[i] = Math.max(dp[i-1], dp[i-2]+nums[start+i]);
         }
+
         return dp[n-1];
     }
 }
