@@ -1,6 +1,6 @@
 class Solution {
     public int compress(char[] chars) {
-        if(chars==null|| chars.length==0){
+        if(chars==null || chars.length==0){
             return 0;
         }
         int l=0;
@@ -10,14 +10,16 @@ class Solution {
             while(r<chars.length && chars[r]==chars[l]){
                 r++;
             }
-            chars[idx++]=chars[l];
+            chars[idx] = chars[l];
+            idx++;
             if(r-l>1){
-                String cntStr = String.valueOf(r-l);
-                for(char ch: cntStr.toCharArray()){
-                    chars[idx++]=ch;
+                String len = String.valueOf(r-l);
+                for(char ch: len.toCharArray()){
+                    chars[idx] = ch;
+                    idx++;
                 }
             }
-            l=r;
+            l = r;
         }
         return idx;
     }
