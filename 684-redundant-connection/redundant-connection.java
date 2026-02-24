@@ -1,41 +1,46 @@
 class Solution {
+    class UnionFind{
+        int[] parents;
+        int[] rank;
+        public UnionFind(int n){
+            this.parents = new int[n];
+            this.rank = new int[n];
+            for(int i=0;i<n;i++){
+                parents[i] = i;
+                rank[i] = 1;
+            }
+        }
+        private int find(int x){
+            if(x==parents[x]){
+                return x;
+            }
+            parents[x] = find(parents[x]);
+            return parents[x];
+        }
+        private boolean union(int u, int v){
+            int uPar = find(u);
+            int vPar = find(v);
+            if(uPar == vPar){
+                return false;
+            }
+            if(rank[uPar]<rank[vPar]){
+                parents[uPar] = vPar;
+                rank[vPar]+=rank[uPar];
+            } else {
+                parents[vPar] = uPar;
+                rank[uPar]+=rank[vPar];
+            }
+            return true;
+        }
+    }
     public int[] findRedundantConnection(int[][] edges) {
-        int n=edges.length+1;
-        int[] parent=new int[n];
-        int[] rank=new int[n];
-        Arrays.fill(rank, 1);
-        for(int i=0;i<n;i++)
-            parent[i]=i;
-        
-        for(int[] e: edges){
-            if(!union(e[0],e[1],rank,parent))
-                return new int[]{e[0],e[1]};
+        int n = edges.length;
+        UnionFind uf = new UnionFind(n);
+        for(int[] edge: edges){
+            if(!uf.union(edge[0]-1, edge[1]-1)){
+                return edge;
+            }
         }
-        return null;
-    }
-
-    private int findParent(int n, int[] parent){
-        int p=parent[n];
-        while(parent[p]!=p){
-            parent[p]=parent[parent[p]];
-            p=parent[p];
-        }
-        return p;
-    }
-    private boolean union(int e1, int e2, int[] rank, int[] parent){
-        int px=findParent(e1, parent);
-        int py=findParent(e2, parent);
-        if(px==py)
-            return false;
-        if(rank[px]>rank[py]){
-            rank[px]+=rank[py];
-            parent[py]=parent[px];
-
-        }
-        else{
-            rank[py]+=rank[px];
-            parent[px]=parent[py];
-        }
-        return true;
+        return new int[0];
     }
 }
