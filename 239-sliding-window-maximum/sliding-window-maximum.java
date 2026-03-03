@@ -7,24 +7,25 @@ class Solution {
             return nums;
         }
         int n = nums.length;
+        int[] result = new int[n-k+1];
         int l=0;
         int r=0;
-        int[] result = new int[n-k+1];
         Deque<Integer> dq = new ArrayDeque<>();
         while(r<n){
-            while(!dq.isEmpty() && nums[dq.peekLast()]<=nums[r]){
+            while(!dq.isEmpty() && nums[dq.peekLast()]<nums[r]){
                 dq.pollLast();
             }
             dq.addLast(r);
             if(r-l+1==k){
                 result[l] = nums[dq.peekFirst()];
-                if(!dq.isEmpty() && dq.peekFirst()==l){
+                if(!dq.isEmpty() && dq.peekFirst() == l){
                     dq.pollFirst();
                 }
                 l++;
             }
             r++;
         }
+
         return result;
     }
 }
