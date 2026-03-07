@@ -1,34 +1,34 @@
 class Solution {
     class UnionFind{
-        int[] parent;
+        int[] parents;
         int[] rank;
         public UnionFind(int n){
-            this.parent = new int[n];
+            this.parents = new int[n];
             this.rank = new int[n];
             for(int i=0;i<n;i++){
-                parent[i]=i;
-                rank[i]=1;
+                parents[i] = i;
+                rank[i] = 1;
             }
-        } 
+        }
         private int find(int x){
-            if(parent[x]==x){
+            if(parents[x]==x){
                 return x;
             }
-            parent[x] = find(parent[x]);
-            return parent[x];
+            parents[x] = find(parents[x]);
+            return parents[x];
         }
         private boolean union(int u, int v){
             int uPar = find(u);
             int vPar = find(v);
-            if(uPar == vPar){
+            if(uPar==vPar){
                 return false;
             }
-            if(rank[uPar]<rank[vPar]){
-                parent[uPar] = vPar;
-                rank[vPar]+=rank[uPar];
+            if(rank[vPar]<rank[uPar]){
+                parents[vPar] = uPar;
+                rank[uPar] += vPar;
             } else {
-                parent[vPar] = uPar;
-                rank[uPar]+=rank[vPar];
+                parents[uPar] = vPar;
+                rank[vPar] += uPar;
             }
             return true;
         }
