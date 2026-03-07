@@ -16,7 +16,7 @@
 class Solution {
     public TreeNode invertTree(TreeNode root) {
         if(root==null){
-            return root;
+            return null;
         }
         Queue<TreeNode> bfsQue = new LinkedList<>();
         bfsQue.add(root);
