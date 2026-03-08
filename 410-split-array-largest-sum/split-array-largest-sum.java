@@ -1,8 +1,10 @@
 class Solution {
     public int splitArray(int[] nums, int k) {
-        if (nums.length < k) return -1;
+        if (nums.length < k) 
+            return -1;
 
-        int low = 0, high = 0;
+        int low = 0;
+        int high = 0;
         for (int num : nums) {
             low = Math.max(low, num);
             high += num;
