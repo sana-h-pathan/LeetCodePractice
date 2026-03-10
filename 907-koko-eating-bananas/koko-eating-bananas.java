@@ -3,28 +3,28 @@ class Solution {
         int low = 1;
         int high = 0;
         for(int p: piles){
-            high = Math.max(p, high);
+            high = Math.max(high, p);
         }
         while(low<high){
             int mid = low+(high-low)/2;
-            int hrsReq = countHrs(piles, mid);
-            if(hrsReq>h){
+            int hrs = countHrs(piles, mid);
+            if(hrs>h){
                 low = mid+1;
             } else {
                 high = mid;
             }
         }
-        return high;
+        return low;
     }
-
-    private int countHrs(int[] piles, int n){
+    private int countHrs(int[] piles, int h){
         int count = 0;
-        for(int p: piles){
-            count+=p/n;
-            if(p%n!=0){
+        for(int p : piles){
+            count+=p/h;
+            if(p%h!=0){
                 count++;
             }
         }
+        
         return count;
     }
 }
