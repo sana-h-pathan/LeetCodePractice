@@ -23,7 +23,7 @@ class Solution {
             if(uPar==vPar){
                 return false;
             }
-            if(parents[uPar]<parents[vPar]){
+            if(rank[uPar]<rank[vPar]){
                 parents[uPar] = vPar;
                 rank[vPar] += rank[uPar];
             } else {
