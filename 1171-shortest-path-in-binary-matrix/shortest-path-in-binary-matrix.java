@@ -1,47 +1,41 @@
 class Solution {
-        public int shortestPathBinaryMatrix(int[][] grid) {
-        if (grid == null || grid.length == 0 || grid[0].length == 0) {
+
+    int m;
+    int n;
+    int[][] dirs;
+
+    public int shortestPathBinaryMatrix(int[][] grid) {
+        this.m = grid.length;
+        this.n = grid[0].length;
+        if(grid[0][0] == 1 || grid[m-1][n-1] == 1){
             return -1;
         }
+        this.dirs = new int[][]{ {-1,-1},{-1,0},{-1,1},{0,-1},{0,1},{1,-1},{1,0},{1,1}};
+        Queue<int[]> bfsQue = new LinkedList<>();
+        boolean[][] visited = new boolean[m][n];
 
-        int ans = 0;
-
-        int row = grid.length;
-        int col = grid[0].length;
-
-        if (grid[0][0] == 1 || grid[row - 1][col - 1] == 1) {
-            return -1;
-        }
-
-        int[][] dirs = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
-
-        boolean[][] visited = new boolean[row][col];
-
-        Queue<int[]> queue = new LinkedList<>();
-        queue.offer(new int[]{0, 0});
+        bfsQue.add(new int[]{0,0});
         visited[0][0] = true;
 
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-            ans++;
+        int steps = 0;
 
-            for (int i = 0; i < size; i++) {
-                int[] curPos = queue.poll();
-
-                if (curPos[0] == row - 1 && curPos[1] == col - 1) {
-                    return ans;
+        while(!bfsQue.isEmpty()){
+            int size = bfsQue.size();
+            steps++;
+            for(int i = 0; i < size; i++){
+                int[] curr = bfsQue.remove();
+                int r = curr[0];
+                int c = curr[1];
+                if(r == m-1 && c == n-1){
+                    return steps;
                 }
-
-                for (int[] dir : dirs) {
-                    int nextX = curPos[0] + dir[0];
-                    int nextY = curPos[1] + dir[1];
-
-                    if (nextX < 0 || nextX >= row || nextY < 0 || nextY >= col || visited[nextX][nextY] || grid[nextX][nextY] == 1) {
-                        continue;
+                for(int[] dir : dirs){
+                    int nr = r + dir[0];
+                    int nc = c + dir[1];
+                    if(nr >= 0 && nc >= 0 && nr < m && nc < n && !visited[nr][nc] && grid[nr][nc] == 0){
+                        visited[nr][nc] = true;
+                        bfsQue.add(new int[]{nr,nc});
                     }
-
-                    visited[nextX][nextY] = true;
-                    queue.offer(new int[]{nextX, nextY});
                 }
             }
         }
