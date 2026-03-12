@@ -1,13 +1,13 @@
 class Solution {
     class UnionFind{
-        int[] parents;
+        int[] parents; 
         int[] rank;
         public UnionFind(int n){
             this.parents = new int[n];
             this.rank = new int[n];
             for(int i=0;i<n;i++){
-                parents[i] = i;
-                rank[i] = 1;
+                parents[i]=i;
+                rank[i]=1;
             }
         }
         private int find(int x){
@@ -20,15 +20,15 @@ class Solution {
         private boolean union(int u, int v){
             int uPar = find(u);
             int vPar = find(v);
-            if(uPar == vPar){
+            if(uPar==vPar){
                 return false;
             }
-            if(rank[uPar]<rank[vPar]){
+            if(parents[uPar]<parents[vPar]){
                 parents[uPar] = vPar;
-                rank[vPar]+=rank[uPar];
+                rank[vPar] += rank[uPar];
             } else {
                 parents[vPar] = uPar;
-                rank[uPar]+=rank[vPar];
+                rank[uPar] += rank[vPar];
             }
             return true;
         }
