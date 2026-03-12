@@ -10,8 +10,8 @@
  */
 class Solution {
     public ListNode removeNthFromEnd(ListNode head, int n) {
-        if(head==null|| n<=0){
-            return head;
+        if(head==null || n<=0){
+            return null;
         }
         ListNode dummy = new ListNode(-1);
         dummy.next = head;
