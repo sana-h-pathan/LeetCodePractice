@@ -14,12 +14,12 @@
  * }
  */
 class Solution {
-    boolean flag;
+    boolean isValid;
     TreeNode prev;
     public boolean isValidBST(TreeNode root) {
-        this.flag = true;
+        this.isValid = true;
         helper(root);
-        return flag;
+        return isValid;
     }
     private void helper(TreeNode root){
         if(root==null){
@@ -27,10 +27,10 @@ class Solution {
         }
         helper(root.left);
         if(prev!=null && prev.val>=root.val){
-            flag=false;
+            isValid = false;
             return;
         }
-        prev=root;
+        prev = root;
         helper(root.right);
     }
 }
