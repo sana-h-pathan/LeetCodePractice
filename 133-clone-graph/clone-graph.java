@@ -20,7 +20,7 @@ class Node {
 
 class Solution {
     public Node cloneGraph(Node node) {
-        if(node==null){
+        if(node == null){
             return null;
         }
         HashMap<Node, Node> map = new HashMap<>();
@@ -28,18 +28,18 @@ class Solution {
         bfsQue.add(node);
         while(!bfsQue.isEmpty()){
             Node curr = bfsQue.poll();
-            Node copyCurr = clone(curr, map);
+            Node copyCurr = clone(map, curr);
             for(Node ne: curr.neighbors){
                 if(!map.containsKey(ne)){
                     bfsQue.add(ne);
                 }
-                Node copyNe = clone(ne, map);
+                Node copyNe = clone(map, ne);
                 copyCurr.neighbors.add(copyNe);
             }
         }
         return map.get(node);
     }
-    private Node clone(Node curr, HashMap<Node, Node> map){
+    private Node clone(HashMap<Node, Node> map, Node curr){
         if(curr==null){
             return null;
         }
