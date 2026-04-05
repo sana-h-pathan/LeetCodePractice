@@ -6,11 +6,11 @@ class Solution {
         int high = m*n-1;
         while(low<=high){
             int mid = low+(high-low)/2;
-            int nr = mid/n;
-            int nc = mid%n;
-            if(matrix[nr][nc]==target){
+            int r = mid/n;
+            int c = mid%n;
+            if(matrix[r][c]==target){
                 return true;
-            } else if(matrix[nr][nc]>target){
+            } else if(matrix[r][c]>target){
                 high = mid-1;
             } else {
                 low = mid+1;
