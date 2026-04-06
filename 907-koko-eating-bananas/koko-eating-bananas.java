@@ -16,15 +16,14 @@ class Solution {
         }
         return low;
     }
-    private int countHrs(int[] piles, int h){
+    private int countHrs(int[] nums, int h){
         int count = 0;
-        for(int p : piles){
-            count+=p/h;
-            if(p%h!=0){
+        for(int num: nums){
+            count+=num/h;
+            if(num%h!=0){
                 count++;
             }
         }
-        
         return count;
     }
 }
