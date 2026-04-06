@@ -27,7 +27,6 @@ class Solution {
             for(int i=0;i<size;i++){
                 TreeNode curr = bfsQue.poll();
                 subList.add(curr.val);
-         
                 if(curr.left!=null){
                     bfsQue.add(curr.left);
                 }
