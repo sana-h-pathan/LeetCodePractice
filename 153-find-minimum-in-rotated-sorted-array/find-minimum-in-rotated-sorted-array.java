@@ -7,9 +7,9 @@ class Solution {
                 return nums[low];
             }
             int mid = low+(high-low)/2;
-            if((mid==0 || nums[mid]<nums[mid-1]) && nums[mid]<nums[mid+1]){
+            if((mid==0 || nums[mid]<nums[mid-1]) && (mid==nums.length-1 || nums[mid]<nums[mid+1])){
                 return nums[mid];
-            } else if(nums[low]<=nums[mid]){
+            } else if(nums[mid]>=nums[low]){
                 low = mid+1;
             } else {
                 high = mid-1;
