@@ -3,23 +3,23 @@ class Solution {
         int[] indegree = new int[n];
         HashMap<Integer, List<Integer>> map = new HashMap<>();
         for(int[] pre: prerequisites){
-            int ind = pre[1];
             int dep = pre[0];
+            int ind = pre[1];
             if(!map.containsKey(ind)){
                 map.put(ind, new ArrayList<>());
             }
             map.get(ind).add(dep);
             indegree[dep]++;
         }
+        int completedCourse=0;
         Queue<Integer> bfsQue = new LinkedList<>();
-        int completedCoursses=0;
         for(int i=0;i<n;i++){
             if(indegree[i]==0){
                 bfsQue.add(i);
-                completedCoursses++;
+                completedCourse++;
             }
         }
-        if(completedCoursses==n){
+        if(completedCourse==n){
             return true;
         }
         while(!bfsQue.isEmpty()){
@@ -28,18 +28,15 @@ class Solution {
                 for(int ne: map.get(curr)){
                     indegree[ne]--;
                     if(indegree[ne]==0){
-                        bfsQue.add(ne);
-                        completedCoursses++;
-                        if(completedCoursses==n){
+                        completedCourse++;
+                        if(completedCourse==n){
                             return true;
                         }
+                        bfsQue.add(ne);
                     }
                 }
             }
         }
-        if(completedCoursses==n){
-            return true;
-        }
-        return false;
+        return completedCourse==n;
     }
 }
