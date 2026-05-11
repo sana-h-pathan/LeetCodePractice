@@ -2,10 +2,11 @@ class RandomizedSet {
     HashMap<Integer, Integer> numMap;
     List<Integer> numList;
     Random random;
+
     public RandomizedSet() {
-        this.random = new Random();
         this.numList = new ArrayList<>();
         this.numMap = new HashMap<>();
+        this.random = new Random();
     }
     
     public boolean insert(int val) {
@@ -15,25 +16,22 @@ class RandomizedSet {
         numMap.put(val, numList.size());
         numList.add(val);
         return true;
-        
     }
-    //Index: 0  1  2  3  4
-    //Value: 1  2  3  4  5
-    //Map:   1→0 2→1 3→2 4→3 5→4
-    //remove 3
-
+    
     public boolean remove(int val) {
         if(!numMap.containsKey(val)){
             return false;
         }
-        int idx = numMap.get(val);
-        int swapVal = numList.getLast();
-        
-        numList.set(idx, swapVal);
-        numMap.put(swapVal, idx);
-        
-        numList.remove(numList.size()-1);
+        //2:0,3:2,4:1
+        //2,4,3
+        int numIdx = numMap.get(val);
+        int lastVal = numList.getLast();
+
+        numMap.put(lastVal, numIdx);
+        numList.set(numIdx, lastVal);
+
         numMap.remove(val);
+        numList.remove(numList.size()-1);
         return true;
     }
     
