@@ -1,12 +1,12 @@
 class Solution {
-    public List<Integer> findClosestElements(int[] nums, int k, int x) {
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {
         int low = 0;
-        int high = nums.length-k;
+        int high = arr.length-k;
         while(low<high){
             int mid = low+(high-low)/2;
-            int leftGap = x-nums[mid];
-            int rightGap = nums[mid+k]-x;
-            if(rightGap<leftGap){
+            int leftGap = x-arr[mid];
+            int rightGap = arr[mid+k] - x;
+            if(leftGap>rightGap){
                 low = mid+1;
             } else {
                 high = mid;
@@ -14,7 +14,7 @@ class Solution {
         }
         List<Integer> result = new ArrayList<>();
         for(int i=low;i<low+k;i++){
-            result.add(nums[i]);
+            result.add(arr[i]);
         }
         return result;
     }
