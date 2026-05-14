@@ -3,19 +3,14 @@ class Solution {
         if(s==null || s.length()==0){
             return 0;
         }
-        int n = s.length();
-        if(n<3){
-            return n;
-        }
-        int k=2;
         HashMap<Character, Integer> map = new HashMap<>();
-        int l=0;
-        int r=0;
+        int l = 0;
+        int r = 0;
         int maxLength=0;
-        while(r<n){
+        while(r<s.length()){
             char rChar = s.charAt(r);
             map.put(rChar, map.getOrDefault(rChar, 0)+1);
-            if(map.size()>k){
+            if(map.size()>2){
                 char lChar = s.charAt(l);
                 map.put(lChar, map.getOrDefault(lChar, 0)-1);
                 map.remove(lChar, 0);
