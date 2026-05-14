@@ -4,8 +4,7 @@ class Solution {
         Stack<StringBuilder> strStk = new Stack<>();
         int currNum = 0;
         StringBuilder currStr = new StringBuilder();
-        for(int i=0;i<s.length();i++){
-            char ch = s.charAt(i);
+        for(char ch: s.toCharArray()){
             if(Character.isDigit(ch)){
                 currNum = currNum*10+ch-'0';
             } else if(ch=='['){
@@ -16,7 +15,7 @@ class Solution {
             } else if(ch==']'){
                 int currItr = numStk.pop();
                 StringBuilder newStr = new StringBuilder();
-                for(int k=0;k<currItr;k++){
+                for(int i=0;i<currItr;i++){
                     newStr.append(currStr);
                 }
                 currStr = strStk.pop();
