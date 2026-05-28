@@ -14,18 +14,19 @@ class Solution {
         ListNode l3 = dummy;
         int carry = 0;
         while(l1!=null || l2!=null){
-            int l1Val = l1!=null?l1.val:0;
-            int l2Val = l2!=null?l2.val:0;
+            int l1Val = l1==null?0:l1.val;
+            int l2Val = l2==null?0:l2.val;
             int sum = l1Val+l2Val+carry;
             l3.next = new ListNode(sum%10);
             carry = sum/10;
-            l1 = l1!=null? l1.next:null;
-            l2 = l2!=null? l2.next:null;
+            l1 = l1!=null?l1.next:null;
+            l2 = l2!=null?l2.next:null;
             l3 = l3.next;
         }
-        if(carry>0){
+        if(carry!=0){
             l3.next = new ListNode(carry);
         }
+
         return dummy.next;
     }
 }
