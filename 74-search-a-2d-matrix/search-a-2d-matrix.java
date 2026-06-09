@@ -10,10 +10,10 @@ class Solution {
             int c = mid%n;
             if(matrix[r][c]==target){
                 return true;
-            } else if(matrix[r][c]>target){
-                high = mid-1;
-            } else {
+            } else if(matrix[r][c]<target){
                 low = mid+1;
+            } else {
+                high = mid-1;
             }
         }
         return false;
