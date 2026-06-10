@@ -10,28 +10,27 @@
  */
 class Solution {
     public void reorderList(ListNode head) {
-        if(head == null || head.next == null){
+        if(head==null || head.next == null){
             return;
         }
         ListNode slow = head;
         ListNode fast = head;
         while(fast!=null && fast.next!=null){
-            fast = fast.next.next;
             slow = slow.next;
+            fast = fast.next.next;
         }
-        ListNode reverseList = reverse(slow.next);
+        ListNode reverse = reverseList(slow.next);
         slow.next = null;
         slow = head;
-        while(reverseList!=null){
+        while(reverse!=null){
             ListNode temp = slow.next;
-            slow.next = reverseList;
-            reverseList = reverseList.next;
+            slow.next = reverse;
+            reverse = reverse.next;
             slow.next.next = temp;
             slow = temp;
         }
-
     }
-    private ListNode reverse(ListNode head){
+    private ListNode reverseList(ListNode head){
         if(head==null|| head.next == null){
             return head;
         }
@@ -44,7 +43,7 @@ class Solution {
             curr = fast;
             fast = fast.next;
         }
-        curr.next=prev;
+        curr.next = prev;
         return curr;
     }
 }
