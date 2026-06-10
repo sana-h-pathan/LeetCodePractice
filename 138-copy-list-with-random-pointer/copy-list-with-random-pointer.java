@@ -18,24 +18,24 @@ class Solution {
         if(head==null){
             return null;
         }
-        HashMap<Node, Node> map = new HashMap<>();
+        HashMap<Node,Node> map = new HashMap<>();
         Node curr = head;
-        Node copyCurr = clone(curr, map);
+        Node copyCurr = clone(map, curr);
         while(curr!=null){
-            copyCurr.next = clone(curr.next, map);
-            copyCurr.random = clone(curr.random, map);
+            copyCurr.next = clone(map, curr.next);
+            copyCurr.random = clone(map, curr.random);
             curr = curr.next;
             copyCurr = copyCurr.next;
         }
         return map.get(head);
     }
-    private Node clone(Node curr, HashMap<Node, Node> map){
+    private Node clone(HashMap<Node, Node> map, Node curr){
         if(curr==null){
             return null;
         }
         if(!map.containsKey(curr)){
-            Node newCurr = new Node(curr.val);
-            map.put(curr, newCurr);
+            Node copyCurr = new Node(curr.val);
+            map.put(curr, copyCurr);
         }
         return map.get(curr);
     }
