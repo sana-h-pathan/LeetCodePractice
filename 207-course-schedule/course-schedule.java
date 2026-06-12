@@ -11,8 +11,8 @@ class Solution {
             map.get(ind).add(dep);
             indegree[dep]++;
         }
-        int completedCourse=0;
         Queue<Integer> bfsQue = new LinkedList<>();
+        int completedCourse = 0;
         for(int i=0;i<n;i++){
             if(indegree[i]==0){
                 bfsQue.add(i);
@@ -37,6 +37,9 @@ class Solution {
                 }
             }
         }
-        return completedCourse==n;
+        if(completedCourse==n){
+            return true;
+        }
+        return false;
     }
 }
