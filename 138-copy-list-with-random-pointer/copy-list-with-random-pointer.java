@@ -18,7 +18,7 @@ class Solution {
         if(head==null){
             return null;
         }
-        HashMap<Node,Node> map = new HashMap<>();
+        HashMap<Node, Node> map = new HashMap<>();
         Node curr = head;
         Node copyCurr = clone(map, curr);
         while(curr!=null){
