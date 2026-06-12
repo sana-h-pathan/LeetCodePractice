@@ -20,11 +20,11 @@ class Node {
 
 class Solution {
     public Node cloneGraph(Node node) {
-        if(node==null){
+        if(node == null){
             return null;
         }
-        HashMap<Node, Node> map = new HashMap<>();
         Queue<Node> bfsQue = new LinkedList<>();
+        HashMap<Node, Node> map = new HashMap<>();
         bfsQue.add(node);
         while(!bfsQue.isEmpty()){
             Node curr = bfsQue.poll();
@@ -40,7 +40,7 @@ class Solution {
         return map.get(node);
     }
     private Node clone(HashMap<Node, Node> map, Node curr){
-        if(curr==null){
+        if(curr == null){
             return null;
         }
         if(!map.containsKey(curr)){
