@@ -7,6 +7,7 @@ class Solution {
             this.ranks = new int[n];
             for(int i=0;i<n;i++){
                 parents[i] = i;
+                ranks[i] = 1;
             }
         }
         public int find(int x){
