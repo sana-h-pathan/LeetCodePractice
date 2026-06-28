@@ -10,6 +10,7 @@ class Solution {
             }
             map.get(newStr).add(str);
         }
+
         return new ArrayList<>(map.values());
     }
 }
