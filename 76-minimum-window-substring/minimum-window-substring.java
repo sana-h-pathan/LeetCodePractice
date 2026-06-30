@@ -1,14 +1,14 @@
 class Solution {
     public String minWindow(String s, String t) {
-        int l=0;
-        int r=0;
+        int l = 0;
+        int r = 0;
+        int minLength  = Integer.MAX_VALUE;
+        int sIdx = -1;
         HashMap<Character, Integer> map = new HashMap<>();
         for(char ch: t.toCharArray()){
             map.put(ch, map.getOrDefault(ch, 0)+1);
         }
-        int minLength = Integer.MAX_VALUE;
         int matches = 0;
-        int sIdx = -1;
         while(r<s.length()){
             char rChar = s.charAt(r);
             if(map.containsKey(rChar)){
