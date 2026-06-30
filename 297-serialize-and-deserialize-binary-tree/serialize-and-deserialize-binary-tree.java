@@ -14,9 +14,9 @@ public class Codec {
         if(root==null){
             return "";
         }
-        StringBuilder sb = new StringBuilder();
         Queue<TreeNode> bfsQue = new LinkedList<>();
         bfsQue.add(root);
+        StringBuilder sb = new StringBuilder();
         while(!bfsQue.isEmpty()){
             TreeNode curr = bfsQue.poll();
             if(curr!=null){
@@ -33,24 +33,24 @@ public class Codec {
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-        if(data==null || data.length()==0){
+        if(data==null|| data.length()==0){
             return null;
         }
-        Queue<TreeNode> bfsQue = new LinkedList<>();
-        String[] nodeValues = data.split(",");
+        String[] nodeVals = data.split(",");
         int idx = 0;
-        int val = Integer.parseInt(nodeValues[idx++]);
-        TreeNode root = new TreeNode(val);
+        int rootVal = Integer.parseInt(nodeVals[idx++]);
+        TreeNode root = new TreeNode(rootVal);
+        Queue<TreeNode> bfsQue = new LinkedList<>();
         bfsQue.add(root);
         while(!bfsQue.isEmpty()){
             TreeNode curr = bfsQue.poll();
-            if(idx<nodeValues.length && !nodeValues[idx].equals("#")){
-                curr.left = new TreeNode(Integer.parseInt(nodeValues[idx]));
+            if(idx<nodeVals.length && !nodeVals[idx].equals("#")){
+                curr.left = new TreeNode(Integer.parseInt(nodeVals[idx]));
                 bfsQue.add(curr.left);
             }
             idx++;
-            if(idx<nodeValues.length && !nodeValues[idx].equals("#")){
-                curr.right = new TreeNode(Integer.parseInt(nodeValues[idx]));
+            if(idx<nodeVals.length && !nodeVals[idx].equals("#")){
+                curr.right = new TreeNode(Integer.parseInt(nodeVals[idx]));
                 bfsQue.add(curr.right);
             }
             idx++;
