@@ -1,10 +1,10 @@
 class Solution {
-    public int[] twoSum(int[] nums, int target) {
+    public int[] twoSum(int[] numbers, int target) {
         int l = 0;
-        int r = nums.length-1;
+        int r = numbers.length-1;
         int[] result = new int[]{-1,-1};
-        while(l<=r){
-            int sum = nums[l]+nums[r];
+        while(l<r){
+            int sum = numbers[l]+numbers[r];
             if(sum==target){
                 result[0] = l+1;
                 result[1] = r+1;
