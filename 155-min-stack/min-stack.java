@@ -1,6 +1,6 @@
 class MinStack {
-    Stack<Integer> minStk;
     Stack<Integer> stk;
+    Stack<Integer> minStk;
     int minVal;
 
     public MinStack() {
@@ -19,6 +19,7 @@ class MinStack {
         stk.pop();
         minStk.pop();
         minVal = minStk.isEmpty()?Integer.MAX_VALUE:minStk.peek();
+        
     }
     
     public int top() {
