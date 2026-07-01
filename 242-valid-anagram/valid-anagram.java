@@ -7,7 +7,7 @@ class Solution {
         for(char ch: t.toCharArray()){
             alphabets[ch-'a']--;
         }
-        for(int i=0;i<alphabets.length;i++){
+        for(int i=0;i<26;i++){
             if(alphabets[i]!=0){
                 return false;
             }
