@@ -3,18 +3,19 @@ class Solution {
         if(height==null || height.length==0){
             return 0;
         }
-        int maxArea=0;
-        int l=0;
-        int r=height.length-1;
-        while(l<=r){
+        int maxArea = 0;
+        int l = 0;
+        int r = height.length-1;
+        while(l<r){
             int currArea = (r-l)*Math.min(height[l], height[r]);
-            maxArea = Math.max(currArea, maxArea);
-            if(height[l]>height[r]){
-                r--;
-            } else {
+            maxArea = Math.max(maxArea, currArea);
+            if(height[l]<height[r]){
                 l++;
+            } else {
+                r--;
             }
         }
+
         return maxArea;
     }
 }
