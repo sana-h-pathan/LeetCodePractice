@@ -13,14 +13,16 @@ class Solution {
         ListNode dummy = new ListNode(-1);
         ListNode l3 = dummy;
         while(l1!=null && l2!=null){
-            if(l1.val>l2.val){
-                l3.next = new ListNode(l2.val);
-                l2 = l2.next;
+            int l1Val = l1.val;
+            int l2Val = l2.val;
+            if(l1Val<l2Val){
+                l3.next = new ListNode(l1Val);
+                l1 = l1.next;
                 l3 = l3.next;
             } else {
-                l3.next = new ListNode(l1.val);
-                l1=l1.next;
-                l3=l3.next;
+                l3.next = new ListNode(l2Val);
+                l2 = l2.next;
+                l3 = l3.next;
             }
         }
         while(l1!=null){
