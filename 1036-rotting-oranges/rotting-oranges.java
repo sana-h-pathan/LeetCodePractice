@@ -1,7 +1,3 @@
-
-
-import javax.crypto.Cipher;
-
 class Solution {
     public int orangesRotting(int[][] grid) {
         int m = grid.length;
@@ -31,8 +27,8 @@ class Solution {
                     int nr = dir[0]+curr[0];
                     int nc = dir[1]+curr[1];
                     if(nr>=0 && nc>=0 && nr<m && nc<n && grid[nr][nc]==1){
-                        bfsQue.add(new int[]{nr, nc});
                         grid[nr][nc]=2;
+                        bfsQue.add(new int[]{nr,nc});
                         freshOranges--;
                         if(freshOranges==0){
                             return mins;
