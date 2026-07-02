@@ -14,8 +14,8 @@
  * }
  */
 class Solution {
-    boolean isValid;
     TreeNode prev;
+    boolean isValid;
     public boolean isValidBST(TreeNode root) {
         this.isValid = true;
         helper(root);
