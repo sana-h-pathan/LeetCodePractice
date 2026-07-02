@@ -3,11 +3,10 @@ class Solution {
         Stack<Integer> stk = new Stack<>();
         for(int a: asteroids){
             while(!stk.isEmpty() && stk.peek()>0 && a<0){
-                int top = stk.peek();
-                if(Math.abs(top)<Math.abs(a)){
+                if(Math.abs(stk.peek())<Math.abs(a)){
                     stk.pop();
                     continue;
-                } else if(Math.abs(top)==Math.abs(a)){
+                } else if(Math.abs(stk.peek())==Math.abs(a)){
                     stk.pop();
                 }
                 a=0;
