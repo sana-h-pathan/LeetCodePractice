@@ -14,10 +14,10 @@
  * }
  */
 class Solution {
-    int count;
     TreeNode result;
+    int k;
     public int kthSmallest(TreeNode root, int k) {
-        this.count = k;
+        this.k = k;
         helper(root);
         return result.val;
     }
@@ -26,10 +26,9 @@ class Solution {
             return;
         }
         helper(root.left);
-        count--;
-        if(count==0 && result==null){
+        k--;
+        if(k==0 && result==null){
             result = root;
-            return;
         }
         helper(root.right);
     }
