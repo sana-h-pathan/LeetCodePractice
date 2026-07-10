@@ -1,42 +1,64 @@
 class TimeMap {
-    HashMap<String, TreeMap<Integer, String>> map;
+    HashMap<String, List<Pair<Integer, String>>> map;
 
     public TimeMap() {
         this.map = new HashMap<>();
     }
     
     public void set(String key, String value, int timestamp) {
-        if (!map.containsKey(key)) {
-            map.put(key, new TreeMap<>());
+        if(!map.containsKey(key)){
+            map.put(key, new ArrayList<>());
         }
-
-        map.get(key).put(timestamp, value);
+        map.get(key).add(new Pair<>(timestamp, value));
     }
     
     public String get(String key, int timestamp) {
-        if (!map.containsKey(key)) {
+        if(!map.containsKey(key)){
             return "";
         }
-
-        Map.Entry<Integer, String> entry =
-                map.get(key).floorEntry(timestamp);
-
-        if (entry == null) {
-            return "";
+        List<Pair<Integer, String>> list = map.get(key);
+        int low = 0;
+        int high = list.size()-1;
+        String result = "";
+        while(low<=high){
+            int mid = low+(high-low)/2;
+            if(list.get(mid).getKey()<=timestamp){
+                result = list.get(mid).getValue();
+                low = mid+1;
+            } else {
+                high = mid-1;
+            }
         }
-
-        return entry.getValue();
+        return result;
     }
     public void delete(String key, int timestamp) {
-        if(!map.containsKey(key)){
-            return;
-        }
-        map.get(key).remove(timestamp);
-        if(map.get(key).size()==0){
-            map.remove(key);
-        }
+    if (!map.containsKey(key)) {
         return;
     }
+
+    List<Pair<Integer, String>> list = map.get(key);
+
+    int low = 0;
+    int high = list.size() - 1;
+
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+
+        if (list.get(mid).getKey() == timestamp) {
+            list.remove(mid);
+
+            if (list.size() == 0) {
+                map.remove(key);
+            }
+
+            return;
+        } else if (list.get(mid).getKey() < timestamp) {
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+    }
+}
 }
 
 /**
