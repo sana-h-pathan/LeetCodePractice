@@ -6,17 +6,14 @@ class WordDictionary {
             this.children = new TrieNode[26];
         }
     }
-
     TrieNode root;
-
     public WordDictionary() {
         this.root = new TrieNode();
     }
-
+    
     public void addWord(String word) {
         TrieNode curr = root;
-        for(int i=0;i<word.length();i++){
-            char ch = word.charAt(i);
+        for(char ch: word.toCharArray()){
             if(curr.children[ch-'a']==null){
                 curr.children[ch-'a'] = new TrieNode();
             }
@@ -24,49 +21,36 @@ class WordDictionary {
         }
         curr.isEnd = true;
     }
-
+    
     public boolean search(String word) {
-        return helper(word, root, 0);
+        TrieNode curr = root;
+        return helper(curr, 0, word);
     }
-
-    private boolean helper(String word, TrieNode curr, int idx){
-        if(idx == word.length()){
+    private boolean helper(TrieNode curr, int idx, String word){
+        if(idx==word.length()){
             return curr.isEnd;
         }
-
         char ch = word.charAt(idx);
-
-        if(ch == '.'){
+        if(ch=='.'){
             for(int i=0;i<26;i++){
                 TrieNode child = curr.children[i];
-                if(child != null && helper(word, child, idx + 1)){
+                if(child!=null && helper(child, idx+1, word)){
                     return true;
                 }
             }
             return false;
         }
-
-        if(ch == '*'){
-            // Option 1: '*' matches zero characters
-            if (helper(word, curr, idx + 1)) {
-                return true;
-            }
-
-            // Option 2: '*' matches one or more characters
-            // consume one char AND move forward in pattern
-            for(int i=0;i<26;i++){
-                TrieNode child = curr.children[i];
-                if(child != null && helper(word, child, idx)){
-                    return true;
-                }
-            }
-            return false;
+        if(curr.children[ch-'a']!=null){
+            curr = curr.children[ch-'a'];
+            return helper(curr, idx+1, word);
         }
-
-        TrieNode child = curr.children[ch - 'a'];
-        if(child == null){
-            return false;
-        }
-        return helper(word, child, idx + 1);
+        return false;
     }
 }
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary obj = new WordDictionary();
+ * obj.addWord(word);
+ * boolean param_2 = obj.search(word);
+ */
