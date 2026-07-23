@@ -7,38 +7,38 @@ class Solution {
         Queue<int[]> bfsQue = new LinkedList<>();
         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
-                if(grid[i][j]==2){
-                    bfsQue.add(new int[]{i,j});
-                } else if(grid[i][j]==1){
+                if(grid[i][j]==1){
                     freshOranges++;
+                } else if(grid[i][j]==2){
+                    bfsQue.add(new int[]{i,j});
                 }
             }
         }
-        int mins=0;
+        int time = 0;
         if(freshOranges==0){
-            return mins;
+            return time;
         }
         while(!bfsQue.isEmpty()){
             int size = bfsQue.size();
-            mins++;
+            time++;
             for(int i=0;i<size;i++){
                 int[] curr = bfsQue.poll();
                 for(int[] dir: dirs){
                     int nr = dir[0]+curr[0];
                     int nc = dir[1]+curr[1];
                     if(nr>=0 && nc>=0 && nr<m && nc<n && grid[nr][nc]==1){
+                        bfsQue.add(new int[]{nr, nc});
                         grid[nr][nc]=2;
-                        bfsQue.add(new int[]{nr,nc});
                         freshOranges--;
                         if(freshOranges==0){
-                            return mins;
+                            return time;
                         }
                     }
                 }
             }
         }
         if(freshOranges==0){
-            return mins;
+            return time;
         }
         return -1;
     }
