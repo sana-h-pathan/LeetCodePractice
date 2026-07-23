@@ -16,28 +16,30 @@ class Solution {
         }
         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
-                if(board[i][j]=='O'){
-                    board[i][j]='X';
-                } else if(board[i][j]=='0'){
+                if(board[i][j]=='0'){
                     board[i][j]='O';
+                } else if(board[i][j]=='O'){
+                    board[i][j]='X';
                 }
             }
         }
     }
+
     private void helper(char[][] board, int i, int j){
-        Queue<int[]> bfsQue = new LinkedList<>();
-        if(board[i][j]=='O'){
-            bfsQue.add(new int[]{i,j});
-            board[i][j]='0';
+        if(board[i][j]=='X'){
+            return;
         }
+        Queue<int[]> bfsQue = new LinkedList<>();
+        bfsQue.add(new int[]{i,j});
+        board[i][j]='0';
         while(!bfsQue.isEmpty()){
             int[] curr = bfsQue.poll();
             for(int[] dir: dirs){
-                int nr = curr[0]+dir[0];
-                int nc = curr[1]+dir[1];
+                int nr = dir[0]+curr[0];
+                int nc = dir[1]+curr[1];
                 if(nr>=0 && nc>=0 && nr<m && nc<n && board[nr][nc]=='O'){
-                    bfsQue.add(new int[]{nr,nc});
-                    board[nr][nc]='0';
+                    bfsQue.add(new int[]{nr, nc});
+                    board[nr][nc] = '0';
                 }
             }
         }
